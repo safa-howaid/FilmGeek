@@ -11,9 +11,27 @@
 <body>
     <nav>
         <embed type="image/svg+xml" id="logo" src="resources/images/logo.svg">
-        <div id ="search-container">
-            <input id="search-bar" type="text" placeholder="Search..."/>
-            <img src="resources/images/searchIcon.svg"/>
+        <div id ="right-nav-container">
+            <a href="search.html"><p>Search</p></a>
+            <a href="login.html"><p>Login</p></a>
         </div>
     </nav>
+
+    <div id="main-content">
+        <div id="login-card">
+            <h1>Login</h1>
+            <hr>
+            <form>
+                <label>Username</label>
+                <input type="text" id="username" class="input-field" required>
+                <label>Password</label>
+                <input type="text" id="password" class="input-field" required>
+                <input type="submit" id="login-button" value="Login">
+            </form>
+            <div id="bottom-text">
+                <p>Don't have an account?</p>
+                <a id="signup-link" href="signup.html">Sign up here</a>
+            </div>
+        </div>
+    </div>
 </body>
