@@ -48,7 +48,7 @@ a {
     text-decoration: none;
 }
 
-a:hover, #login-button:hover{
+a:hover, #signup-button:hover{
 	-webkit-transform: translateY(-3px);
 	transform: translateY(-3px);
 }
@@ -64,7 +64,7 @@ a:hover, #login-button:hover{
     font-size: 100%;
 }
 
-#login-card {
+#signup-card {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -100,7 +100,8 @@ form {
 }
 
 label {
-    margin-top: 15px;
+    margin-top: 10px;
+    font-size: 80%;
 }
 
 .input-field {
@@ -110,15 +111,15 @@ label {
     box-shadow: -6px -1px 4px rgba(0, 0, 0, 0.25);
     border-radius: 80px;
     width: 80%;
-    height: 50px;
+    height: 45px;
     margin: 10px;
     padding: 5px 10px;
     font-family: Montserrat;
-    font-size: 70%;
+    font-size: 55%;
     color: #121629;
 }
 
-#login-button {
+#signup-button {
     background: #D32B51;
     border: 7px solid #121629;
     box-sizing: border-box;
@@ -126,14 +127,14 @@ label {
     width: 45%;
     height: 60px;
     font-weight: 700;
-    font-size: 24px;
+    font-size: 90%;
     color: #121629;
     margin-top: 15px;
     transition: 0.2s;
     margin-bottom: 5px;
 }
 
-#login-button:active {
+#signup-button:active {
     box-shadow: 0 5px #04041d;
     transform: translateY(4px);
     -webkit-transform: translateY(4px);
