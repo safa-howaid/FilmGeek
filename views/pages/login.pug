@@ -1,21 +1,23 @@
 html
     head
-        link(rel="stylesheet" type="text/css" href="/styles/register-page.css")
-        title Register
+        link(rel="stylesheet" type="text/css" href="/styles/login-page.css")
+        title Login
 body
     include ../partials/loggedOutHeader
 
     div#main
-        .register-card
-            h1 Register 
+        .login-card
+            h1 Login 
             hr
             form
                 lable Username 
                 input(type="text" id="username" class="input-field" required)
                 label Password 
                 input(type="password" id="password" class="input-field" required)
-                label Confirm Password
-                input(type="password" id="confirm-password" class="input-field" required)
-                input.register-button(type="submit" value="Register")
+                input.login-button(type="submit" value="Login")
+            
+            .bottom-text
+                p Don't have an account?
+                a.signup-link(href="/register") Sign up here
 
     include ../partials/footer

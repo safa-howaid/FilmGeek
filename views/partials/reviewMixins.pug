@@ -1,0 +1,28 @@
+mixin basic-review(review)
+    .review.basic-review
+        .group
+            img(src= `/images/rating/${review.rating}star.svg`)
+            - let user = database.getUserById(review.reviewer)
+            .username By 
+                a(href=`/users/${user.id}`)= user.username
+        .date= review.date
+
+mixin full-review(review)
+    .review.full-review
+        .review-top
+            .left-side
+                img(src= `/images/rating/${review.rating}star.svg`)
+                .group
+                    - let user = database.getUserById(review.reviewer)
+                    a.username(href=`/users/${user.id}`)= user.username
+                    .date= review.date
+        
+        input.expand-review(type="checkbox")
+        label.expand-review-lbl(for="expand-review")
+        .review-details
+            if review.hasOwnProperty("summary")
+                .review-details-title Summary 
+                .review-detail= review.summary
+            if review.hasOwnProperty("fullReview")
+                .review-details-title Review 
+                .review-detail= review.fullReview

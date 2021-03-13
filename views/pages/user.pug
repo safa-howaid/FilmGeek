@@ -1,48 +1,44 @@
 html
     head
         link(rel="stylesheet" type="text/css" href="/styles/user-page.css")
-        title #{person.name}
+        title #{user.username}
 body
     include ../partials/loggedOutHeader
 
     div#main
-        h1= user.name
+        h1 #{user.username}'s Page
+        button.follow-button Follow
     
-        if user.watchlist.length > 0
-            h2= Watchlist
-            each user in user.watchlist
-                p= user 
-                br
-            
-        h2= Recommendation
-        each user in user.recommendedMovie 
-            p= user 
-            br
+        h2 Watchlist
+        if user.watchlist.length == 0
+            p This user doesn't have any movies in their watchlist.
+        else
+            each movieId in user.watchlist
+                - let movie = database.getMovieById(movieId)
+                a(href=`/movies/${movieId}`)= movie.Title   
 
-        if user.isContributer == 1
-            h2= Contributer
-            each user in user.isContributer 
-                p= user 
-                br
+        h2 Users they Follow
+        if user.usersFollowed.length == 0
+            p This user doesn't follow any other users.
+        else
+            each userId in user.usersFollowed 
+                - let user = database.getUserById(userId)
+                a(href=`/users/${userId}`)= user.username   
 
-        if user.following.length > 0
-            h2= Following
-            each user in user.following 
-                p= user
-                br       
+        h2 People they Follow
+        if user.personsFollowed.length == 0
+            p This user doesn't follow any people.
+        else
+            each personId in user.personsFollowed 
+                - let person = database.getPersonById(personId)
+                a(href=`/people/${personId}`)= person.name 
 
-        if user.followers.length > 0
-            h2= Followers
-            each user in user.followers 
-                p= user 
-                br       
-
-        if user.notifications.length > 0
-            h2= Notifications
-            each user in user.notifications 
-                p= user 
-                br              
-
-
-
-      
+        h2 Followers
+        if user.followers.length == 0
+            p This user has no followers.
+        else
+            each userId in user.followers
+                - let user = database.getUserById(userId)
+                a(href=`/users/${userId}`)= user.username            
+    
+    include ../partials/footer

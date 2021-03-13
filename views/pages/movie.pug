@@ -1,3 +1,4 @@
+include ../partials/reviewMixins
 html
     head
         link(rel="stylesheet" type="text/css" href="/styles/movie-page.css")
@@ -46,9 +47,9 @@ body
                     a(href=`/people/${person.id}`)= person.name
         
         form.add-review-container
-            .review-top
+            .add-review-top
                 h1 Add a Review
-            .review-rating
+            .add-review-rating
                 p Rate this movie:
                   .rate
                     input(type="radio" id="star10" name="rate" value="10" required)
@@ -82,16 +83,26 @@ body
                     label(for="star1" title="text")
                         1 stars
 
-            .review-inputs
-                .review-input
+            .add-review-inputs
+                .add-review-input
                     label Summary (optional)
                     input(type="text")
-                .review-input
+                .add-review-input
                     label Review (optional)
                     input(type="text")
-            .review-bottom
-                button Submit
+            .add-review-bottom
+                input.submit-button(type="submit" value="Submit")
 
         h1 Reviews
         if movie.Reviews.length < 0
             p There are no reviews for this movie yet.
+        else
+            .reviews-container
+                each reviewId in movie.Reviews
+                    - let review = database.getReviewById(reviewId)
+                    if review.hasOwnProperty("sumamry") || review.hasOwnProperty("fullReview")
+                        +full-review(review)
+                    else
+                        +basic-review(review)
+    
+    include ../partials/footer    

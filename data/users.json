@@ -1,14 +1,15 @@
 {
   "1": {
     "id": "1",
+    "username": "User1",
     "password": "pa55word",
-    "watchlist": [],
+    "watchlist": ["DAl4WokVD6", "l7jT7rJRLI"],
     "recommendedMovies": [],
     "isContributer": true,
     "usersFollowed": [
       "2"
     ],
-    "personsFollowed": [],
+    "personsFollowed": ["rBcSnIgrcpC", "GRSixVqcbB0"],
     "followers": [
       "2"
     ],
@@ -28,14 +29,15 @@
   },
   "2": {
     "id": "2",
+    "username": "User2",
     "password": "pa55word",
-    "watchlist": [],
+    "watchlist": [ "by2mxUkqHJ", "_6NVFO_IAi"],
     "recommendedMovies": [],
-    "isContributer": true,
+    "isContributer": false,
     "usersFollowed": [
       "1"
     ],
-    "personsFollowed": [],
+    "personsFollowed": ["E4t7Q3YwLss"],
     "followers": [
       "1"
     ],

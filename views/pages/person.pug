@@ -7,32 +7,34 @@ body
 
     div#main
         h1= person.name
+        button.follow-button Follow
 
-            if person.actingRoles.length > 0
-                h2 Acting Roles
-                each movieId in person.actingRoles
-                    - let movie = database.getMovieById(movieId)
-                    a(href=`/movies/${movieId}`)= movie.Title 
-                    br
-           
-            if person.writingRoles.length > 0
-                h2 Writing Roles
-                each movieId in person.writingRoles
-                    - let movie = database.getMovieById(movieId)
-                    a(href=`/movies/${movieId}`)= movie.Title 
-                    br
+        if person.actingRoles.length > 0
+            h2 Acting Roles
+            each movieId in person.actingRoles
+                - let movie = database.getMovieById(movieId)
+                a(href=`/movies/${movieId}`)= movie.Title 
+                br
+        
+        if person.writingRoles.length > 0
+            h2 Writing Roles
+            each movieId in person.writingRoles
+                - let movie = database.getMovieById(movieId)
+                a(href=`/movies/${movieId}`)= movie.Title 
+                br
 
-            if person.directingRoles.length > 0
-                h2 Directing Roles
-                each movieId in person.directingRoles
-                    - let movie = database.getMovieById(movieId)
-                    a(href=`/movies/${movieId}`)= movie.Title 
-                    br
-            
-            h2 Frequent Collaborators
-                each personId in person.frequentCollaborators
-                    - let person = database.getPersonById(personId)
-                    a(href=`/people/${personId}`)= person.name 
-                    br
-           
+        if person.directingRoles.length > 0
+            h2 Directing Roles
+            each movieId in person.directingRoles
+                - let movie = database.getMovieById(movieId)
+                a(href=`/movies/${movieId}`)= movie.Title 
+                br
+        
+        h2 Frequent Collaborators
+        each personId in person.frequentCollaborators
+            - let person = database.getPersonById(personId)
+            a(href=`/people/${personId}`)= person.name 
+            br
+    
+    include ../partials/footer
 

@@ -72,6 +72,7 @@ a:hover, button:hover{
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin: 0px 20px;
 }
 
 .first-line{
@@ -204,20 +205,20 @@ h2 {
     color: #FFFFFE;
     border-radius: 15px;
     padding: 30px;
-    margin: 20px 0px;
+    margin: 20px;
     box-shadow: 18px 16px 4px rgba(0, 0, 0, 0.25);
 }
 
-.review-top {
+.add-review-top {
     display: flex;
     flex-direction: row;
 }
 
-.review-top h1 {
+.add-review-top h1 {
     margin: 0px;
 }
 
-.review-rating {
+.add-review-rating {
     display: flex;
     flex-direction: row;
     font-size: 30%;
@@ -225,25 +226,25 @@ h2 {
     align-items: center;
 }
 
-.review-inputs {
+.add-review-inputs {
     display: flex;
     flex-direction: row;
     font-size: 30%;
     font-weight: 600;
 }
 
-.review-input {
+.add-review-input {
     display: flex;
     flex-direction: column;
     width: 100%;
 }
 
-.review-bottom {
+.add-review-bottom {
     display: flex;
     justify-content: flex-end;
 }
 
-.review-input input {
+.add-review-input input {
     border: 5px solid #C33C54;
     border-radius: 7px;
     height: 100px;
@@ -252,7 +253,7 @@ h2 {
     box-shadow: 4px 5px rgb(119, 32, 32)
 }
 
-.review-bottom button {
+.submit-button {
     background: #C33C54;
     border: 3px solid #121629;
     border-radius: 17px;
@@ -267,12 +268,12 @@ h2 {
     box-shadow: 0 5px rgb(119, 32, 32)
 }
 
-.review-bottom button:hover {
+.submit-button:hover {
 	-webkit-transform: translateY(-3px);
 	transform: translateY(-3px);
 }
 
-.review-bottom button:active {
+.submit-button:active {
   box-shadow: 0 0px;
   transform: translateY(4px);
   -webkit-transform: translateY(4px);
@@ -284,6 +285,7 @@ h2 {
     padding: 0 20px;
     width: 40%;
     justify-content: space-evenly;
+    min-width: 300px;
 }
 .rate:not(:checked) > input {
     position:absolute;
@@ -295,7 +297,7 @@ h2 {
     white-space:nowrap;
     cursor:pointer;
     font-size:30px;
-    color:#ccc;
+    color:#FFFFFE;
     transition: 0.3s;
 }
 .rate:not(:checked) > label:before {
@@ -318,4 +320,134 @@ h2 {
 .rate > label:hover ~ input:checked ~ label {
     color: #FFA200;    
 
+}
+.reviews-container {
+    margin: 20px;
+}
+
+.basic-review {
+    justify-content: space-between;
+}
+
+.full-review {
+    flex-direction: column;
+}
+.review {
+    display: flex;
+    background: #FFFFFE;
+    border: 2px solid #121629;
+    border-radius: 7px;
+    padding: 15px;
+    position: relative;
+}
+
+.review img {
+    align-self: start;
+}
+
+.username {
+    font-size: 25%;
+    color: #C33C54;
+    margin: 0px 10px;
+    font-weight: 600;
+    z-index: 2;
+}
+
+.username a {
+    color: #C33C54;
+}
+
+.date {
+    font-size: 20%;
+    padding: 5px;
+    color: rgba(35, 41, 70, 0.72);  
+}
+
+.group {
+    display: flex;
+    align-items: center;
+}
+
+.review-top {
+    display: flex;
+    justify-content: space-between;
+}
+
+.review-details {
+    max-height: 0;
+    overflow: hidden;
+    font-size: 30%;
+}
+
+.review-details-title {
+    font-weight: 600;
+    margin: 20px 10px 10px 10px;
+}
+
+.review-detail {
+    font-size: 70%;
+    margin: 10px;
+}
+
+input:checked ~ .review-details {
+    max-height: 100%;
+    overflow: visible;
+}
+
+.expand-review, .expand-review-lbl{
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 30px;
+}
+
+.expand-review {
+    z-index: 1;
+    cursor: pointer;
+    width: 97%;
+    height: 50%;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;;
+}
+
+.expand-review-lbl {
+    content: ' ';
+    display: block;
+  
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 15px solid #121629;
+    
+    transform: translateY(-2px);
+    transition: transform .2s ease-out;
+  }
+
+input:checked ~ .expand-review-lbl {
+    display: block;
+    content:'';
+    transform: rotate(180deg);
+    transition: transform .4s;
+    -webkit-transform: rotate(180deg);
+}
+
+@media screen and (max-width: 700px) {
+    .add-review-inputs {
+      display: block;
+    }
+}
+
+footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 60px;
+    background-color: #121629;
+    padding: 5px 30px;
+    justify-content: center;
+}
+
+footer p {
+    color: #FFFFFE;
+    font-size: 50%;
 }

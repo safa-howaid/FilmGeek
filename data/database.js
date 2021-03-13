@@ -7,6 +7,11 @@ function initDatabase() {
     let people = require("./people.json");
     database["people"] = people;
 
+    let reviews = require("./reviews.json");
+    database["reviews"] = reviews;
+
+    let users = require("./users.json");
+    database["users"] = users;
 }
 
 function getMovieById(movieId) {
@@ -22,7 +27,11 @@ function getPersonByName(name) {
 }
 
 function getUserById(userId) {
-    return database["user"][userId]
+    return database["users"][userId]
+}
+
+function getReviewById(reviewId) {
+    return database["reviews"][reviewId]
 }
 
 // Export database functions to be used across the server
@@ -31,5 +40,6 @@ module.exports = {
     getMovieById: getMovieById,
     getPersonById: getPersonById,
     getPersonByName: getPersonByName,
-    getUserById: getUserById
+    getUserById: getUserById,
+    getReviewById: getReviewById
 }
