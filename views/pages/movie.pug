@@ -1,0 +1,97 @@
+html
+    head
+        link(rel="stylesheet" type="text/css" href="/styles/movie-page.css")
+        title #{movie.Title}
+body
+    include ../partials/loggedOutHeader
+
+    div#main
+        .top-container
+            .left
+                .first-line
+                    h1= movie.Title
+                    img(src= `/images/rating/${movie.Rating}star.svg`)
+                .movie-information-container
+                    p= movie.Rated
+                    .divider
+                    p= movie.Runtime
+                    .divider
+                    p= movie.Genre.join(", ")
+                    .divider
+                    p= movie.Released
+
+            .right
+                input.add-to-watchlist-button(type="checkbox" title="Add movie to watchlist")
+                p.added-text
+
+        .poster-and-info-container
+            img(src=movie.Poster)
+            .movie-details-container
+                h2 Plot
+                p= movie.Plot
+
+                h2 Directors 
+                each director in movie.Director
+                    - let person = database.getPersonByName(director)
+                    a(href=`/people/${person.id}`)= person.name
+
+                h2 Writers 
+                each writer in movie.Writer
+                    - let person = database.getPersonByName(writer)
+                    a(href=`/people/${person.id}`)= person.name
+
+                h2 Actors 
+                each actor in movie.Actors
+                    - let person = database.getPersonByName(actor)
+                    a(href=`/people/${person.id}`)= person.name
+        
+        form.add-review-container
+            .review-top
+                h1 Add a Review
+            .review-rating
+                p Rate this movie:
+                  .rate
+                    input(type="radio" id="star10" name="rate" value="10" required)
+                    label(for="star10" title="text")
+                        10 stars
+                    input(type="radio" id="star9" name="rate" value="9" required)
+                    label(for="star9" title="text")
+                        9 stars
+                    input(type="radio" id="star8" name="rate" value="8")
+                    label(for="star8" title="text")
+                        8 stars
+                    input(type="radio" id="star7" name="rate" value="7")
+                    label(for="star7" title="text")
+                        7 stars
+                    input(type="radio" id="star6" name="rate" value="6")
+                    label(for="star6" title="text")
+                        6 stars
+                    input(type="radio" id="star5" name="rate" value="5")
+                    label(for="star5" title="text")
+                        5 stars
+                    input(type="radio" id="star4" name="rate" value="4")
+                    label(for="star4" title="text")
+                        4 stars
+                    input(type="radio" id="star3" name="rate" value="3")
+                    label(for="star3" title="text")
+                        3 stars
+                    input(type="radio" id="star2" name="rate" value="2")
+                    label(for="star2" title="text")
+                        2 stars
+                    input(type="radio" id="star1" name="rate" value="1")
+                    label(for="star1" title="text")
+                        1 stars
+
+            .review-inputs
+                .review-input
+                    label Summary (optional)
+                    input(type="text")
+                .review-input
+                    label Review (optional)
+                    input(type="text")
+            .review-bottom
+                button Submit
+
+        h1 Reviews
+        if movie.Reviews.length < 0
+            p There are no reviews for this movie yet.

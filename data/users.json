@@ -1,0 +1,56 @@
+{
+  "1": {
+    "id": "1",
+    "password": "pa55word",
+    "watchlist": [],
+    "recommendedMovies": [],
+    "isContributer": true,
+    "usersFollowed": [
+      "2"
+    ],
+    "personsFollowed": [],
+    "followers": [
+      "2"
+    ],
+    "reviews": [
+      "TDawNJfPx",
+      "DAl4WokVD6",
+      "by2mxUkqHJ",
+      "l7jT7rJRLI",
+      "_6NVFO_IAi",
+      "i_oXYoisNW",
+      "ktkDsYnCQrL",
+      "aNbaoYnGuMG",
+      "oW3AEmkqqYc",
+      "QjlSbwtqPh5"
+    ],
+    "notifications": []
+  },
+  "2": {
+    "id": "2",
+    "password": "pa55word",
+    "watchlist": [],
+    "recommendedMovies": [],
+    "isContributer": true,
+    "usersFollowed": [
+      "1"
+    ],
+    "personsFollowed": [],
+    "followers": [
+      "1"
+    ],
+    "reviews": [
+      "TDawNJfPx",
+      "DAl4WokVD6",
+      "by2mxUkqHJ",
+      "l7jT7rJRLI",
+      "_6NVFO_IAi",
+      "i_oXYoisNW",
+      "ktkDsYnCQrL",
+      "aNbaoYnGuMG",
+      "oW3AEmkqqYc",
+      "QjlSbwtqPh5"
+    ],
+    "notifications": []
+  }
+}

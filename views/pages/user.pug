@@ -1,0 +1,48 @@
+html
+    head
+        link(rel="stylesheet" type="text/css" href="/styles/user-page.css")
+        title #{person.name}
+body
+    include ../partials/loggedOutHeader
+
+    div#main
+        h1= user.name
+    
+        if user.watchlist.length > 0
+            h2= Watchlist
+            each user in user.watchlist
+                p= user 
+                br
+            
+        h2= Recommendation
+        each user in user.recommendedMovie 
+            p= user 
+            br
+
+        if user.isContributer == 1
+            h2= Contributer
+            each user in user.isContributer 
+                p= user 
+                br
+
+        if user.following.length > 0
+            h2= Following
+            each user in user.following 
+                p= user
+                br       
+
+        if user.followers.length > 0
+            h2= Followers
+            each user in user.followers 
+                p= user 
+                br       
+
+        if user.notifications.length > 0
+            h2= Notifications
+            each user in user.notifications 
+                p= user 
+                br              
+
+
+
+      

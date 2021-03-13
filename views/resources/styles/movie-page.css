@@ -1,0 +1,321 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800;900&display=swap');
+
+*:focus {
+    outline:none;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    font-family: 'Montserrat', Arial, sans-serif;
+    color: #222847;
+    background-color: #B8C1EC;
+    margin: 0px;
+    height: 100%;
+    font-size: 30px;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 80px;
+    background-color: #121629;
+    padding: 5px 30px;
+}
+
+#logo {
+    height: 80%;
+    width: 200px;
+}
+
+embed {
+    pointer-events: none; 
+}
+
+#right-nav-container {
+    display: flex;
+}
+
+
+#right-nav-container p {
+    color: #FFFFFE;
+    font-size: 75%;
+    font-weight: 700;
+    margin: 20px;
+}
+
+a {
+    transition: 0.2s;
+    text-decoration: none;
+    display:inline-block;
+}
+
+a:hover, button:hover{
+	-webkit-transform: translateY(-3px);
+	transform: translateY(-3px);
+}
+
+#main {
+    display: flex;
+    flex-direction: column;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 50px;
+    font-size: 80px;
+}
+
+.top-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.first-line{
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.first-line h1 {
+    margin: 0px;
+}
+
+.first-line img {
+    height: 25px;
+    width: 20%;
+    margin-left: 30px;
+    background: #C33C54;
+    border-radius: 10px;
+}
+
+h1 {
+    font-weight: 800;
+    font-size: 55%;
+    margin-bottom: 10px;
+    margin-left: 20px;
+}
+
+.movie-information-container {
+    display: flex;
+    flex-direction: row;
+    color: #D32B51;
+    font-weight: 800;
+    font-size: 20%;
+}
+
+.divider {
+    width: 4px;
+    margin: 3px 15px;
+    background: #C33C54;
+    height: 20px;
+    align-self: center;
+}
+
+.movie-information-container p {
+    height: fit-content;
+    align-self: center;
+    margin: 0px;
+}
+
+.right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.add-to-watchlist-button {
+    background-image:url(../images/watchlist-icon.svg);
+    background-repeat:no-repeat;
+	background-size:cover;
+    width:40px;
+	height:40px;
+    transition: 0.2s;
+    cursor:pointer;
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+}
+
+.add-to-watchlist-button:hover {
+	-webkit-transform: translateY(-3px);
+	transform: translateY(-3px);
+}
+
+.add-to-watchlist-button:active {
+  transform: translateY(4px);
+  -webkit-transform: translateY(4px);
+}
+
+.added-text {
+    font-size: 20%;
+    margin: 0px;
+}
+
+.added-text:after {
+    transition: 0.5s;
+}
+
+.add-to-watchlist-button:checked ~ .added-text:after {
+    content: "Added";
+}
+
+.add-to-watchlist-button:not(:checked) ~ .added-text:after {
+    content: "";
+}
+
+.poster-and-info-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 25px 0px;
+}
+
+.poster-and-info-container > img {
+    background: no-repeat;
+    background-size: contain;
+    margin: 0px 20px;
+    height: 530px;
+}
+
+.movie-details-container {
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    font-size: 20%;
+    background: #FFFFFE;
+    border-radius: 11px;
+    padding: 20px 20px;
+    margin-right: 15px;
+    box-shadow: 18px 22px 4px rgba(18, 22, 41, 0.25);
+}
+
+h2 {
+    margin-bottom: 0px;
+}
+
+.add-review-container {
+    display: flex;
+    flex-direction: column;
+    background-color: #121629;
+    color: #FFFFFE;
+    border-radius: 15px;
+    padding: 30px;
+    margin: 20px 0px;
+    box-shadow: 18px 16px 4px rgba(0, 0, 0, 0.25);
+}
+
+.review-top {
+    display: flex;
+    flex-direction: row;
+}
+
+.review-top h1 {
+    margin: 0px;
+}
+
+.review-rating {
+    display: flex;
+    flex-direction: row;
+    font-size: 30%;
+    font-weight: 600;
+    align-items: center;
+}
+
+.review-inputs {
+    display: flex;
+    flex-direction: row;
+    font-size: 30%;
+    font-weight: 600;
+}
+
+.review-input {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.review-bottom {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.review-input input {
+    border: 5px solid #C33C54;
+    border-radius: 7px;
+    height: 100px;
+    width: 95%;
+    margin: 10px 30px 20px 0px;
+    box-shadow: 4px 5px rgb(119, 32, 32)
+}
+
+.review-bottom button {
+    background: #C33C54;
+    border: 3px solid #121629;
+    border-radius: 17px;
+    width: 120px;
+    height: 50px;
+    font-weight: 800;
+    font-size: 25%;
+    color: #121629;
+    transition: 0.3s;
+    margin-top: 10px;
+    cursor: pointer;
+    box-shadow: 0 5px rgb(119, 32, 32)
+}
+
+.review-bottom button:hover {
+	-webkit-transform: translateY(-3px);
+	transform: translateY(-3px);
+}
+
+.review-bottom button:active {
+  box-shadow: 0 0px;
+  transform: translateY(4px);
+  -webkit-transform: translateY(4px);
+}
+
+.rate {
+    display:flex;
+    flex-direction: row-reverse;
+    padding: 0 20px;
+    width: 40%;
+    justify-content: space-evenly;
+}
+.rate:not(:checked) > input {
+    position:absolute;
+    top:-9999px;
+}
+.rate:not(:checked) > label {
+    width:1em;
+    overflow:hidden;
+    white-space:nowrap;
+    cursor:pointer;
+    font-size:30px;
+    color:#ccc;
+    transition: 0.3s;
+}
+.rate:not(:checked) > label:before {
+    content: '★';
+}
+.rate > input:checked ~ label {
+    color: #FFA200;    
+}
+.rate:not(:checked) > label:hover,
+.rate:not(:checked) > label:hover ~ label {
+    color: #FFA200;; 
+    transform: translateY(-4px);
+    -webkit-transform: translateY(-4px); 
+    box-shadow: 0 1px #FFA200;
+}
+.rate > input:checked + label:hover,
+.rate > input:checked + label:hover ~ label,
+.rate > input:checked ~ label:hover,
+.rate > input:checked ~ label:hover ~ label,
+.rate > label:hover ~ input:checked ~ label {
+    color: #FFA200;    
+
+}
