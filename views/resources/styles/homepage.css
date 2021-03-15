@@ -10,8 +10,8 @@ html {
 
 body {
     font-family: 'Montserrat', Arial, sans-serif;
-    color: #222847;
-    background-color: #B8C1EC;
+    color: #FFFFFE;
+    background-color: #121629;
     margin: 0px;
     font-size: 30px;
     position: relative;
@@ -28,6 +28,7 @@ nav {
 }
 
 #logo {
+    display: none;
     height: 80%;
     width: 200px;
 }
@@ -48,68 +49,53 @@ embed {
     margin: 20px;
 }
 
-#right-nav-container a img {
-    margin: 0px 20px;
-    width: 30px;
-}
-
 a {
-    transition: 0.2s;
+    transition: 0.3s;
     text-decoration: none;
     display:inline-block;
 }
 
-a:hover, button:hover{
-	-webkit-transform: translateY(-3px);
-	transform: translateY(-3px);
+a:hover{
+	-webkit-transform: translateY(-5px);
+	transform: translateY(-5px);
 }
 
 #main {
     display: flex;
     flex-direction: column;
     max-width: 1200px;
-    margin: 0 auto 50px auto;
-    font-size: 60%;
-    padding-bottom: 130px;   
-}
-
-#main a {
-    margin: 5px;
-    color: #C33C54;
-    font-weight: 600;
-}
-
-h1 {
-    text-align: center;
-    font-weight: 800;
-    margin-bottom: 10px;
-}
-
-.follow-button {
-    background: #C33C54;
-    border: 3px solid #121629;
-    border-radius: 17px;
-    width: 120px;
-    height: 50px;
-    font-weight: 800;
+    margin: 20px auto;
+    justify-content: center;
     font-size: 100%;
-    color: #121629;
-    transition: 0.3s;
-    margin-top: 10px;
-    cursor: pointer;
-    box-shadow: 0 5px rgb(119, 32, 32);
+    padding-bottom: 80px;  
+}
+
+.logo-center {
+    width: 60%;
     align-self: center;
+    margin-bottom: 70px;
 }
 
-.follow-button:hover {
-	-webkit-transform: translateY(-3px);
-	transform: translateY(-3px);
+h2 {
+    margin: 20px 0px;
+    font-size: 95%;
 }
 
-.follow-button:active {
-  box-shadow: 0 0px;
-  transform: translateY(4px);
-  -webkit-transform: translateY(4px);
+.movie-poster-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 10px 40px 50px 40px;
+}
+
+.movie-poster {
+    width: 75%;
+    transition: 0.3s;
+}
+
+.movie-poster:hover{
+	-webkit-transform: translateY(-10px);
+	transform: translateY(-10px);
 }
 
 footer {

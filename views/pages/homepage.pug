@@ -1,0 +1,17 @@
+html
+    head
+        link(rel="stylesheet" type="text/css" href="/styles/homepage.css")
+        title Login
+body
+    include ../partials/loggedOutHeader
+
+    div#main
+        embed.logo-center(type='image/svg+xml', src='/images/logo.svg')
+        h2 Popular Movies
+        .movie-poster-container
+            each movie in movies
+                a(href=`/movies/${movie.id}`)
+                    img.movie-poster(src=movie.Poster)
+        
+
+    include ../partials/footer

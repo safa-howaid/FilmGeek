@@ -15,11 +15,11 @@ function initDatabase() {
 }
 
 function getMovieById(movieId) {
-    return database["movies"][movieId]
+    return database["movies"][movieId];
 }
 
 function getPersonById(personId) {
-    return database["people"][personId]
+    return database["people"][personId];
 }
 
 function getPersonByName(name) {
@@ -27,11 +27,19 @@ function getPersonByName(name) {
 }
 
 function getUserById(userId) {
-    return database["users"][userId]
+    return database["users"][userId];
 }
 
 function getReviewById(reviewId) {
-    return database["reviews"][reviewId]
+    return database["reviews"][reviewId];
+}
+
+function getMovieSearchResults() {
+    return Object.values(database["movies"]).slice(0, 10);
+}
+
+function getPopularMovies() {
+    return Object.values(database["movies"]).slice(0, 5);
 }
 
 // Export database functions to be used across the server
@@ -41,5 +49,7 @@ module.exports = {
     getPersonById: getPersonById,
     getPersonByName: getPersonByName,
     getUserById: getUserById,
-    getReviewById: getReviewById
+    getReviewById: getReviewById,
+    getMovieSearchResults: getMovieSearchResults,
+    getPopularMovies: getPopularMovies
 }

@@ -5,7 +5,7 @@ const database = require('../data/database');
 //Create the router
 let router = express.Router();
 
-router.get('/', (request, response) => {response.send("Movies Search")})
+router.get('/', displayMovieSearchPage)
 
 router.get('/:id', displayMovie)
 
@@ -24,6 +24,15 @@ function displayMovie(request, response) {
     response.status(200)
         .type('html')
         .render("../views/pages/movie", {movie: movie, database: database});
+}
+
+function displayMovieSearchPage(request, response) {
+    let movies = database.getMovieSearchResults();
+
+    // Send rendered movie search page
+    response.status(200)
+        .type('html')
+        .render("../views/pages/movies", {movies: movies, database: database});
 }
 
 //Export the router object so we can access it in the base app

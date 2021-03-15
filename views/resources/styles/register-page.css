@@ -13,8 +13,9 @@ body {
     color: #222847;
     background-color: #B8C1EC;
     margin: 0px;
-    height: 100%;
     font-size: 30px;
+    position: relative;
+    min-height: 100%;
 }
 
 nav {
@@ -65,8 +66,9 @@ a:hover, .register-button:hover{
     margin: 20px auto;
     justify-content: center;
     align-items: center;
-    height: 80%;
     font-size: 100%;
+    padding-bottom: 150px;
+    height: 80%;
 }
 
 .register-card {
@@ -148,15 +150,17 @@ label {
 
 footer {
     display: flex;
-    justify-content: space-between;
     align-items: center;
     height: 60px;
     background-color: #121629;
-    padding: 5px 30px;
+    padding: 5px 0px;
     justify-content: center;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
 }
 
 footer p {
     color: #FFFFFE;
-    font-size: 50%;
+    font-size: 60%;
 }

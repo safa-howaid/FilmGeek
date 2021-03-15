@@ -9,11 +9,11 @@ body
         .login-card
             h1 Login 
             hr
-            form
+            form(action="/profile" method="GET")
                 lable Username 
-                input(type="text" id="username" class="input-field" required)
+                input.input-field(type="text" id="username" name="username" required)
                 label Password 
-                input(type="password" id="password" class="input-field" required)
+                input.input-field(type="password" id="password" name="password" required)
                 input.login-button(type="submit" value="Login")
             
             .bottom-text

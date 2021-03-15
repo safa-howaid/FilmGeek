@@ -4,7 +4,7 @@
     "username": "User1",
     "password": "pa55word",
     "watchlist": ["DAl4WokVD6", "l7jT7rJRLI"],
-    "recommendedMovies": [],
+    "recommendedMovies": ["oW3AEmkqqYc", "aNbaoYnGuMG"],
     "isContributer": true,
     "usersFollowed": [
       "2"
@@ -25,7 +25,22 @@
       "oW3AEmkqqYc",
       "QjlSbwtqPh5"
     ],
-    "notifications": []
+    "notifications": [
+        {
+            "id": "1",
+            "userId": "2",
+            "details": "added a new movie to their watchlist",
+            "read" : false,
+            "date" : "Mar 14 15:33"
+        },
+        {   
+            "id": "2",
+            "personId": "GRSixVqcbB0",
+            "details": "starred in a new movie",
+            "read" : false,
+            "date" : "Mar 15 10:03"
+        }
+    ]
   },
   "2": {
     "id": "2",

@@ -70,13 +70,8 @@ a:hover, button:hover{
     max-width: 1200px;
     margin: 0 auto 50px auto;
     font-size: 60%;
-    padding-bottom: 130px;   
-}
-
-#main a {
-    margin: 5px;
-    color: #C33C54;
-    font-weight: 600;
+    padding-bottom: 80px;   
+    align-items: center;
 }
 
 h1 {
@@ -85,7 +80,31 @@ h1 {
     margin-bottom: 10px;
 }
 
-.follow-button {
+form {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    margin-bottom: 30px;
+}
+
+form label {
+    font-weight: 700;
+    margin: 10px 0px;
+}
+
+form input {
+    background: #FFFFFE;
+    border: 4px solid #121629;
+    border-radius: 10px;
+    height: 50px;
+    margin: 10px;
+    padding: 5px 10px;
+    font-family: Montserrat;
+    font-size: 70%;
+    color: #121629;
+}
+
+.submit-button {
     background: #C33C54;
     border: 3px solid #121629;
     border-radius: 17px;
@@ -101,12 +120,12 @@ h1 {
     align-self: center;
 }
 
-.follow-button:hover {
+.submit-button:hover {
 	-webkit-transform: translateY(-3px);
 	transform: translateY(-3px);
 }
 
-.follow-button:active {
+.submit-button:active {
   box-shadow: 0 0px;
   transform: translateY(4px);
   -webkit-transform: translateY(4px);

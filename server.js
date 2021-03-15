@@ -11,6 +11,7 @@ app.set('view engine', 'pug');
 // Serve static resources
 app.use(express.static('views/resources'))
 
+// Initialize the database
 database.initDatabase();
 
 //Mount routers for each main resource
@@ -23,18 +24,31 @@ app.use("/people", peopleRouter);
 let reviewsRouter = require("./routers/reviews-router");
 app.use("/reviews", reviewsRouter);
 
-app.get('/', fetchHomepage)
+// Handlers for other resources
+app.get('/', (request, response) => {
+    response.status(200)
+        .type('html')
+        .render("../views/pages/homepage", {"movies": database.getPopularMovies()});
+});
+
 app.get('/login', (request, response) => {
     response.status(200)
         .type('html')
         .render("../views/pages/login");
 });
+
 app.get('/register', (request, response) => {
     response.status(200)
         .type('html')
         .render("../views/pages/register")
 });
-app.get('/profile', (request, response) => response.send("Profile!"))
+
+app.get('/profile', (request, response) => {
+    response.status(200)
+        .type('html')
+        .render("../views/pages/profile", {user: database.getUserById("1"), database: database})
+});
+
 app.get('/contribute', (request, response) => {
     response.status(200)
         .type('html')
@@ -44,7 +58,4 @@ app.get('/contribute', (request, response) => {
 app.listen(port);
 console.log("Server listening at http://localhost:3000");
 
-function fetchHomepage(request, response) {
-    response.send("Homepage!")
-}
 

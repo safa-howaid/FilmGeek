@@ -1,0 +1,98 @@
+html
+    head
+        link(rel="stylesheet" type="text/css" href="/styles/profile.css")
+        title Profile
+body
+    include ../partials/loggedInHeader
+
+    div#main
+        h1 Profile Page
+
+        form(action=`/users/${user.id}` method="PUT")
+            h2 User Type:
+
+            if user.isContributer
+                .choice
+                    input(type="radio" id="regular" name="isContributer" value="false")
+                    label.check(for="regular") Regular User
+
+                .choice
+                    input(input type="radio" id="contributer" name="isContributer" value="true" checked)
+                    label.check(for="contributer") Contributer
+            else
+                .choice
+                    input(type="radio" id="regular" name="isContributer" value="false")
+                    label(for="regular") Regular User
+
+                .choice
+                    input(input type="radio" id="contributer" name="isContributer" value="true" checked)
+                    label(for="contributer") Contributer
+        
+            input.save-button(type="submit" value="Save")
+
+
+        h2 Watchlist
+        if user.watchlist.length == 0
+            p There are no movies in your watchlist.
+        else
+            each movieId in user.watchlist
+                - let movie = database.getMovieById(movieId)
+                a(href=`/movies/${movieId}`)= movie.Title   
+
+        h2 Users you Follow
+        if user.usersFollowed.length == 0
+            p You are not following any other users.
+        else
+            each userId in user.usersFollowed 
+                - let user = database.getUserById(userId)
+                a(href=`/users/${userId}`)= user.username   
+
+        h2 People you Follow
+        if user.personsFollowed.length == 0
+            p No one is following you.
+        else
+            each personId in user.personsFollowed 
+                - let person = database.getPersonById(personId)
+                a(href=`/people/${personId}`)= person.name 
+
+        h2 Your Followers
+        if user.followers.length == 0
+            p You have no followers.
+        else
+            each userId in user.followers
+                - let user = database.getUserById(userId)
+                a(href=`/users/${userId}`)= user.username   
+
+        h2#notifications Notifications
+        if user.notifications.length == 0
+            p No new notifications.
+        else
+            for notification in user.notifications
+                form.notification(action=`/users/${user.id}/notifications` method="PUT")
+                    if notification.hasOwnProperty("personId")
+                        - let person = database.getPersonById(notification.personId)
+                        .left
+                            input(type="hidden" name="id", value=notification.id)
+                            span On #{notification.date}:&nbsp;
+                            a.notification-link(href=`people/${person.id}`)= person.name
+                            span &nbsp;#{notification.details}
+                        input.read-button(type="submit" value="read")
+                        
+                    else
+                        - let user = database.getUserById(notification.userId)
+                        .left
+                            input(type="hidden" name="id", value=notification.id)
+                            span On #{notification.date}:&nbsp
+                            a.notification-link(href=`people/${user.id}`)= user.username
+                            span &nbsp;#{notification.details}
+                        input.read-button(type="submit" value="read")
+            
+        h2 Recommended Movies
+        if user.recommendedMovies.length == 0
+            p There are no recommended movies available for you.
+        else
+            each movieId in user.recommendedMovies
+                - let movie = database.getMovieById(movieId)
+                a(href=`/movies/${movieId}`)= movie.Title          
+    
+    include ../partials/footer

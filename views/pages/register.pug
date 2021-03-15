@@ -9,13 +9,13 @@ body
         .register-card
             h1 Register 
             hr
-            form
+            form(action="/profile" method="GET")
                 lable Username 
-                input(type="text" id="username" class="input-field" required)
+                input.input-field(type="text" id="username" name="username" required)
                 label Password 
-                input(type="password" id="password" class="input-field" required)
+                input.input-field(type="password" id="password" name="password" required)
                 label Confirm Password
-                input(type="password" id="confirm-password" class="input-field" required)
+                input.input-field(type="password" id="confirm-password" name="confirm-password" required)
                 input.register-button(type="submit" value="Register")
 
     include ../partials/footer

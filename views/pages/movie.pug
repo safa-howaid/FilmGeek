@@ -4,7 +4,7 @@ html
         link(rel="stylesheet" type="text/css" href="/styles/movie-page.css")
         title #{movie.Title}
 body
-    include ../partials/loggedOutHeader
+    include ../partials/loggedInHeader
 
     div#main
         .top-container
@@ -86,10 +86,10 @@ body
             .add-review-inputs
                 .add-review-input
                     label Summary (optional)
-                    input(type="text")
+                    textarea(type="text")
                 .add-review-input
                     label Review (optional)
-                    input(type="text")
+                    textarea(type="text")
             .add-review-bottom
                 input.submit-button(type="submit" value="Submit")
 

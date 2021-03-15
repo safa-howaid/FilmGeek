@@ -1,47 +1,50 @@
 html
     head
-        link(rel="stylesheet" type="text/css" href="/styles/user-page.css")
+        link(rel="stylesheet" type="text/css" href="/styles/contribute.css")
         title Contribute
 body
-    include ../partials/loggedOutHeader
+    include ../partials/loggedInHeader
 
     div#main
         h1 Contribute
 
-        label  Add a New Person
-    
-        p Name:
-        input(type="text" name="Name")
-        
-        p Acting Role:
-        input(type="text" name="ActingRole")
-        
-        p Writing Role
-        input(type="text" name="WritingRole")
+        form(action="/movies" method="POST")
+            h2 Add a New Movie
+            
+            label Title:
+            input(type="text" name="Title")
 
-        p Directing Role  
-        input(type="text" name="DirectingRole")
+            label Genre:
+            input(type="text" name="Genre")
+            
+            label Actors:
+            input(type="text" name="Actor")
 
-        input.submit-button(type="submit" value="Submit")
-        
-        label Add a New movie
-        input(type="text")
-        
-        p Title:
-        input(type="text" name="Title")
+            label Writers:  
+            input(type="text" name="Writer")
+            
+            label Directors:   
+            input(type="text" name="Director")
 
-        p Genre:
-        input(type="text" name="Genre")
-        
-        p Actor:
-        input(type="text" name="Actor")
+            input.submit-button(type="submit" value="Submit")
 
-        p Writers   
-        input(type="text" name="Writer")
-        
-        p Director   
-        input(type="text" name="Director")
 
-        input.submit-button(type="submit" value="Submit")
+        form(action="/people" method="POST")
+            h2 Add a New Person
+        
+            label Name:
+            input(type="text" name="Name")
+            
+            label Acting Roles:
+            input(type="text" name="ActingRole")
+            
+            label Writing Roles:
+            input(type="text" name="WritingRole")
+
+            label Directing Roles: 
+            input(type="text" name="DirectingRole")
+
+            input.submit-button(type="submit" value="Submit")
+        
     
     include ../partials/footer

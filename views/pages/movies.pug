@@ -1,0 +1,39 @@
+include ../partials/movieMixin
+html
+    head
+        link(rel="stylesheet" type="text/css" href="/styles/movies-page.css")
+        title Search Movies
+body
+    include ../partials/loggedInHeader
+
+    div#main
+        form.top-container( action="/movies" method="GET")
+            label Search Titles: 
+            .bars-container
+                .search-container
+                    input.search-bar(type="search" name="title")
+                    button
+                        img(src="/images/search-button-icon.svg")
+            
+            .advanced-search-container
+                input.advanced-search-expand(type="checkbox" id="advanced-search")
+                label.advanced-search-lbl(for="advanced-search") Advanced Search
+            
+                .advanced-search-inputs
+                    label.actor Actor:
+                    input(type="text" name="actor")
+                    label.genre Genre:
+                    input(type="text" name="genre")
+
+                
+            
+        hr
+
+        .search-results
+            if movies.length == 0
+                p No search results found.
+            else
+                each movie in movies
+                    +movie-container(movie, database)
+    
+    include ../partials/footer   
