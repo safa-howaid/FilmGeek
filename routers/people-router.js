@@ -1,28 +1,60 @@
 const express = require('express');
 const path = require('path');
-const database = require('../data/database');
+const mongoose = require("mongoose");
+const ObjectId= require('mongoose').Types.ObjectId
+const Person = require("../data/models/personModel")
+const Movie = require("../data/models/movieModel")
 
 //Create the router
 let router = express.Router();
 
 router.get('/', (request, response) => {response.send("People Search")})
-router.get('/:id', displayPerson)
+router.get('/:id', sendPerson)
 
-function displayPerson(request, response) {
-    let id = request.params.id;
-    let person = database.getPersonById(id);
+// Load person from database when given person id
+router.param("id", function(request, response, next, id) {
+    let oid;
+    console.log("Finding person by ID: " + id);
 
-    // If person is not found, send error
-    if (person == undefined) {
-        response.status(404)
-            .send("Page not found")
-        return
-    }
+	try{
+		oid = new ObjectId(id);
+	}catch(err){
+		console.log(err);
+		res.status(404).send("That person does not exist.");
+		return;
+	}
 
-    // Send rendered person page
-    response.status(200)
-        .type('html')
-        .render("../views/pages/person", {person: person, database: database});
+    Person.findById(oid)
+    .populate("actingRoles", "title")
+    .populate("writingRoles", "title")
+    .populate("directingRoles", "title")
+    .populate("frequentCollaborators", "name")
+	.exec(function(err, result){
+		if(err){
+			console.log(err);
+			response.status(500).send("Error reading person data.");
+			return;
+		}
+		
+		if(!result){
+			response.status(404).send("That person does not exist.");
+			return;
+		}
+		console.log("Result:");
+		console.log(result);
+		response.person = result;
+		next();
+	});
+})
+
+// Send a single person page/object
+function sendPerson(request, response) {
+    // Send rendered person page or person json data
+    response.format({
+		"text/html": () => {response.render("../views/pages/person", {person: response.person})},
+		"application/json": () => {response.status(200).json(response.person)}
+	});
+	next();
 }
 
 //Export the router object so we can access it in the base app

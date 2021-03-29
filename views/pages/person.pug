@@ -11,30 +11,27 @@ body
 
         if person.actingRoles.length > 0
             h2 Acting Roles
-            each movieId in person.actingRoles
-                - let movie = database.getMovieById(movieId)
-                a(href=`/movies/${movieId}`)= movie.Title 
+            each movie in person.actingRoles
+                a(href=`/movies/${movie._id}`)= movie.title 
                 br
         
         if person.writingRoles.length > 0
             h2 Writing Roles
-            each movieId in person.writingRoles
-                - let movie = database.getMovieById(movieId)
-                a(href=`/movies/${movieId}`)= movie.Title 
+            each movie in person.writingRoles
+                a(href=`/movies/${movie._id}`)= movie.title 
                 br
 
         if person.directingRoles.length > 0
             h2 Directing Roles
-            each movieId in person.directingRoles
-                - let movie = database.getMovieById(movieId)
-                a(href=`/movies/${movieId}`)= movie.Title 
+            each movie in person.directingRoles
+                a(href=`/movies/${movie._id}`)= movie.title 
                 br
         
-        h2 Frequent Collaborators
-        each personId in person.frequentCollaborators
-            - let person = database.getPersonById(personId)
-            a(href=`/people/${personId}`)= person.name 
-            br
+        if person.hasOwnProperty("frequentCollaborators")
+            h2 Frequent Collaborators
+            each person in person.frequentCollaborators
+                a(href=`/people/${person._id}`)= person.name 
+                br
     
     include ../partials/footer
 
