@@ -2,7 +2,7 @@ include ../partials/reviewMixins
 html
     head
         link(rel="stylesheet" type="text/css" href="/styles/movie-page.css")
-        title #{movie.Title}
+        title #{movie.title}
 body
     include ../partials/loggedInHeader
 
@@ -10,41 +10,39 @@ body
         .top-container
             .left
                 .first-line
-                    h1= movie.Title
-                    img(src= `/images/rating/${movie.Rating}star.svg`)
+                    h1= movie.title
+                    if movie.hasOwnProperty("rating")
+                        img(src= `/images/rating/${movie.rating}star.svg`)
                 .movie-information-container
-                    p= movie.Rated
+                    p= movie.ageRating
                     .divider
-                    p= movie.Runtime
+                    p= movie.runtime
                     .divider
-                    p= movie.Genre.join(", ")
+                    p= movie.genre.join(", ")
                     .divider
-                    p= movie.Released
+                    p= movie.releaseDate
 
             .right
                 input.add-to-watchlist-button(type="checkbox" title="Add movie to watchlist")
                 p.added-text
 
         .poster-and-info-container
-            img(src=movie.Poster)
+            img(src=movie.poster)
             .movie-details-container
                 h2 Plot
-                p= movie.Plot
+                p= movie.plot
 
                 h2 Directors 
-                each director in movie.Director
-                    - let person = database.getPersonByName(director)
-                    a(href=`/people/${person.id}`)= person.name
+                each person in movie.directors
+                    a(href=`/people/${person._id}`)= person.name
 
                 h2 Writers 
-                each writer in movie.Writer
-                    - let person = database.getPersonByName(writer)
-                    a(href=`/people/${person.id}`)= person.name
+                each person in movie.writers
+                    a(href=`/people/${person._id}`)= person.name
 
                 h2 Actors 
-                each actor in movie.Actors
-                    - let person = database.getPersonByName(actor)
-                    a(href=`/people/${person.id}`)= person.name
+                each person in movie.actors
+                    a(href=`/people/${person._id}`)= person.name
         
         form.add-review-container
             .add-review-top
@@ -94,13 +92,12 @@ body
                 input.submit-button(type="submit" value="Submit")
 
         h1 Reviews
-        if movie.Reviews.length < 0
+        if movie.reviews.length == 0
             p There are no reviews for this movie yet.
         else
             .reviews-container
-                each reviewId in movie.Reviews
-                    - let review = database.getReviewById(reviewId)
-                    if review.hasOwnProperty("sumamry") || review.hasOwnProperty("fullReview")
+                each review in movie.reviews
+                    if review.hasOwnProperty("summary") || review.hasOwnProperty("fullReview")
                         +full-review(review)
                     else
                         +basic-review(review)
