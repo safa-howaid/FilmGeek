@@ -4,11 +4,12 @@ const ObjectId= require('mongoose').Types.ObjectId
 const Movie = require("../data/models/movieModel")
 const Person = require("../data/models/personModel")
 const Review = require("../data/models/reviewModel")
+const User = require("../data/models/userModel")
 
 // Create the router
 let router = express.Router();
 
-router.get('/', displayMovieSearchPage)
+router.get('/', [queryParser, loadMovies, displayMovieSearchPage])
 router.get('/:id', sendMovie)
 
 // Load movie from database when given movie id
@@ -20,7 +21,7 @@ router.param("id", function(request, response, next, id) {
 		oid = new ObjectId(id);
 	}catch(err){
 		console.log(err);
-		res.status(404).send("That movie does not exist.");
+		response.status(404).send("That movie does not exist.");
 		return;
 	}
 
@@ -28,7 +29,14 @@ router.param("id", function(request, response, next, id) {
     .populate("actors", "name")
     .populate("directors", "name")
     .populate("writers", "name")
-    .populate("reviews")
+    .populate({ 
+        path: 'reviews',
+        populate: {
+          path: 'reviewer',
+          model: 'User',
+          select: "username"
+        }
+    })
 	.exec(function(err, result){
 		if(err){
 			console.log(err);
@@ -51,19 +59,89 @@ router.param("id", function(request, response, next, id) {
 function sendMovie(request, response) {
     // Send rendered movie page or movie json data
     response.format({
-		"text/html": () => {response.render("../views/pages/movie", {movie: response.movie})},
+		"text/html": () => {response.render("../views/pages/movie", {movie: response.movie, loggedIn: request.session.loggedIn})},
 		"application/json": () => {response.status(200).json(response.movie)}
 	});
+}
+
+//Parse the query parameters
+//page: the page of results to send back
+//title: string to find in movie title to be considered a match
+//actor: string to find in actors array to be considered a match
+//genre: string to find in movie genre to be considered a match
+function queryParser(request, response, next){
+	//Build a query string to use for pagination 
+	let parameters = [];
+	for(query in request.query){
+		if(query == "page"){
+			continue;
+		}
+		parameters.push(query + "=" + request.query[query]);
+	}
+	request.qstring = parameters.join("&");
+	
+	//Parse page parameter
+	try{
+		if(!request.query.page){
+			request.query.page = 1;
+		}
+		
+		request.query.page = Number(request.query.page);
+		
+		if(request.query.page < 1){
+			request.query.page = 1;
+		}
+	}catch{
+		request.query.page = 1;
+	}
+	
+    //Parse title
+	if(!request.query.title){
+		request.query.title = "?";
+	}
+
+    //Parse genre
+    if(!request.query.genre){
+		request.query.genre = "?";
+	}
+
+    //Parse actor
+    if(!request.query.actor){
+		request.query.actor = "?";
+	}
+
 	next();
 }
 
-function displayMovieSearchPage(request, response) {
-    let movies = database.getMovieSearchResults();
+//Find matching products by querying Movie model
+function loadMovies(request, response, next){
+	Movie.findByQuery(request.query.page, 10, request.query.title, request.query.genre, request.query.actor, function(err, results){
+		if(err){
+			response.status(500).send("Error reading movies.");
+			console.log(err);
+			return;
+		}
+		console.log("Found " + results.length + " matching movies.");
+		response.movies = results;
+        results.forEach(result =>{
+            console.log(result)
+            result.actors.forEach(actor => {
+                console.log(actor)
+            })
+            
+        })
+		next();
+		return;
+	})
+}
 
-    // Send rendered movie search page
-    response.status(200)
-        .type('html')
-        .render("../views/pages/movies", {movies: movies, database: database});
+function displayMovieSearchPage(request, response) {
+    Movie.find().distinct("genre", function(err, genres){
+        response.format({
+            "text/html": () => {response.render("../views/pages/movies", {movies: response.movies, queryString: request.qstring, currentPage: request.query.page, genres: genres} )},
+            "application/json": () => {response.status(200).json(response.movies)}
+        });
+    })
 }
 
 //Export the router object so we can access it in the base app

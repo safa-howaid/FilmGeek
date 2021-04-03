@@ -1,14 +1,12 @@
-mixin movie-container(movie, database)
+mixin movie-container(movie)
     .movie-container
         .left-container
-            img.poster(src=movie.Poster)
+            img.poster(src=movie.poster)
             .movie-details-container
-                a.movie-title(href=`/movies/${movie.id}`)= movie.Title
-                p.movie-detail= movie.Released
+                a.movie-title(href=`/movies/${movie._id}`)= movie.title
+                p.movie-detail= movie.releaseDate
 
-                -let actor1 = database.getPersonByName(movie.Actors[0])
-                a.movie-detail(href=`/people/${actor1.id}`)= movie.Actors[0]
+                a.movie-detail(href=`/people/${movie.actors[0]._id}`)= movie.actors[0].name
                 span ,  
-                -let actor2 = database.getPersonByName(movie.Actors[1])
-                a.movie-detail(href=`/people/${actor2.id}`)= movie.Actors[1]
-        img.movie-rating(src=`/images/rating/${movie.Rating}star.svg`)
+                a.movie-detail(href=`/people/${movie.actors[1]._id}`)= movie.actors[1].name
+        img.movie-rating(src=`/images/rating/${movie.rating}star.svg`)

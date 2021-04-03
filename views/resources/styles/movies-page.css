@@ -271,6 +271,9 @@ hr {
     margin-right: 20px;
     min-width: 100px;
 }
+.movie-details-container {
+    width: 100%;
+}
 
 .movie-title {
     color: #FFA630;  
