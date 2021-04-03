@@ -17,7 +17,8 @@ let movieSchema = new Schema({
         type: String
     },
     rating: {
-        type: Number
+        type: Number,
+        default: 1
     },
     genre: [{
         type: String
@@ -49,5 +50,41 @@ let movieSchema = new Schema({
         ref: "Movie"
     }]
 });
+
+movieSchema.statics.getTopMovies = function(callback) {
+    const filter = {};
+    const fields = null;
+    const options = {
+        limit: 5,
+        sort: {
+            rating: -1
+        }
+    }
+
+    this.find(filter, fields, options, callback)
+}
+
+movieSchema.statics.findByQuery = function(page, limit, title, genre, actor, callback) {
+    let startIndex = ((page - 1) * limit);
+    
+    this.aggregate([
+        {$lookup: { from: "people", localField: "actors", foreignField: "_id", as: "actors"}},
+        {$match: {
+            "actors.name" : {$regex: new RegExp(".*" + actor + ".*") , $options: "i"},
+            "title" : {$regex: new RegExp(".*" + title + ".*") , $options: "i"},
+            "genre" : {$regex: new RegExp(".*" + genre + ".*") , $options: "i"}
+        }},
+        {$sort: {rating: -1}},
+        {$skip: startIndex},
+        {$limit: limit}
+    ]).exec(callback)
+}
+
+movieSchema.methods.calculateRating = function() {
+    this.populate("reviews", function(err, result) {
+        let averageRating =  Number(this.reviews.reduce((a, b) => a.rating + b.rating, 0) / this.reviews.length);
+        this.rating = averageRating;
+    })
+}
 
 module.exports = mongoose.model("Movie", movieSchema);
