@@ -1,30 +1,61 @@
 const express = require('express');
-const path = require('path');
-const database = require('../data/database');
 const User = require("../data/models/userModel")
+const ObjectId= require('mongoose').Types.ObjectId
 
 //Create the router
 let router = express.Router();
 
 router.get('/', (request, response) => {response.send("Users Search")})
-router.get('/:id', displayUser)
+router.get('/:id', sendUser)
 router.post('/', [validateUserInput, createNewUser])
 
-function displayUser(request, response) {
-    let id = request.params.id;
-    let user = database.getUserById(id);
+// Load user from database when given movie id
+router.param("id", function(request, response, next, id) {
+    let oid;
+    console.log("Finding user by ID: " + id);
 
-    // If user is not found, send error
-    if (user == undefined) {
-        response.status(404)
-            .send("Page not found")
+	try{
+		oid = new ObjectId(id);
+	}catch(err){
+		console.log(err);
+		response.status(404).send("That user does not exist.");
+		return;
+	}
+
+    User.findById(oid)
+    .populate("watchlist", "title")
+    .populate("usersFollowed", "username")
+    .populate("peopleFollowed", "name")
+    .populate("followers", "username")
+	.exec(function(err, result){
+		if(err){
+			console.log(err);
+			response.status(500).send("Error reading user data.");
+			return;
+		}
+		
+		if(!result){
+			response.status(404).send("That user does not exist.");
+			return;
+		}
+		console.log("Result:");
+		console.log(result);
+		response.user = result;
+		next();
+	});
+})
+
+// Send a single user page/object
+function sendUser(request, response) {
+    if (response.user.username == request.session.username) {
+        response.redirect("/profile")
         return
     }
-
-    // Send rendered user page
-    response.status(200)
-        .type('html')
-        .render("../views/pages/user", {user: user, database: database});
+    // Send rendered user page or user json data
+    response.format({
+		"text/html": () => {response.render("../views/pages/user", {user: response.user, loggedIn: request.session.loggedIn})},
+		"application/json": () => {response.status(200).json(response.user)}
+	});
 }
 
 function validateUserInput(request, response, next) {
