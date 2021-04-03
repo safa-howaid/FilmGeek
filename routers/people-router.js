@@ -3,7 +3,8 @@ const path = require('path');
 const mongoose = require("mongoose");
 const ObjectId= require('mongoose').Types.ObjectId
 const Person = require("../data/models/personModel")
-const Movie = require("../data/models/movieModel")
+const Movie = require("../data/models/movieModel");
+const session = require('express-session');
 
 //Create the router
 let router = express.Router();
@@ -49,12 +50,12 @@ router.param("id", function(request, response, next, id) {
 
 // Send a single person page/object
 function sendPerson(request, response) {
+    
     // Send rendered person page or person json data
     response.format({
-		"text/html": () => {response.render("../views/pages/person", {person: response.person})},
+		"text/html": () => {response.render("../views/pages/person", {person: response.person, loggedIn: request.session.loggedIn})},
 		"application/json": () => {response.status(200).json(response.person)}
 	});
-	next();
 }
 
 //Export the router object so we can access it in the base app
