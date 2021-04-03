@@ -1,17 +1,25 @@
 include ../partials/reviewMixins
-html
+include ../partials/headerMixins
+doctype html
+html(lang="en")
     head
+        meta(name="viewport" content="width=device-width, initial-scale=1")
+        meta(name="description" content=`Information about ${movie.title}'`)
+        link(rel="shortcut icon" href="/favicon.ico?v=2" type="image/x-icon")
         link(rel="stylesheet" type="text/css" href="/styles/movie-page.css")
         title #{movie.title}
 body
-    include ../partials/loggedInHeader
+    if loggedIn
+        +logged-in-header()
+    else
+        +logged-out-header()
 
     div#main
         .top-container
             .left
                 .first-line
                     h1= movie.title
-                    if movie.hasOwnProperty("rating")
+                    if movie.rating
                         img(src= `/images/rating/${movie.rating}star.svg`)
                 .movie-information-container
                     p= movie.ageRating
@@ -22,12 +30,14 @@ body
                     .divider
                     p= movie.releaseDate
 
-            .right
-                input.add-to-watchlist-button(type="checkbox" title="Add movie to watchlist")
-                p.added-text
+            if loggedIn
+                .right
+                    input.add-to-watchlist-button(type="checkbox" title="Add movie to watchlist")
+                    p.added-text
 
         .poster-and-info-container
-            img(src=movie.poster)
+            if movie.poster
+                img(src=movie.poster alt="Movie poster" onerror="this.style.display='none'")
             .movie-details-container
                 h2 Plot
                 p= movie.plot
@@ -44,52 +54,53 @@ body
                 each person in movie.actors
                     a(href=`/people/${person._id}`)= person.name
         
-        form.add-review-container
-            .add-review-top
-                h1 Add a Review
-            .add-review-rating
-                p Rate this movie:
-                  .rate
-                    input(type="radio" id="star10" name="rate" value="10" required)
-                    label(for="star10" title="text")
-                        10 stars
-                    input(type="radio" id="star9" name="rate" value="9" required)
-                    label(for="star9" title="text")
-                        9 stars
-                    input(type="radio" id="star8" name="rate" value="8")
-                    label(for="star8" title="text")
-                        8 stars
-                    input(type="radio" id="star7" name="rate" value="7")
-                    label(for="star7" title="text")
-                        7 stars
-                    input(type="radio" id="star6" name="rate" value="6")
-                    label(for="star6" title="text")
-                        6 stars
-                    input(type="radio" id="star5" name="rate" value="5")
-                    label(for="star5" title="text")
-                        5 stars
-                    input(type="radio" id="star4" name="rate" value="4")
-                    label(for="star4" title="text")
-                        4 stars
-                    input(type="radio" id="star3" name="rate" value="3")
-                    label(for="star3" title="text")
-                        3 stars
-                    input(type="radio" id="star2" name="rate" value="2")
-                    label(for="star2" title="text")
-                        2 stars
-                    input(type="radio" id="star1" name="rate" value="1")
-                    label(for="star1" title="text")
-                        1 stars
+        if loggedIn
+            form.add-review-container(action="/reviews" method="POST")
+                .add-review-top
+                    h1 Add a Review
+                .add-review-rating
+                    label(for="rating") Rate this movie:
+                    .rate
+                        input(type="radio" id="star10" name="rating" value="10" required)
+                        label(for="star10" title="text")
+                            10 stars
+                        input(type="radio" id="star9" name="rating" value="9" required)
+                        label(for="star9" title="text")
+                            9 stars
+                        input(type="radio" id="star8" name="rating" value="8" required)
+                        label(for="star8" title="text")
+                            8 stars
+                        input(type="radio" id="star7" name="rating" value="7" required)
+                        label(for="star7" title="text")
+                            7 stars
+                        input(type="radio" id="star6" name="rating" value="6" required)
+                        label(for="star6" title="text")
+                            6 stars
+                        input(type="radio" id="star5" name="rating" value="5" required)
+                        label(for="star5" title="text")
+                            5 stars
+                        input(type="radio" id="star4" name="rating" value="4" required)
+                        label(for="star4" title="text")
+                            4 stars
+                        input(type="radio" id="star3" name="rating" value="3" required)
+                        label(for="star3" title="text")
+                            3 stars
+                        input(type="radio" id="star2" name="rating" value="2" required)
+                        label(for="star2" title="text")
+                            2 stars
+                        input(type="radio" id="star1" name="rating" value="1" required)
+                        label(for="star1" title="text")
+                            1 stars
 
-            .add-review-inputs
-                .add-review-input
-                    label Summary (optional)
-                    textarea(type="text")
-                .add-review-input
-                    label Review (optional)
-                    textarea(type="text")
-            .add-review-bottom
-                input.submit-button(type="submit" value="Submit")
+                .add-review-inputs
+                    .add-review-input
+                        label(for="summary") Summary (optional)
+                        textarea(type="text" name="summary")
+                    .add-review-input
+                        label(for="fullReview")  Review (optional)
+                        textarea(type="text" name="fullReview")
+                .add-review-bottom
+                    input.submit-button(type="submit" value="Submit")
 
         h1 Reviews
         if movie.reviews.length == 0
@@ -97,7 +108,7 @@ body
         else
             .reviews-container
                 each review in movie.reviews
-                    if review.hasOwnProperty("summary") || review.hasOwnProperty("fullReview")
+                    if review.summary || review.fullReview
                         +full-review(review)
                     else
                         +basic-review(review)

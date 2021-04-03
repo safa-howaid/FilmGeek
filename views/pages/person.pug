@@ -1,13 +1,19 @@
-html
+include ../partials/headerMixins
+doctype html
+html(lang="en")
     head
+        meta(name="viewport" content="width=device-width, initial-scale=1")
+        meta(name="description" content=`${person.name}'s page`)
+        link(rel="shortcut icon" href="/favicon.ico?v=2" type="image/x-icon")
         link(rel="stylesheet" type="text/css" href="/styles/person-page.css")
         title #{person.name}
 body
-    include ../partials/loggedOutHeader
-
+    +logged-in-header()
     div#main
         h1= person.name
-        button.follow-button Follow
+
+        if loggedIn
+            button.follow-button Follow
 
         if person.actingRoles.length > 0
             h2 Acting Roles

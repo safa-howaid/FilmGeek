@@ -1,18 +1,28 @@
-html
+include ../partials/headerMixins
+doctype html
+html(lang="en")
     head
+        meta(name="viewport" content="width=device-width, initial-scale=1")
+        meta(name="description" content="Login Page")
+        link(rel="shortcut icon" href="/favicon.ico?v=2" type="image/x-icon")
         link(rel="stylesheet" type="text/css" href="/styles/login-page.css")
         title Login
+        script.
+            let errorMessage = "#{errorMessage}";
+            if (errorMessage) {
+                alert(errorMessage)
+            }
 body
-    include ../partials/loggedOutHeader
+    +logged-out-header()
 
     div#main
         .login-card
             h1 Login 
             hr
-            form(action="/profile" method="GET")
-                lable Username 
+            form(action="/login" method="POST")
+                lable(for="username") Username 
                 input.input-field(type="text" id="username" name="username" required)
-                label Password 
+                label(for="password") Password 
                 input.input-field(type="password" id="password" name="password" required)
                 input.login-button(type="submit" value="Login")
             

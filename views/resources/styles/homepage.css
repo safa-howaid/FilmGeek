@@ -55,6 +55,11 @@ a {
     display:inline-block;
 }
 
+#right-nav-container a img {
+    margin: 0px 20px;
+    width: 30px;
+    }
+
 a:hover{
 	-webkit-transform: translateY(-5px);
 	transform: translateY(-5px);

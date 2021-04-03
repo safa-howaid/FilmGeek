@@ -1,14 +1,22 @@
-html
+include ../partials/headerMixins
+doctype html
+html(lang="en")
     head
+        meta(name="viewport" content="width=device-width, initial-scale=1")
+        meta(name="description" content=`${user.username}'s profile page`)
+        link(rel="shortcut icon" href="/favicon.ico?v=2" type="image/x-icon")
         link(rel="stylesheet" type="text/css" href="/styles/profile.css")
         title Profile
 body
-    include ../partials/loggedInHeader
+    +logged-in-header()
 
     div#main
-        h1 Profile Page
+        h1= user.username + "'s Profile Page"
 
-        form(action=`/users/${user.id}` method="PUT")
+        form(action="/logout" method="GET")
+            button.logout-button(type="submit") Logout
+
+        form(action=`/users/${user._id}` method="PUT")
             h2 User Type:
 
             if user.isContributer
@@ -21,11 +29,11 @@ body
                     label.check(for="contributer") Contributer
             else
                 .choice
-                    input(type="radio" id="regular" name="isContributer" value="false")
+                    input(type="radio" id="regular" name="isContributer" value="false" checked)
                     label(for="regular") Regular User
 
                 .choice
-                    input(input type="radio" id="contributer" name="isContributer" value="true" checked)
+                    input(input type="radio" id="contributer" name="isContributer" value="true")
                     label(for="contributer") Contributer
         
             input.save-button(type="submit" value="Save")
@@ -35,55 +43,49 @@ body
         if user.watchlist.length == 0
             p There are no movies in your watchlist.
         else
-            each movieId in user.watchlist
-                - let movie = database.getMovieById(movieId)
-                a(href=`/movies/${movieId}`)= movie.Title   
+            each movie in user.watchlist
+                a(href=`/movies/${movie._id}`)= movie.title   
 
         h2 Users you Follow
         if user.usersFollowed.length == 0
             p You are not following any other users.
         else
-            each userId in user.usersFollowed 
-                - let user = database.getUserById(userId)
-                a(href=`/users/${userId}`)= user.username   
+            each otherUser in user.usersFollowed 
+                a(href=`/users/${otherUser._id}`)= otherUser.username   
 
         h2 People you Follow
-        if user.personsFollowed.length == 0
+        if user.peopleFollowed.length == 0
             p No one is following you.
         else
-            each personId in user.personsFollowed 
-                - let person = database.getPersonById(personId)
-                a(href=`/people/${personId}`)= person.name 
+            each person in user.peopleFollowed 
+                a(href=`/people/${person._id}`)= person.name 
 
         h2 Your Followers
         if user.followers.length == 0
             p You have no followers.
         else
-            each userId in user.followers
-                - let user = database.getUserById(userId)
-                a(href=`/users/${userId}`)= user.username   
+            each otherUser in user.followers
+                a(href=`/users/${otherUser._id}`)= otherUser.username   
 
         h2#notifications Notifications
         if user.notifications.length == 0
             p No new notifications.
         else
             for notification in user.notifications
-                form.notification(action=`/users/${user.id}/notifications` method="PUT")
+                form.notification(action=`/users/${user._id}/notifications` method="PUT")
                     if notification.hasOwnProperty("personId")
-                        - let person = database.getPersonById(notification.personId)
                         .left
-                            input(type="hidden" name="id", value=notification.id)
+                            input(type="hidden" name="id", value=notification._id)
                             span On #{notification.date}:&nbsp;
-                            a.notification-link(href=`people/${person.id}`)= person.name
+                            a.notification-link(href=`people/${person._id}`)= person.name
                             span &nbsp;#{notification.details}
                         input.read-button(type="submit" value="read")
                         
                     else
-                        - let user = database.getUserById(notification.userId)
                         .left
-                            input(type="hidden" name="id", value=notification.id)
+                            input(type="hidden" name="id", value=notification._id)
                             span On #{notification.date}:&nbsp
-                            a.notification-link(href=`people/${user.id}`)= user.username
+                            a.notification-link(href=`people/${user._id}`)= user.username
                             span &nbsp;#{notification.details}
                         input.read-button(type="submit" value="read")
             
@@ -91,8 +93,7 @@ body
         if user.recommendedMovies.length == 0
             p There are no recommended movies available for you.
         else
-            each movieId in user.recommendedMovies
-                - let movie = database.getMovieById(movieId)
-                a(href=`/movies/${movieId}`)= movie.Title          
+            each movie in user.recommendedMovies
+                a(href=`/movies/${movie._id}`)= movie.title          
     
     include ../partials/footer

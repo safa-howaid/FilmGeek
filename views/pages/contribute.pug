@@ -1,9 +1,14 @@
-html
+include ../partials/headerMixins
+doctype html
+html(lang="en")
     head
+        meta(name="viewport" content="width=device-width, initial-scale=1")
+        meta(name="description" content=`Contribution page`)
         link(rel="stylesheet" type="text/css" href="/styles/contribute.css")
+        link(rel="shortcut icon" href="/favicon.ico?v=2" type="image/x-icon")
         title Contribute
 body
-    include ../partials/loggedInHeader
+    +logged-in-header()
 
     div#main
         h1 Contribute

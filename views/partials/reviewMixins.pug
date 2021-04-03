@@ -1,28 +1,28 @@
 mixin basic-review(review)
     .review.basic-review
         .group
-            img(src= `/images/rating/${review.rating}star.svg`)
-            - let user = database.getUserById(review.reviewer)
+            img(src= `/images/rating/${review.rating}star.svg` alt=`${review.rating}-star rating`)
             .username By 
-                a(href=`/users/${user.id}`)= user.username
-        .date= review.date
+                a(href=`/users/${review.reviewer._id}`)= review.reviewer.username
+        -const formattedDate = review.date.toLocaleDateString('en-GB', {day: 'numeric', month: 'short', year: 'numeric'}).replace(/ /g, '-');
+        .date= formattedDate
 
 mixin full-review(review)
     .review.full-review
         .review-top
             .left-side
-                img(src= `/images/rating/${review.rating}star.svg`)
+                img(src= `/images/rating/${review.rating}star.svg` alt=`${review.rating}-star rating`)
                 .group
-                    - let user = database.getUserById(review.reviewer)
-                    a.username(href=`/users/${user.id}`)= user.username
-                    .date= review.date
+                    a.username(href=`/users/${review.reviewer._id}`)= review.reviewer.username
+                    -const formattedDate = review.date.toLocaleDateString('en-GB', {day: 'numeric', month: 'short', year: 'numeric'}).replace(/ /g, '-');
+                    .date= formattedDate
         
         input.expand-review(type="checkbox")
         label.expand-review-lbl(for="expand-review")
         .review-details
-            if review.hasOwnProperty("summary")
+            if review.summary
                 .review-details-title Summary 
                 .review-detail= review.summary
-            if review.hasOwnProperty("fullReview")
+            if review.fullReview
                 .review-details-title Review 
                 .review-detail= review.fullReview
