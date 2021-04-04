@@ -7,7 +7,9 @@ const Movie = require("./data/models/movieModel.js")
 const Review = require("./data/models/reviewModel.js")
 const Notification = require("./data/models/notificationModel.js")
 const MongoDBStore = require("connect-mongodb-session")(session);
-var favicon = require('serve-favicon');
+const favicon = require('serve-favicon');
+const jsStringify = require('js-stringify');
+
 
 const app = express();
 const port = 3000;
@@ -142,7 +144,7 @@ app.get('/profile', (request, response) => {
             console.log(result)
             return response.status(200)
             .type('html')
-            .render("../views/pages/profile", {user: result})
+            .render("../views/pages/profile", {user: result, jsStringify: jsStringify})
         });
     } 
     else {

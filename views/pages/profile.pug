@@ -6,6 +6,9 @@ html(lang="en")
         meta(name="description" content=`${user.username}'s profile page`)
         link(rel="shortcut icon" href="/favicon.ico?v=2" type="image/x-icon")
         link(rel="stylesheet" type="text/css" href="/styles/profile.css")
+        script.
+            let user = !{jsStringify(user)};
+        script(type="text/javascript" src="/scripts/profile.js" defer)
         title Profile
 body
     +logged-in-header()
@@ -16,7 +19,7 @@ body
         form(action="/logout" method="GET")
             button.logout-button(type="submit") Logout
 
-        form(action=`/users/${user._id}` method="PUT")
+        form
             h2 User Type:
 
             if user.isContributer
@@ -35,8 +38,7 @@ body
                 .choice
                     input(input type="radio" id="contributer" name="isContributer" value="true")
                     label(for="contributer") Contributer
-        
-            input.save-button(type="submit" value="Save")
+            button.save-button(onclick="changeContributionState(event)") Save
 
 
         h2 Watchlist

@@ -8,6 +8,7 @@ let router = express.Router();
 router.get('/', (request, response) => {response.send("Users Search")})
 router.get('/:id', sendUser)
 router.post('/', [validateUserInput, createNewUser])
+router.put('/:id', changeUserContributionStatus)
 
 // Load user from database when given movie id
 router.param("id", function(request, response, next, id) {
@@ -44,6 +45,16 @@ router.param("id", function(request, response, next, id) {
 		next();
 	});
 })
+
+function changeUserContributionStatus(request, response) {
+    response.user.isContributer = request.body.isContributer
+    response.user.save(function(err, result) {
+        if (err) {
+            return response.status(400).send("Error saving new user state.")
+        }
+        response.status(200).send()
+    });
+}
 
 // Send a single user page/object
 function sendUser(request, response) {
