@@ -10,7 +10,9 @@ function changeContributionState(event) {
         if (user.isContributer) {
             type = "Contributing"
         }
-        return alert("You are already a " + type + " user!")
+        alert("You are already a " + type + " user!");
+        event.preventDefault();
+        return;
     } 
 
     // Send request and alert user of result.
@@ -25,5 +27,4 @@ function changeContributionState(event) {
         }
     }
     xhttp.send("isContributer=" + isContributer)
-    event.preventDefault();
 }
