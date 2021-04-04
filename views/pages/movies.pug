@@ -39,15 +39,16 @@ body
             
         hr
 
-        if currentPage > 1
-            - let url = "/movies?page=" + (currentPage-1)
-            - if(queryString.length > 0){ url += "&" + queryString; }
-            a(href=url) Previous
-            | 
-        if movies.length == 10
-            - url = "/movies?page=" + (currentPage+1)
-            - if(queryString.length > 0){ url += "&" + queryString; }
-            a(href=url) Next
+        .page-buttons
+            if currentPage > 1
+                - let url = "/movies?page=" + (currentPage-1)
+                - if(queryString.length > 0){ url += "&" + queryString; }
+                a(href=url).page-button Previous
+                | 
+            if movies.length == 10
+                - url = "/movies?page=" + (currentPage+1)
+                - if(queryString.length > 0){ url += "&" + queryString; }
+                a(href=url).page-button Next
 
         .search-results
             if movies.length == 0

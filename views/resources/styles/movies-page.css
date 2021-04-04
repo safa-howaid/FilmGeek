@@ -115,7 +115,6 @@ label {
     margin-right: 15px;
     padding-right: 40px;
     font-weight: 700;
-    box-shadow: 5px 9px 4px rgba(18, 22, 41, 0.5);
 }
 
 .search-container img {
@@ -133,7 +132,6 @@ label {
     height: 100%;
     transition: 0.2s;
     cursor: pointer;
-    box-shadow: 5px 9px 4px rgba(18, 22, 41, 0.5);
 }
 
 .search-container > button:active {
@@ -157,14 +155,14 @@ label {
     display: flex;
     flex-direction: row-reverse;
     justify-content: end;
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
 .advanced-search-expand {
     display: block;
-    border-left: 7px solid transparent;
-    border-right: 7px solid transparent;
-    border-top: 11px solid #121629;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 9px solid #121629;
     
     margin-left: 5px;
     transform: translateY(5px);
@@ -194,7 +192,7 @@ input.advanced-search-expand:checked{
     margin-top: 3px;
 }
 
-.advanced-search-inputs input {
+.advanced-search-inputs input , select{
     border: 5px solid #232946;
     border-radius: 10px;
     box-sizing: border-box;
@@ -206,7 +204,6 @@ input.advanced-search-expand:checked{
     margin: 15px 15px 15px 0px;
     padding: 5px;
     font-weight: 700;
-    box-shadow: 5px 9px 4px rgba(18, 22, 41, 0.5);
     height: 40px;
 }
 
@@ -239,8 +236,47 @@ label.genre {
 
 hr {
     width: 100%;
-    margin-top: 15px;
+    margin: 5px;
     border: 1px solid #121629;
+}
+
+.page-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+    font-size: 50%;
+}
+
+.page-button {
+    background: #C33C54;
+    border: 3px solid #121629;
+    border-radius: 17px;
+    width: 80px;
+    height: 35px;
+    font-weight: 800;
+    font-size: 100%;
+    color: #121629;
+    transition: 0.3s;
+    margin-top: 10px;
+    cursor: pointer;
+    box-shadow: 0 5px rgb(119, 32, 32);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 10px;
+}
+
+.page-button:hover {
+	-webkit-transform: translateY(-3px);
+	transform: translateY(-3px);
+}
+
+.page-button:active {
+  box-shadow: 0 0px;
+  transform: translateY(4px);
+  -webkit-transform: translateY(4px);
 }
 
 .movie-container {

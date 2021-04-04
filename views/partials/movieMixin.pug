@@ -6,7 +6,9 @@ mixin movie-container(movie)
                 a.movie-title(href=`/movies/${movie._id}`)= movie.title
                 p.movie-detail= movie.releaseDate
 
-                a.movie-detail(href=`/people/${movie.actors[0]._id}`)= movie.actors[0].name
-                span ,  
-                a.movie-detail(href=`/people/${movie.actors[1]._id}`)= movie.actors[1].name
+                if movie.actors.length >= 1
+                    a.movie-detail(href=`/people/${movie.actors[0]._id}`)= movie.actors[0].name
+                if movie.actors.length >= 2
+                    span ,  
+                    a.movie-detail(href=`/people/${movie.actors[1]._id}`)= movie.actors[1].name
         img.movie-rating(src=`/images/rating/${movie.rating}star.svg`)
