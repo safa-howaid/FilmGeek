@@ -107,6 +107,7 @@ function createNewUser(request, response, next) {
         if (err) return console.error(err);
         request.session.loggedIn = true;
         request.session.username = username;
+        request.session.userId = result._id;
         return response.format({
             "text/html": () => response.redirect("/profile"),
             "application/json": () => {response.status(201).json(result)}

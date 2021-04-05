@@ -97,6 +97,7 @@ app.post('/login', (request, response) => {
         if (password == result.password) {
             request.session.loggedIn = true;
             request.session.username = username;
+            request.session.userId = result._id;
             response.user = result
             return response.redirect("/profile")
         }
@@ -141,7 +142,7 @@ app.get('/profile', (request, response) => {
         .populate("reviews")
         .populate("notifications")
         .exec(function(err, result) {
-            console.log(result)
+            // console.log(result)
             return response.status(200)
             .type('html')
             .render("../views/pages/profile", {user: result, jsStringify: jsStringify})

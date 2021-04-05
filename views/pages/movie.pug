@@ -8,6 +8,10 @@ html(lang="en")
         link(rel="shortcut icon" href="/favicon.ico?v=2" type="image/x-icon")
         link(rel="stylesheet" type="text/css" href="/styles/movie-page.css")
         title #{movie.title}
+        script.
+            let movieId = !{jsStringify(movie._id)};
+            let userId = !{jsStringify(userId)};
+        script(type="text/javascript" src="/scripts/movie.js" defer)
 body
     if loggedIn
         +logged-in-header()
@@ -55,7 +59,7 @@ body
                     a(href=`/people/${person._id}`)= person.name
         
         if loggedIn
-            form.add-review-container(action="/reviews" method="POST")
+            form.add-review-container
                 .add-review-top
                     h1 Add a Review
                 .add-review-rating
@@ -95,12 +99,12 @@ body
                 .add-review-inputs
                     .add-review-input
                         label(for="summary") Summary (optional)
-                        textarea(type="text" name="summary")
+                        textarea(type="text" name="summary" id="summary")
                     .add-review-input
                         label(for="fullReview")  Review (optional)
-                        textarea(type="text" name="fullReview")
+                        textarea(type="text" name="fullReview" id="fullReview")
                 .add-review-bottom
-                    input.submit-button(type="submit" value="Submit")
+                    button.submit-button(onClick="sendReview(event)") Submit
 
         h1 Reviews
         if movie.reviews.length == 0

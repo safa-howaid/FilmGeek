@@ -80,10 +80,18 @@ movieSchema.statics.findByQuery = function(page, limit, title, genre, actor, cal
     ]).exec(callback)
 }
 
-movieSchema.methods.calculateRating = function() {
-    this.populate("reviews", function(err, result) {
-        let averageRating =  Number(this.reviews.reduce((a, b) => a.rating + b.rating, 0) / this.reviews.length);
-        this.rating = averageRating;
+movieSchema.statics.addReview = function(movieId, reviewId) {
+    this.findById(movieId, function(err, result) {
+        result.reviews.push(reviewId)
+        result.save()
+    })
+}
+
+movieSchema.statics.calculateMovieRating = function(movieId) {
+    this.findById(movieId).populate("reviews").exec(function(err, result) {
+        let averageRating = Math.round(result.reviews.reduce((a, b) => a + b.rating, 0) / result.reviews.length);
+        result.rating = averageRating;
+        result.save();
     })
 }
 

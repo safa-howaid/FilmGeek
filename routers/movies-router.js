@@ -5,6 +5,7 @@ const Movie = require("../data/models/movieModel")
 const Person = require("../data/models/personModel")
 const Review = require("../data/models/reviewModel")
 const User = require("../data/models/userModel")
+const jsStringify = require('js-stringify');
 
 // Create the router
 let router = express.Router();
@@ -59,7 +60,7 @@ router.param("id", function(request, response, next, id) {
 function sendMovie(request, response) {
     // Send rendered movie page or movie json data
     response.format({
-		"text/html": () => {response.render("../views/pages/movie", {movie: response.movie, loggedIn: request.session.loggedIn})},
+		"text/html": () => {response.render("../views/pages/movie", {movie: response.movie, loggedIn: request.session.loggedIn, jsStringify: jsStringify, userId: request.session.userId})},
 		"application/json": () => {response.status(200).json(response.movie)}
 	});
 }

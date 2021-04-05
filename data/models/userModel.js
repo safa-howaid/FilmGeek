@@ -45,4 +45,11 @@ let userSchema = new Schema({
     }],
 });
 
+userSchema.statics.addReview = function(userId, reviewId) {
+    this.findById(userId, function(err, result) {
+        result.reviews.push(reviewId)
+        result.save()
+    })
+}
+
 module.exports = mongoose.model("User", userSchema);
