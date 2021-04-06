@@ -127,6 +127,11 @@ h1 {
     margin: 0px;
 }
 
+.genre {
+    color: #D32B51;
+    margin: 5px;
+}
+
 .right {
     display: flex;
     flex-direction: column;

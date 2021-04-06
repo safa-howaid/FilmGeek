@@ -57,7 +57,7 @@ body
 
         h2 People you Follow
         if user.peopleFollowed.length == 0
-            p No one is following you.
+            p You are not following any people.
         else
             each person in user.peopleFollowed 
                 a(href=`/people/${person._id}`)= person.name 

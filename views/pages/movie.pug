@@ -30,7 +30,8 @@ body
                     .divider
                     p= movie.runtime
                     .divider
-                    p= movie.genre.join(", ")
+                    each genre in movie.genre
+                        a(href=`/movies?genre=${genre}`).genre= genre
                     .divider
                     p= movie.releaseDate
 
