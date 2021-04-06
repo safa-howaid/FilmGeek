@@ -166,7 +166,7 @@ label {
     
     margin-left: 5px;
     transform: translateY(5px);
-    transition: transform .3s;
+    transition: transform .5s;
     height: fit-content;
     z-index: 1;
     cursor: pointer;
@@ -178,7 +178,7 @@ label {
 input.advanced-search-expand:checked{
     display: block;
     content:'';
-    transition: transform .3s;
+    transition: transform .5s;
     transform: translateY(-5px) rotate(-180deg);
     -webkit-transform: rotate(-180deg) translateY(-5px);
     height: fit-content;
@@ -213,21 +213,20 @@ input.advanced-search-expand:checked{
 
 .advanced-search-inputs {
     width: 83%;
-    max-height: 0;
+    max-height: 5px;
     overflow: hidden;
-
-    -moz-transition: max-height .2s, overflow .2s;
-     -o-transition: max-height .2s, overflow .2s;
-     transition: max-height .2s, overflow .2s;
+    -webkit-transition: max-height .8s;
+    -moz-transition: max-height .8s;
+    -o-transition: max-height .8s;
+    transition: max-height .8s;
 }
 
 input.advanced-search-expand:checked ~ .advanced-search-inputs {
-    max-height: 100%;
-    overflow: visible;
-    -webkit-transition: max-height .7s, overflow .2s;
-    -moz-transition: max-height .2s, overflow .2s;
-     -o-transition: max-height .2s, overflow .2s;
-     transition: max-height .2s, overflow .2s;
+    max-height: 1000px;
+    -webkit-transition: max-height 1s ease-in;
+    -moz-transition: max-height 1s ease-in;
+    -o-transition: max-height 1s ease-in;
+    transition: max-height 1s ease-in;
 }
 
 label.genre {

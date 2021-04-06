@@ -391,9 +391,13 @@ h2 {
 }
 
 .review-details {
-    max-height: 0;
+    max-height: 5px;
     overflow: hidden;
     font-size: 30%;
+    transition: max-height .8s;
+    -webkit-transition: max-height .8s;
+    -moz-transition: max-height .8s;
+    -o-transition: max-height .8s;
 }
 
 .review-details-title {
@@ -407,8 +411,11 @@ h2 {
 }
 
 input:checked ~ .review-details {
-    max-height: 100%;
-    overflow: visible;
+    max-height: 1000px;
+    transition: max-height 1s ease-in;
+    -webkit-transition: max-height 1s ease-in;
+    -moz-transition: max-height 1s ease-in;
+    -o-transition: max-height 1s ease-in;
 }
 
 .expand-review, .expand-review-lbl{
@@ -437,14 +444,14 @@ input:checked ~ .review-details {
     border-top: 15px solid #121629;
     
     transform: translateY(-2px);
-    transition: transform .2s ease-out;
+    transition: transform .5s ease-out;
   }
 
 input:checked ~ .expand-review-lbl {
     display: block;
     content:'';
     transform: rotate(180deg);
-    transition: transform .4s;
+    transition: transform .8s;
     -webkit-transform: rotate(180deg);
 }
 
