@@ -7,13 +7,22 @@ html(lang="en")
         link(rel="shortcut icon" href="/favicon.ico?v=2" type="image/x-icon")
         link(rel="stylesheet" type="text/css" href="/styles/user-page.css")
         title #{user.username}
+        script.
+            let currentUser = !{jsStringify(currentUser)};
+            let viewedUser = !{jsStringify(user._id)};
+        script(type="text/javascript" src="/scripts/user.js" defer)
 body
     +logged-in-header()
     div#main
         h1 #{user.username}'s Page
         
         if loggedIn
-            button.follow-button Follow
+            form.follow-form
+                if isFollowing
+                    button.follow-button(onClick="unfollow()") Unfollow
+                else
+                    button.follow-button(onClick="follow()")  Follow 
+
 
         h2 Watchlist
         if user.watchlist.length == 0
@@ -42,5 +51,5 @@ body
         else
             each u in user.followers
                 a(href=`/users/${u._id}`)= u.username            
-    
+
     include ../partials/footer

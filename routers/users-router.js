@@ -1,14 +1,22 @@
 const express = require('express');
 const User = require("../data/models/userModel")
 const ObjectId= require('mongoose').Types.ObjectId
+const jsStringify = require('js-stringify');
 
 //Create the router
 let router = express.Router();
 
 router.get('/', (request, response) => {response.send("Users Search")})
+// Retrieve a user page/json
 router.get('/:id', sendUser)
+// Create a new account
 router.post('/', [validateUserInput, createNewUser])
+// Change user status (Regular/Contributer)
 router.put('/:id', changeUserContributionStatus)
+// Follow user
+router.delete('/:id/usersFollowed', unfollowUser)
+// Unfollow user
+router.post('/:id/usersFollowed', followUser)
 
 // Load user from database when given movie id
 router.param("id", function(request, response, next, id) {
@@ -62,11 +70,14 @@ function sendUser(request, response) {
         response.redirect("/profile")
         return
     }
-    // Send rendered user page or user json data
-    response.format({
-		"text/html": () => {response.render("../views/pages/user", {user: response.user, loggedIn: request.session.loggedIn})},
-		"application/json": () => {response.status(200).json(response.user)}
-	});
+
+    // Check if user follows current user and send rendered user page or user json data
+    User.isFollowing(request.session.userId, request.params.id).then(isFollowing => {
+        response.format({
+            "text/html": () => {response.render("../views/pages/user", {user: response.user, loggedIn: request.session.loggedIn, isFollowing: isFollowing, currentUser: request.session.userId, jsStringify: jsStringify})},
+            "application/json": () => {response.status(200).json(response.user)}
+        });
+    })
 }
 
 function validateUserInput(request, response, next) {
@@ -113,6 +124,44 @@ function createNewUser(request, response, next) {
             "application/json": () => {response.status(201).json(result)}
         });
     });
+}
+
+// UserA unfollows UserB:
+// UserB should be removed from UserA's usersFollowed list
+// UserA should be removed from UserB's followers list
+function unfollowUser(request, response) {
+    User.removeFollower(response.user._id, request.body.userId, function(err, result) {
+        if (err) {
+            console.log("Error removing follower.")
+            response.status(400).send();
+        }
+        User.unfollowUser(response.user._id, request.body.userId, function(err, result) {
+            if (err) {
+                console.log("Error unfollowing user.")
+                response.status(400).send();
+            }
+            response.status(200).send();
+        })
+    })
+}
+
+// UserA follows UserB:
+// UserB should be added to UserA's usersFollowed list
+// UserA should be added to UserB's followers list
+function followUser(request, response) {
+    User.addFollower(response.user._id, request.body.userId, function(err, result) {
+        if (err) {
+            console.log("Error adding follower.")
+            response.status(400).send();
+        }
+        User.followUser(response.user._id, request.body.userId, function(err, result) {
+            if (err) {
+                console.log("Error following user.")
+                response.status(400).send();
+            }
+            response.status(200).send();
+        })
+    })
 }
 
 //Export the router object so we can access it in the base app
