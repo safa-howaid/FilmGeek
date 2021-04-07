@@ -53,7 +53,7 @@ userSchema.statics.addReview = function(userId, reviewId) {
 }
 
 // Returns a Promise with value true if userA follows userB
-userSchema.statics.isFollowing = function(userA, userB) {
+userSchema.statics.isFollowingUser = function(userA, userB) {
     return this.findById(userA).exec().then(result => {
         return result.usersFollowed.includes(userB);
     });
@@ -88,7 +88,29 @@ userSchema.statics.unfollowUser = function(userA, userB, callback) {
 userSchema.statics.removeFollower = function(userA, userB, callback) {
     return this.findById(userB).exec(function(err, result) {
         result.followers = result.followers.filter(userId => String(userId) != String(userA))
-        console.log(result.followers)
+        result.save(callback);
+    })
+}
+
+// Returns a Promise with value true if user follows person
+userSchema.statics.isFollowingPerson = function(userId, personId) {
+    return this.findById(userId).exec().then(result => {
+        return result.peopleFollowed.includes(personId);
+    });
+}
+
+// Add person to user's peopleFollowed list
+userSchema.statics.followPerson = function(userId, personId, callback) {
+    return this.findById(userId).exec(function(err, result) {
+        result.peopleFollowed.push(personId);
+        result.save(callback);
+    })
+}
+
+// Removes person from user's peopleFollowed list
+userSchema.statics.unfollowPerson = function(userId, personId, callback) {
+    return this.findById(userId).exec(function(err, result) {
+        result.peopleFollowed = result.peopleFollowed.filter(id => String(personId) != String(id))
         result.save(callback);
     })
 }

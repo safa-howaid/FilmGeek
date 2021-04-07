@@ -29,4 +29,20 @@ let personSchema = new Schema({
     }],
 });
 
+// Add user to person's follower list
+personSchema.statics.addFollower = function(personId, userId, callback) {
+    return this.findById(personId).exec(function(err, result) {
+        result.followers.push(userId);
+        result.save(callback);
+    })
+}
+
+// Removes user from person's follower list
+personSchema.statics.removeFollower = function(personId, userId, callback) {
+    return this.findById(personId).exec(function(err, result) {
+        result.followers = result.followers.filter(id => String(userId) != String(id))
+        result.save(callback);
+    })
+}
+
 module.exports = mongoose.model("Person", personSchema);

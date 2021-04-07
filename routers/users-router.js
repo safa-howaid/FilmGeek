@@ -72,7 +72,7 @@ function sendUser(request, response) {
     }
 
     // Check if user follows current user and send rendered user page or user json data
-    User.isFollowing(request.session.userId, request.params.id).then(isFollowing => {
+    User.isFollowingUser(request.session.userId, request.params.id).then(isFollowing => {
         response.format({
             "text/html": () => {response.render("../views/pages/user", {user: response.user, loggedIn: request.session.loggedIn, isFollowing: isFollowing, currentUser: request.session.userId, jsStringify: jsStringify})},
             "application/json": () => {response.status(200).json(response.user)}

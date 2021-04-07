@@ -12,7 +12,11 @@ html(lang="en")
             let viewedUser = !{jsStringify(user._id)};
         script(type="text/javascript" src="/scripts/user.js" defer)
 body
-    +logged-in-header()
+    if loggedIn
+        +logged-in-header()
+    else
+        +logged-out-header()
+        
     div#main
         h1 #{user.username}'s Page
         
