@@ -55,11 +55,13 @@ router.param("id", function(request, response, next, id) {
 })
 
 function changeUserContributionStatus(request, response) {
-    response.user.isContributer = request.body.isContributer
+    let isContributer = request.body.isContributer == "true"
+    response.user.isContributer = isContributer
     response.user.save(function(err, result) {
         if (err) {
             return response.status(400).send("Error saving new user state.")
         }
+        request.session.isContributer = isContributer
         response.status(200).send()
     });
 }
@@ -74,7 +76,7 @@ function sendUser(request, response) {
     // Check if user follows current user and send rendered user page or user json data
     User.isFollowingUser(request.session.userId, request.params.id).then(isFollowing => {
         response.format({
-            "text/html": () => {response.render("../views/pages/user", {user: response.user, loggedIn: request.session.loggedIn, isFollowing: isFollowing, currentUser: request.session.userId, jsStringify: jsStringify})},
+            "text/html": () => {response.render("../views/pages/user", {user: response.user, loggedIn: request.session.loggedIn, isFollowing: isFollowing, currentUser: request.session.userId, jsStringify: jsStringify, isContributer: request.session.isContributer})},
             "application/json": () => {response.status(200).json(response.user)}
         });
     })
@@ -119,6 +121,7 @@ function createNewUser(request, response, next) {
         request.session.loggedIn = true;
         request.session.username = username;
         request.session.userId = result._id;
+        request.session.isContributer = false;
         return response.format({
             "text/html": () => response.redirect("/profile"),
             "application/json": () => {response.status(201).json(result)}

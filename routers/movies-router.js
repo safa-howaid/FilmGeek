@@ -60,7 +60,7 @@ router.param("id", function(request, response, next, id) {
 function sendMovie(request, response) {
     // Send rendered movie page or movie json data
     response.format({
-		"text/html": () => {response.render("../views/pages/movie", {movie: response.movie, loggedIn: request.session.loggedIn, jsStringify: jsStringify, userId: request.session.userId})},
+		"text/html": () => {response.render("../views/pages/movie", {movie: response.movie, loggedIn: request.session.loggedIn, jsStringify: jsStringify, userId: request.session.userId, isContributer: request.session.isContributer})},
 		"application/json": () => {response.status(200).json(response.movie)}
 	});
 }
@@ -139,7 +139,7 @@ function loadMovies(request, response, next){
 function displayMovieSearchPage(request, response) {
     Movie.find().distinct("genre", function(err, genres){
         response.format({
-            "text/html": () => {response.render("../views/pages/movies", {movies: response.movies, queryString: request.qstring, currentPage: request.query.page, genres: genres} )},
+            "text/html": () => {response.render("../views/pages/movies", {movies: response.movies, queryString: request.qstring, currentPage: request.query.page, genres: genres, isContributer: request.session.isContributer, loggedIn: request.session.loggedIn})},
             "application/json": () => {response.status(200).json(response.movies)}
         });
     })

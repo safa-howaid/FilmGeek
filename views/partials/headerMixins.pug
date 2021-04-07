@@ -13,6 +13,20 @@ mixin logged-in-header()
         a(href='/' title="Return to Home Page")
             embed#logo(type='image/svg+xml', src='/images/logo.svg' alt="FilmGeek Logo")
         #right-nav-container
+            a(href='/movies' title="Search for movies")
+                img(src='/images/header-search.svg' alt="Search icon")
+
+            a(href='/profile#notifications' title="Notifications")
+                img(src='/images/header-notification.svg' alt="Notification icon")
+
+            a(href='/profile' title="Profile page")
+                img(src='/images/header-user.svg' alt="Profile page icon")
+
+mixin logged-in-contributer-header()
+    nav
+        a(href='/' title="Return to Home Page")
+            embed#logo(type='image/svg+xml', src='/images/logo.svg' alt="FilmGeek Logo")
+        #right-nav-container
             a(href='/contribute' title="Add new movies or people!")
                 img(src='/images/header-contribute.svg' alt="Contribute page icon")
 

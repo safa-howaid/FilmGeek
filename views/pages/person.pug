@@ -11,7 +11,9 @@ html(lang="en")
             let personId = !{jsStringify(person._id)};
         script(type="text/javascript" src="/scripts/person.js" defer)
 body
-    if loggedIn
+    if loggedIn && isContributer
+        +logged-in-contributer-header()
+    else if loggedIn
         +logged-in-header()
     else
         +logged-out-header()

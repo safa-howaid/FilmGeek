@@ -67,7 +67,7 @@ app.get('/', (request, response) => {
     Movie.getTopMovies(function(err, result) {
         response.status(200)
         .type('html')
-        .render("../views/pages/homepage", {"movies": result});
+        .render("../views/pages/homepage", {movies: result, loggedIn: request.session.loggedIn, isContributer: request.session.isContributer});
     })
 });
 
@@ -98,6 +98,7 @@ app.post('/login', (request, response) => {
             request.session.loggedIn = true;
             request.session.username = username;
             request.session.userId = result._id;
+            request.session.isContributer = result.isContributer;
             response.user = result
             return response.redirect("/profile")
         }
@@ -133,6 +134,9 @@ app.get('/logout', (request, response) => {
 // If not logged in, redirect to login page
 app.get('/profile', (request, response) => {
     if (request.session.loggedIn) {
+        const errorMessage = request.session.errorMessage
+        request.session.errorMessage = null
+
         User.findOne({username: request.session.username})
         .populate("watchlist", "title")
         .populate("recommendedMovies", "title")
@@ -145,7 +149,7 @@ app.get('/profile', (request, response) => {
             // console.log(result)
             return response.status(200)
             .type('html')
-            .render("../views/pages/profile", {user: result, jsStringify: jsStringify})
+            .render("../views/pages/profile", {user: result, jsStringify: jsStringify, errorMessage: errorMessage})
         });
     } 
     else {
@@ -156,10 +160,14 @@ app.get('/profile', (request, response) => {
 // If logged in, render contribute page
 // If not logged in, redirect to log in page
 app.get('/contribute', (request, response) => {
-    if (request.session.loggedIn) {
+    if (request.session.isContributer) {
         response.status(200)
         .type('html')
-        .render("../views/pages/contribute")
+        .render("../views/pages/contribute", {isContributer: request.session.isContributer})
+    }
+    else if (request.session.loggedIn) {
+        request.session.errorMessage = "You must be a contributing user to access the contribute page!"
+        return response.status(401).redirect("/profile")
     }
     else {
         return response.status(401).redirect("/login")

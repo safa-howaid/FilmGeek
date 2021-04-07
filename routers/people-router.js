@@ -60,7 +60,7 @@ function sendPerson(request, response) {
     // Check if user follows person and send rendered person page or person json data
     User.isFollowingPerson(request.session.userId, request.params.id).then(isFollowing => {
         response.format({
-            "text/html": () => {response.render("../views/pages/person", {person: response.person, loggedIn: request.session.loggedIn, isFollowing: isFollowing, userId: request.session.userId, jsStringify: jsStringify})},
+            "text/html": () => {response.render("../views/pages/person", {person: response.person, loggedIn: request.session.loggedIn, isFollowing: isFollowing, userId: request.session.userId, jsStringify: jsStringify, isContributer: request.session.isContributer})},
             "application/json": () => {response.status(200).json(response.person)}
         });
     })

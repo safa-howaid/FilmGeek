@@ -13,7 +13,9 @@ html(lang="en")
             let userId = !{jsStringify(userId)};
         script(type="text/javascript" src="/scripts/movie.js" defer)
 body
-    if loggedIn
+    if loggedIn && isContributer
+        +logged-in-contributer-header()
+    else if loggedIn
         +logged-in-header()
     else
         +logged-out-header()

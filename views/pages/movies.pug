@@ -9,7 +9,9 @@ html(lang="en")
         link(rel="stylesheet" type="text/css" href="/styles/movies-page.css")
         title Search Movies
 body
-    if loggedIn
+    if loggedIn && isContributer
+        +logged-in-contributer-header()
+    else if loggedIn
         +logged-in-header()
     else
         +logged-out-header()

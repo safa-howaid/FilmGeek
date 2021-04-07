@@ -8,7 +8,10 @@ html(lang="en")
         link(rel="shortcut icon" href="/favicon.ico?v=2" type="image/x-icon")
         title Contribute
 body
-    +logged-in-header()
+    if isContributer
+        +logged-in-contributer-header()
+    else
+        +logged-in-header()
 
     div#main
         h1 Contribute

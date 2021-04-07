@@ -55,7 +55,7 @@ userSchema.statics.addReview = function(userId, reviewId) {
 // Returns a Promise with value true if userA follows userB
 userSchema.statics.isFollowingUser = function(userA, userB) {
     return this.findById(userA).exec().then(result => {
-        return result.usersFollowed.includes(userB);
+        return result ? result.usersFollowed.includes(userB) : false;
     });
 }
 
@@ -95,7 +95,7 @@ userSchema.statics.removeFollower = function(userA, userB, callback) {
 // Returns a Promise with value true if user follows person
 userSchema.statics.isFollowingPerson = function(userId, personId) {
     return this.findById(userId).exec().then(result => {
-        return result.peopleFollowed.includes(personId);
+        return result ? result.peopleFollowed.includes(personId) : false;
     });
 }
 

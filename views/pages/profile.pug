@@ -9,9 +9,17 @@ html(lang="en")
         script.
             let user = !{jsStringify(user)};
         script(type="text/javascript" src="/scripts/profile.js" defer)
+        script.
+            let errorMessage = "#{errorMessage}";
+            if (errorMessage) {
+                alert(errorMessage)
+            }
         title Profile
 body
-    +logged-in-header()
+    if user.isContributer
+        +logged-in-contributer-header()
+    else
+        +logged-in-header()
 
     div#main
         h1= user.username + "'s Profile Page"

@@ -8,7 +8,9 @@ html(lang="en")
         link(rel="stylesheet" type="text/css" href="/styles/homepage.css")
         title FlimGeek
 body
-    if loggedIn
+    if loggedIn && isContributer
+        +logged-in-contributer-header()
+    else if loggedIn
         +logged-in-header()
     else
         +logged-out-header()
