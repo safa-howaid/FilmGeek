@@ -97,14 +97,14 @@ function createUserObjects() {
 
     allMovies.forEach(movie => {
         let review1 = new Review ({
-            "rating" : 4,
+            "rating" : getRandomInt(1, 10),
             "reviewer": user1._id,
             "movie": movie._id,
-            "summary": "The film is about a group of living things who do some things somewhere and the things that they do are apparently interesting enough to warrant a full-feature film.",
-            "fullReview" : "I didn't think the movie is all that great. I can probably make a better film than this if only I had a bunch of potatoes and nails."
+            "summary": "The film is about a group of living things who do some things somewhere and the things that they do are interesting enough to put in a movie.",
+            "fullReview" : "The movie is not too bad. I enjoyed it sometimes."
         })
         let review2 = new Review ({
-            "rating" : 9,
+            "rating" : getRandomInt(1, 10),
             "reviewer": user2._id,
             "movie": movie._id
         })
@@ -124,6 +124,11 @@ function createUserObjects() {
 
 }
 
+function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1) + min); //The maximum is inclusive and the minimum is inclusive
+}
 
 createMovieObjects()
 
