@@ -1,4 +1,5 @@
 include ../partials/headerMixins
+include ../partials/reviewMixins
 doctype html
 html(lang="en")
     head
@@ -6,6 +7,7 @@ html(lang="en")
         meta(name="description" content=`${user.username}'s profile page`)
         link(rel="shortcut icon" href="/favicon.ico?v=2" type="image/x-icon")
         link(rel="stylesheet" type="text/css" href="/styles/profile.css")
+        link(rel="stylesheet" type="text/css" href="/styles/user-reviews.css")
         script.
             let user = !{jsStringify(user)};
         script(type="text/javascript" src="/scripts/profile.js" defer)
@@ -104,6 +106,17 @@ body
             p There are no recommended movies available for you.
         else
             each movie in user.recommendedMovies
-                a(href=`/movies/${movie._id}`)= movie.title          
+                a(href=`/movies/${movie._id}`)= movie.title
+
+        h2 Reviews
+        if user.reviews.length == 0
+            p You haven't written any reviews yet.
+        else
+            .reviews-container
+                each review in user.reviews
+                    if review.summary || review.fullReview
+                        +full-review-user-page(review)
+                    else
+                        +basic-review-user-page(review)             
     
     include ../partials/footer

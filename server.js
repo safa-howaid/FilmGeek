@@ -143,8 +143,15 @@ app.get('/profile', (request, response) => {
         .populate("usersFollowed", "username")
         .populate("peopleFollowed", "name")
         .populate("followers", "username")
-        .populate("reviews")
         .populate("notifications")
+        .populate({ 
+            path: 'reviews',
+            populate: {
+              path: 'movie',
+              model: 'Movie',
+              select: "title"
+            }
+        })
         .exec(function(err, result) {
             // console.log(result)
             return response.status(200)

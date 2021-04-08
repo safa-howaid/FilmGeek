@@ -1,5 +1,5 @@
 mixin basic-review(review)
-    .review.basic-review
+    div(id=review._id).review.basic-review
         .group
             img(src= `/images/rating/${review.rating}star.svg` alt=`${review.rating}-star rating`)
             .username By 
@@ -8,7 +8,7 @@ mixin basic-review(review)
         .date= formattedDate
 
 mixin full-review(review)
-    .review.full-review
+    div(id=review._id).review.full-review
         .review-top
             .left-side
                 img(src= `/images/rating/${review.rating}star.svg` alt=`${review.rating}-star rating`)
@@ -16,6 +16,33 @@ mixin full-review(review)
                     a.username(href=`/users/${review.reviewer._id}`)= review.reviewer.username
                     -const formattedDate = review.date.toLocaleDateString('en-GB', {day: 'numeric', month: 'short', year: 'numeric'}).replace(/ /g, '-');
                     .date= formattedDate
+        
+        input.expand-review(type="checkbox")
+        label.expand-review-lbl(for="expand-review")
+        .review-details
+            if review.summary
+                .review-details-title Summary 
+                .review-detail= review.summary
+            if review.fullReview
+                .review-details-title Review 
+                .review-detail= review.fullReview
+
+mixin basic-review-user-page(review)
+    div(id=review._id).review.basic-review
+        .group
+            img(src= `/images/rating/${review.rating}star.svg` alt=`${review.rating}-star rating`)
+            a.title(href=`/movies/${review.movie._id}#${review._id}`)= review.movie.title
+        -const formattedDate = review.date.toLocaleDateString('en-GB', {day: 'numeric', month: 'short', year: 'numeric'}).replace(/ /g, '-');
+        .date= formattedDate
+
+mixin full-review-user-page(review)
+    div(id=review._id).review.full-review
+        .review-top
+            .group
+                img(src= `/images/rating/${review.rating}star.svg` alt=`${review.rating}-star rating`)
+                a.title(href=`/movies/${review.movie._id}#${review._id}`)= review.movie.title
+            -const formattedDate = review.date.toLocaleDateString('en-GB', {day: 'numeric', month: 'short', year: 'numeric'}).replace(/ /g, '-');
+            .date= formattedDate
         
         input.expand-review(type="checkbox")
         label.expand-review-lbl(for="expand-review")

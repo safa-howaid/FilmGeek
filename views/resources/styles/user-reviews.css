@@ -1,0 +1,115 @@
+.basic-review {
+    justify-content: space-between;
+    margin-bottom: 5px;
+    align-items: center;
+}
+
+.full-review {
+    flex-direction: column;
+    margin-bottom: 5px;
+    justify-content: space-between;
+}
+.review {
+    display: flex;
+    background: #FFFFFE;
+    border: 2px solid #121629;
+    border-radius: 7px;
+    padding: 15px;
+    position: relative;
+    margin-bottom: 5px;
+}
+
+.title {
+    align-self: center;
+    margin-left: 25px;
+    color: #222847 !important;
+    font-weight: 800;
+    font-size: 110%;
+}
+
+.review img {
+    align-self: start;
+}
+
+.date {
+    padding: 5px;
+    color: rgba(35, 41, 70, 0.72); 
+    font-size: 90%;
+}
+
+.group {
+    display: flex;
+    align-items: center;
+}
+
+.review-top {
+    display: flex;
+    width: 95%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.review-details {
+    max-height: 5px;
+    overflow: hidden;
+    font-size: 130%;
+    transition: max-height .8s;
+    -webkit-transition: max-height .8s;
+    -moz-transition: max-height .8s;
+    -o-transition: max-height .8s;
+}
+
+.review-details-title {
+    font-weight: 600;
+    margin: 20px 10px 10px 10px;
+}
+
+.review-detail {
+    font-size: 70%;
+    margin: 10px;
+}
+
+input:checked ~ .review-details {
+    max-height: 1000px;
+    transition: max-height 1s ease-in;
+    -webkit-transition: max-height 1s ease-in;
+    -moz-transition: max-height 1s ease-in;
+    -o-transition: max-height 1s ease-in;
+}
+
+.expand-review, .expand-review-lbl{
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 30px;
+}
+
+.expand-review {
+    z-index: 1;
+    cursor: pointer;
+    width: 97%;
+    height: 50%;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;;
+}
+
+.expand-review-lbl {
+    content: ' ';
+    display: block;
+  
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 15px solid #121629;
+    
+    transform: translateY(-2px);
+    transition: transform .5s ease-out;
+  }
+
+input:checked ~ .expand-review-lbl {
+    display: block;
+    content:'';
+    transform: rotate(180deg);
+    transition: transform .8s;
+    -webkit-transform: rotate(180deg);
+}

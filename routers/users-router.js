@@ -1,5 +1,7 @@
 const express = require('express');
 const User = require("../data/models/userModel")
+const Review = require("../data/models/reviewModel")
+const Movie = require("../data/models/movieModel")
 const ObjectId= require('mongoose').Types.ObjectId
 const jsStringify = require('js-stringify');
 
@@ -36,6 +38,14 @@ router.param("id", function(request, response, next, id) {
     .populate("usersFollowed", "username")
     .populate("peopleFollowed", "name")
     .populate("followers", "username")
+    .populate({ 
+        path: 'reviews',
+        populate: {
+          path: 'movie',
+          model: 'Movie',
+          select: "title"
+        }
+    })
 	.exec(function(err, result){
 		if(err){
 			console.log(err);
