@@ -39,8 +39,12 @@ body
 
             if loggedIn
                 .right
-                    input.add-to-watchlist-button(type="checkbox" title="Add movie to watchlist")
-                    p.added-text
+                    if watched
+                        input.add-to-watchlist-button(type="checkbox" title="Add movie to watchlist" onclick="removeFromWatchlist()" checked)
+                        p.added-text
+                    else
+                        input.add-to-watchlist-button(type="checkbox" title="Add movie to watchlist" onclick="addToWatchlist()")
+                        p.added-text
 
         .poster-and-info-container
             if movie.poster

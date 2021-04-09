@@ -115,4 +115,25 @@ userSchema.statics.unfollowPerson = function(userId, personId, callback) {
     })
 }
 
+// Returns a Promise with value true if user has movie in watchlist
+userSchema.statics.watchedMovie = function(user, movie) {
+    return this.findById(user).exec().then(result => {
+        return result ? result.watchlist.includes(movie) : false;
+    });
+}
+
+// Adds movie to user's watchlist
+userSchema.methods.addToWatchlist = function(movie, callback) {
+    this.watchlist.push(movie);
+    console.log("ADDED" + this.watchlist)
+    this.save(callback);
+}
+
+// Removes movie from user's watchlist
+userSchema.methods.removeFromWatchlist = function(movie, callback) {
+    this.watchlist = this.watchlist.filter(id => String(movie) != String(id._id))
+    console.log("REMOVED" + this.watchlist)
+    this.save(callback);
+}
+
 module.exports = mongoose.model("User", userSchema);

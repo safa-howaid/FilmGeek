@@ -59,10 +59,12 @@ router.param("id", function(request, response, next, id) {
 // Send a single movie page/object
 function sendMovie(request, response) {
     // Send rendered movie page or movie json data
-    response.format({
-		"text/html": () => {response.render("../views/pages/movie", {movie: response.movie, loggedIn: request.session.loggedIn, jsStringify: jsStringify, userId: request.session.userId, isContributer: request.session.isContributer})},
-		"application/json": () => {response.status(200).json(response.movie)}
-	});
+    User.watchedMovie(request.session.userId, response.movie._id).then(watched => {
+        response.format({
+            "text/html": () => {response.render("../views/pages/movie", {movie: response.movie, loggedIn: request.session.loggedIn, jsStringify: jsStringify, userId: request.session.userId, isContributer: request.session.isContributer, watched: watched})},
+            "application/json": () => {response.status(200).json(response.movie)}
+        });
+    })
 }
 
 //Parse the query parameters

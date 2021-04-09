@@ -19,6 +19,10 @@ router.put('/:id', changeUserContributionStatus)
 router.delete('/:id/usersFollowed', unfollowUser)
 // Unfollow user
 router.post('/:id/usersFollowed', followUser)
+// Add movie to user watchlist
+router.delete('/:id/watchlist', removeFromWatchlist)
+// Remove movie from user watchlist
+router.put('/:id/watchlist', addToWatchlist)
 
 // Load user from database when given movie id
 router.param("id", function(request, response, next, id) {
@@ -146,14 +150,14 @@ function unfollowUser(request, response) {
     User.removeFollower(response.user._id, request.body.userId, function(err, result) {
         if (err) {
             console.log("Error removing follower.")
-            response.status(400).send();
+            return response.status(400).send();
         }
         User.unfollowUser(response.user._id, request.body.userId, function(err, result) {
             if (err) {
                 console.log("Error unfollowing user.")
-                response.status(400).send();
+                return response.status(400).send();
             }
-            response.status(200).send();
+            return response.status(200).send();
         })
     })
 }
@@ -165,17 +169,36 @@ function followUser(request, response) {
     User.addFollower(response.user._id, request.body.userId, function(err, result) {
         if (err) {
             console.log("Error adding follower.")
-            response.status(400).send();
+            return response.status(400).send();
         }
         User.followUser(response.user._id, request.body.userId, function(err, result) {
             if (err) {
                 console.log("Error following user.")
-                response.status(400).send();
+                return response.status(400).send();
             }
-            response.status(200).send();
+            return response.status(200).send();
         })
     })
 }
 
+function addToWatchlist(request, response) {
+    response.user.addToWatchlist(request.body.movieId, function(err, result) {
+        if (err) {
+            console.log("Error adding movie to watchlist.")
+            return response.status(400).send();
+        }
+        return response.status(200).send();
+    })
+}
+
+function removeFromWatchlist(request, response) {
+    response.user.removeFromWatchlist(request.body.movieId, function(err, result) {
+        if (err) {
+            console.log("Error removing movie to watchlist.")
+            return response.status(400).send();
+        }
+        return response.status(200).send();
+    })
+}
 //Export the router object so we can access it in the base app
 module.exports = router;

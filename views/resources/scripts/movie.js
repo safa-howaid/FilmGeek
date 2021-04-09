@@ -15,8 +15,38 @@ function sendReview(event) {
     const xhttp = new XMLHttpRequest();
     xhttp.open("POST", `/reviews`, true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp.onload = function() {
-        alert("Review added successfully!")
-    }
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 201) {
+            alert("Review added successfully!")
+        }
+    };
     xhttp.send("reviewer=" + userId + "&movie=" + movieId + "&rating=" + rating + "&summary=" + summary + "&fullReview=" + fullReview)
+}
+
+function addToWatchlist() {
+    // Send request and alert user of result.
+    const xhttp = new XMLHttpRequest();
+    xhttp.open("PUT", `/users/${userId}/watchlist`, true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            alert("Added to watchlist successfully!")
+            location.reload()
+        }
+    };
+    xhttp.send("movieId=" + movieId)
+}
+
+function removeFromWatchlist() {
+    // Send request and alert user of result.
+    const xhttp = new XMLHttpRequest();
+    xhttp.open("DELETE", `/users/${userId}/watchlist`, true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            alert("Removed from watchlist successfully!")
+            location.reload()
+        }
+    };
+    xhttp.send("movieId=" + movieId)
 }
