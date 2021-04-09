@@ -1,7 +1,7 @@
 mixin movie-container(movie)
     .movie-container
         .left-container
-            img.poster(src=movie.poster)
+            img.poster(src=movie.poster onerror="this.style.display='none'")
             .movie-details-container
                 a.movie-title(href=`/movies/${movie._id}`)= movie.title
                 p.movie-detail= movie.releaseDate

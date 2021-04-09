@@ -303,11 +303,11 @@ hr {
 
 .poster {
     height: 100%;
-    margin-right: 20px;
     min-width: 100px;
 }
 .movie-details-container {
     width: 100%;
+    margin-left: 20px;
 }
 
 .movie-title {
