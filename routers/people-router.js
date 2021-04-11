@@ -18,6 +18,8 @@ router.get('/:id', sendPerson)
 router.post('/:id/followers', addFollower)
 // Remove follower
 router.delete('/:id/followers', removeFollower)
+// Add Person
+router.post('/', addPerson)
 
 // Load person from database when given person id
 router.param("id", function(request, response, next, id) {
@@ -103,6 +105,32 @@ function removeFollower(request, response) {
 
             response.status(200).send();
         })
+    })
+}
+
+async function addPerson(request, response) {
+    //Get the name and convert it to a string of lowercase letters with each word starting with a capital
+    let words = request.body.name.toLowerCase().split(" ");
+    let name = [];
+    words.forEach(word => {
+        word = word[0].toUpperCase() + word.substring(1);
+        name.push(word);
+    })
+    name = name.join(" ");
+
+    // Check if person exists and return error to client
+    let exists = await Person.exists({ name: { $regex: new RegExp("^" + name + "$", "i")}});
+    if (exists) {
+        return response.status(409).send("Person already exists");
+    }
+
+    // Create the new person and return success to client
+    let newPerson = new Person({name: name});
+    newPerson.save(function (err, result) {
+        if (err) {
+            return response.status(400).send("Error saving new person!");
+        }
+        return response.status(201).send("Person already exists!");
     })
 }
 

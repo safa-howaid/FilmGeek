@@ -6,6 +6,7 @@ html(lang="en")
         meta(name="description" content=`Contribution page`)
         link(rel="stylesheet" type="text/css" href="/styles/contribute.css")
         link(rel="shortcut icon" href="/favicon.ico?v=2" type="image/x-icon")
+        script(type="text/javascript" src="/scripts/contribute.js" defer)
         title Contribute
 body
     if isContributer
@@ -37,22 +38,13 @@ body
             input.submit-button(type="submit" value="Submit")
 
 
-        form(action="/people" method="POST")
+        form
             h2 Add a New Person
         
-            label Name:
-            input(type="text" name="Name")
-            
-            label Acting Roles:
-            input(type="text" name="ActingRole")
-            
-            label Writing Roles:
-            input(type="text" name="WritingRole")
+            label(for="name") Name:
+            input(type="text" name="name" id="name")
 
-            label Directing Roles: 
-            input(type="text" name="DirectingRole")
-
-            input.submit-button(type="submit" value="Submit")
+            input.submit-button(type="submit" onClick="addPerson(event)" value="Submit")
         
     
     include ../partials/footer
