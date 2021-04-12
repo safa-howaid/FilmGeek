@@ -84,22 +84,25 @@ body
             p No new notifications.
         else
             for notification in user.notifications
-                form.notification(action=`/users/${user._id}/notifications` method="PUT")
                     if notification.hasOwnProperty("personId")
-                        .left
-                            input(type="hidden" name="id", value=notification._id)
-                            span On #{notification.date}:&nbsp;
-                            a.notification-link(href=`people/${person._id}`)= person.name
-                            span &nbsp;#{notification.details}
-                        input.read-button(type="submit" value="read")
+                        .notification
+                            .left
+                                input(type="hidden" name="id", value=notification._id)
+                                -const formattedDate = notification.date.toLocaleDateString('en-US', {day: 'numeric', month: 'short', year: 'numeric'});
+                                span On #{formattedDate}:&nbsp;
+                                a.notification-link(href=`people/${person._id}`)= person.name
+                                span &nbsp;#{notification.details}
+                            button.read-button read
                         
                     else
-                        .left
-                            input(type="hidden" name="id", value=notification._id)
-                            span On #{notification.date}:&nbsp
-                            a.notification-link(href=`people/${user._id}`)= user.username
-                            span &nbsp;#{notification.details}
-                        input.read-button(type="submit" value="read")
+                        .notification(style="cursor: pointer;" onclick=`window.location='/movies/${notification.review.movie}#${notification.review._id}';`)
+                            .left
+                                input(type="hidden" name="id", value=notification._id)
+                                -const formattedDate = notification.date.toLocaleDateString('en-US', {day: 'numeric', month: 'short', year: 'numeric'});
+                                span On #{formattedDate}:&nbsp;
+                                a.notification-link(href=`users/${notification.user._id}`)= notification.user.username
+                                span &nbsp;#{notification.details}
+                            button.read-button read
             
         h2 Recommended Movies
         if user.recommendedMovies.length == 0

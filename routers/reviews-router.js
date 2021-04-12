@@ -30,6 +30,10 @@ function createReview(request, response) {
     Movie.addReview(request.body.movie, newReview._id)
     Movie.calculateMovieRating(request.body.movie)
     User.addReview(request.body.reviewer, newReview._id)
+
+    User.findById(request.body.reviewer, function (err, result) {
+        result.sendNotifications(newReview._id)
+    })
 }
 
 //Export the router object so we can access it in the base app

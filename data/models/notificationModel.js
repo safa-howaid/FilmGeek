@@ -2,13 +2,21 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const notificationSchema = new Schema({
-    userId: {
+    user: {
         type: Schema.Types.ObjectId,
         ref: "User"
     },
-    personId: {
+    person: {
         type: Schema.Types.ObjectId,
         ref: "Person"
+    },
+    review: {
+        type: Schema.Types.ObjectId,
+        ref: "Review"
+    },
+    movie: {
+        type: Schema.Types.ObjectId,
+        ref: "Movie"
     },
     details: {
         type: String,

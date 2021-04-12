@@ -143,7 +143,21 @@ app.get('/profile', (request, response) => {
         .populate("usersFollowed", "username")
         .populate("peopleFollowed", "name")
         .populate("followers", "username")
-        .populate("notifications")
+        .populate({ 
+            path: 'notifications',
+            populate: [
+                {
+                    path: 'user',
+                    model: 'User',
+                    select: 'username'
+                }, 
+                {
+                    path: 'review',
+                    model: 'Review',
+                    select: 'movie'
+                }
+            ]
+        })
         .populate({ 
             path: 'reviews',
             populate: {
@@ -153,7 +167,7 @@ app.get('/profile', (request, response) => {
             }
         })
         .exec(function(err, result) {
-            // console.log(result)
+            console.log(result)
             return response.status(200)
             .type('html')
             .render("../views/pages/profile", {user: result, jsStringify: jsStringify, errorMessage: errorMessage})

@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
+const Notification = require("./notificationModel");
 
 let userSchema = new Schema({
 	username: {
@@ -136,4 +137,20 @@ userSchema.methods.removeFromWatchlist = function(movie, callback) {
     this.save(callback);
 }
 
-module.exports = mongoose.model("User", userSchema);
+// Sends a notification to all followers that this user has written a new review
+userSchema.methods.sendNotifications = function(reviewId) {
+    this.followers.forEach(async(follower) => {
+        const user = await User.findById(follower)
+        const notification = new Notification({
+            user: this._id,
+            details: " has written a new review.",
+            review: reviewId
+        })
+        user.notifications.push(notification._id)
+        await notification.save()
+        await user.save()
+    })
+}
+
+const User = mongoose.model("User", userSchema)
+module.exports = User;
