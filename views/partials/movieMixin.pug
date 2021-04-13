@@ -12,3 +12,20 @@ mixin movie-container(movie)
                     span ,  
                     a.movie-detail(href=`/people/${movie.actors[1]._id}`)= movie.actors[1].name
         img.movie-rating(src=`/images/rating/${movie.rating}star.svg`)
+
+mixin movie-container-profile(movie)
+    .movie-container
+        .left-container
+            img.poster(src=movie.poster onerror="this.style.display='none'")
+            .movie-details-container
+                a.movie-title(href=`/movies/${movie._id}`)= movie.title
+                p.movie-detail= movie.releaseDate
+
+                if movie.actors.length >= 1
+                    a.movie-detail(href=`/people/${movie.actors[0]._id}`)= movie.actors[0].name
+                if movie.actors.length >= 2
+                    span ,  
+                    a.movie-detail(href=`/people/${movie.actors[1]._id}`)= movie.actors[1].name
+        .right-container
+            img.movie-rating(src=`/images/rating/${movie.rating}star.svg`)
+            button(onclick='removeFromWatchlist("'+movie._id +'")').remove-watchlist Remove

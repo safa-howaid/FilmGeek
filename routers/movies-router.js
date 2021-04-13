@@ -138,13 +138,13 @@ function loadMovies(request, response, next){
 	})
 }
 
-function displayMovieSearchPage(request, response) {
-    Movie.find().distinct("genre", function(err, genres){
-        response.format({
-            "text/html": () => {response.render("../views/pages/movies", {movies: response.movies, queryString: request.qstring, currentPage: request.query.page, genres: genres, isContributer: request.session.isContributer, loggedIn: request.session.loggedIn})},
-            "application/json": () => {response.status(200).json(response.movies)}
-        });
-    })
+async function displayMovieSearchPage(request, response) {
+    const genres = await Movie.find().distinct("genre");
+    response.format({
+        "text/html": () => {response.render("../views/pages/movies", {movies: response.movies, queryString: request.qstring, currentPage: request.query.page, genres: genres, isContributer: request.session.isContributer, loggedIn: request.session.loggedIn})},
+        "application/json": () => {response.status(200).json(response.movies)}
+    });
+
 }
 
 //Export the router object so we can access it in the base app

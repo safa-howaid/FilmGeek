@@ -28,3 +28,17 @@ function changeContributionState(event) {
     }
     xhttp.send("isContributer=" + isContributer)
 }
+
+function removeFromWatchlist(movieId) {
+    // Send request and alert user of result.
+    const xhttp = new XMLHttpRequest();
+    xhttp.open("DELETE", `/users/${user._id}/watchlist`, true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            alert("Removed from watchlist successfully!")
+            location.reload()
+        }
+    };
+    xhttp.send("movieId=" + movieId)
+}

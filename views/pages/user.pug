@@ -1,5 +1,6 @@
 include ../partials/reviewMixins
 include ../partials/headerMixins
+include ../partials/movieMixin
 doctype html
 html(lang="en")
     head
@@ -8,6 +9,7 @@ html(lang="en")
         link(rel="shortcut icon" href="/favicon.ico?v=2" type="image/x-icon")
         link(rel="stylesheet" type="text/css" href="/styles/user-page.css")
         link(rel="stylesheet" type="text/css" href="/styles/user-reviews.css")
+        link(rel="stylesheet" type="text/css" href="/styles/movie-container.css")
         title #{user.username}
         script.
             let currentUser = !{jsStringify(currentUser)};
@@ -37,7 +39,7 @@ body
             p This user doesn't have any movies in their watchlist.
         else
             each movie in user.watchlist
-                a(href=`/movies/${movie._id}`)= movie.title   
+                +movie-container(movie)
 
         h2 Users they Follow
         if user.usersFollowed.length == 0

@@ -1,5 +1,6 @@
 include ../partials/headerMixins
 include ../partials/reviewMixins
+include ../partials/movieMixin
 doctype html
 html(lang="en")
     head
@@ -56,7 +57,7 @@ body
             p There are no movies in your watchlist.
         else
             each movie in user.watchlist
-                a(href=`/movies/${movie._id}`)= movie.title   
+                +movie-container-profile(movie) 
 
         h2 Users you Follow
         if user.usersFollowed.length == 0

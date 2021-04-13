@@ -38,7 +38,14 @@ router.param("id", function(request, response, next, id) {
 	}
 
     User.findById(oid)
-    .populate("watchlist", "title")
+    .populate({ 
+        path: 'watchlist',
+        populate: {
+          path: 'actors',
+          model: 'Person',
+          select: "name"
+        }
+    })
     .populate("usersFollowed", "username")
     .populate("peopleFollowed", "name")
     .populate("followers", "username")

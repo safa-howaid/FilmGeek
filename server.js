@@ -138,7 +138,14 @@ app.get('/profile', (request, response) => {
         request.session.errorMessage = null
 
         User.findOne({username: request.session.username})
-        .populate("watchlist", "title")
+        .populate({ 
+            path: 'watchlist',
+            populate: {
+              path: 'actors',
+              model: 'Person',
+              select: "name"
+            }
+        })
         .populate("recommendedMovies", "title")
         .populate("usersFollowed", "username")
         .populate("peopleFollowed", "name")

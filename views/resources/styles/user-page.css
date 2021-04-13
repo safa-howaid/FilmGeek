@@ -117,6 +117,54 @@ h1 {
   -webkit-transform: translateY(4px);
 }
 
+.movie-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background: #121629;
+    border: 8px solid #121629;
+    box-shadow: 5px 9px 4px rgba(35, 41, 70, 0.6);
+    border-radius: 7px;
+    height: 130px;
+    color: white;
+    font-weight: 600;
+    margin: 10px;
+    box-sizing: border-box;
+    z-index: 1;
+}
+
+.left-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.poster {
+    height: 100%;
+}
+.movie-details-container {
+    width: 100%;
+    margin-left: 20px;
+}
+
+.movie-title {
+    color: #FFA630 !important;  
+    font-weight: 700;
+    font-size: 110%;
+    margin: 10px 0px;
+}
+
+.movie-detail {
+    font-size: 80%;
+    margin: 5px;
+    color: white !important;
+    z-index: 2;
+}
+
+.movie-rating {
+    align-self: flex-start;
+    width: 20%;
+}
+
 footer {
     display: flex;
     align-items: center;
