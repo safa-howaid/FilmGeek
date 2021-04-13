@@ -49,7 +49,7 @@ function createPeopleObjects(people, movieId, role) {
         let personObject;
 
         // Check if person exists. If not, then create them
-        if (!allPeople.hasOwnProperty(person)) {
+        if (!allPeople.hasOwnProperty(person) && person != "N/A") {
             personObject = new Person({
                 name: person
             })
@@ -57,13 +57,17 @@ function createPeopleObjects(people, movieId, role) {
         else {
             personObject = allPeople[person]
         }
-        personObject[role].push(movieId)
-        peopleObjects.push(personObject._id)
-        allPeople[person] = personObject
+
+        if (personObject) {
+            personObject[role].push(movieId)
+            peopleObjects.push(personObject._id)
+            allPeople[person] = personObject
+        }
     })
     return peopleObjects
 }
 
+// Creates two sample users that have reviewed all movies
 function createUserObjects() {
     let recommendation1 = [allMovies[0]._id, allMovies[1]._id, allMovies[2]._id]
     let recommendation2 = [allMovies[3]._id, allMovies[4]._id, allMovies[5]._id]
@@ -130,13 +134,31 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min); //The maximum is inclusive and the minimum is inclusive
 }
 
+// Find collaborators for all people
+function findCollaborators() {
+    return new Promise(function(resolve, reject) {
+        Movie.find().populate("directors actors writers").exec(function (err, movies) {
+            if(err) {
+                reject(err)
+            } 
+    
+            movies.forEach(async (movie) => {
+                movie.findCollaborators()
+                .then((result) => {resolve(result)})
+                .catch((error) =>{reject(error)})
+            })
+        })
+    })
+}
+
 createMovieObjects()
 
 mongoose.connect(`mongodb://localhost/${databaseName}`, {useNewUrlParser: true,  useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true});
 const database = mongoose.connection;
 database.on('error', console.error.bind(console, 'connection error:'));
+
 database.once('open', function() {
-	database.dropDatabase(function(err, result){
+	database.dropDatabase(async function(err, result){
 		if(err){
 			console.log("Error dropping database:");
 			console.log(err);
@@ -145,51 +167,55 @@ database.once('open', function() {
 		console.log("Dropped database. Starting re-creation.");
 		
         //Add all of the movie documents to the database
-        Movie.insertMany(allMovies, function(err, result){
+        await Movie.insertMany(allMovies, function(err, result){
             if(err){
                 console.log(err);
                 return;
             }
             console.log("All " + result.length + " movies were added.")
+        });
             
-            //Add all of the people documents to the database
-            Person.insertMany(Object.values(allPeople), function(err, result){
-                if(err){
-                    console.log(err);
-                    return;
-                }
-                console.log("All " + result.length + " people were added.")
+        //Add all of the people documents to the database
+        await Person.insertMany(Object.values(allPeople), function(err, result){
+            if(err){
+                console.log(err);
+                return;
+            }
+            console.log("All " + result.length + " people were added.")
+        });
 
-                //Add all of the user documents to the database
-                User.insertMany(allUsers, function(err, result){
-                    if(err){
-                        console.log(err);
-                        return;
-                    }
-                    console.log("All " + result.length + " users were added.")
+        //Add all of the user documents to the database
+        await User.insertMany(allUsers, function(err, result){
+            if(err){
+                console.log(err);
+                return;
+            }
+            console.log("All " + result.length + " users were added.")
+        });
 
-                    //Add all of the user documents to the database
-                    Review.insertMany(allReviews, function(err, result){
-                        if(err){
-                            console.log(err);
-                            return;
-                        }
-                        console.log("All " + result.length + " reviews were added.")
+        //Add all of the review documents to the database
+        await Review.insertMany(allReviews, async function(err, result){
+            if(err){
+                console.log(err);
+                return;
+            }
+            console.log("All " + result.length + " reviews were added.")
 
-                        //Once all movies/people have been added, query for movie Dead Poets Society and person Robin Williams
-                        Movie.findOne({title: "Dead Poets Society"}).populate("directors actors writers reviews").exec(function(err, result){
-                            if(err)throw err;
-                            console.log(result);
-                            
-                            Person.findOne({name: "Robin Williams"}).populate("actingRoles directingRoles writingRoles").exec(function(err, result){
-                                if(err)throw err;
-                                console.log(result);
-                                mongoose.connection.close()
-                            })
-                        })
-                    });
-                });
-            });
+            // Message to show that the script is still running
+            setInterval(function() {console.log("Finding collaborators...")}, 300)
+            
+            // Run algorithm to find all collaborations
+            findCollaborators()
+            .catch((error) => {console.log(error);})
+            .then(async (result) => {
+                // Find frequent collaborators for all people
+                Person.findAllFrequentCollaborators()
+                .then((result) => {
+                    console.log('All done.');
+                    mongoose.connection.close()
+                    process.exit()
+                })
+            })
         });
 	});
 });

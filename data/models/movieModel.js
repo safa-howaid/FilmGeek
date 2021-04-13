@@ -95,4 +95,52 @@ movieSchema.statics.calculateMovieRating = function(movieId) {
     })
 }
 
+movieSchema.methods.findCollaborators = async function() {
+    const allPeople = getAllPeopleFromMovie(this)
+
+    await Promise.all(allPeople.map(async (person) => {
+        allPeople.forEach(otherPerson => {
+            if (String(person._id) != String(otherPerson._id)) {
+                let collaborator = person.collaborators.find(collaborator => String(collaborator["person"]) == String(otherPerson._id));
+
+                if(collaborator) {
+                    collaborator.frequency += 1
+                }
+                else {
+                    person.collaborators.push({person: otherPerson._id, frequency: 1})
+                }
+            }
+        })
+        await person.save()
+      }));
+}
+
+function getAllPeopleFromMovie(movie) {
+    let allPeople = []
+    let addedPeople = new Set()
+    
+    movie.actors.forEach(person => {
+        let id = String(person._id)
+        if (!addedPeople.has(id)) {
+            allPeople.push(person)
+            addedPeople.add(id)
+        }
+    })
+    movie.writers.forEach(person => {
+        let id = String(person._id)
+        if (!addedPeople.has(id)) {
+            allPeople.push(person)
+            addedPeople.add(id)
+        }
+    })
+    movie.directors.forEach(person => {
+        let id = String(person._id)
+        if (!addedPeople.has(id)) {
+            allPeople.push(person)
+            addedPeople.add(id)
+        }
+    })
+    return allPeople;
+}
+
 module.exports = mongoose.model("Movie", movieSchema);
