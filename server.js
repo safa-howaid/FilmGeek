@@ -149,7 +149,7 @@ app.get('/profile', (request, response) => {
               select: "name"
             }
         })
-        .populate("recommendedMovies", "title")
+        .populate("recommendedMovies", "title poster")
         .populate("usersFollowed", "username")
         .populate("peopleFollowed", "name")
         .populate("followers", "username")

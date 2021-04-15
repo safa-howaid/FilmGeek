@@ -109,8 +109,10 @@ body
         if user.recommendedMovies.length == 0
             p There are no recommended movies available for you.
         else
-            each movie in user.recommendedMovies
-                a(href=`/movies/${movie._id}`)= movie.title
+            .movie-poster-container
+                each movie in user.recommendedMovies
+                    a(href=`/movies/${movie._id}`)
+                        img.movie-poster(src=movie.poster alt=`${movie.title} poster`)
 
         h2 Reviews
         if user.reviews.length == 0

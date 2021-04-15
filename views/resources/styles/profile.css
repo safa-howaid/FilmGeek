@@ -220,6 +220,23 @@ form {
   -webkit-transform: translateY(4px);
 }
 
+.movie-poster-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 20px 40px 10px 40px;
+}
+
+.movie-poster {
+    width: 75%;
+    transition: 0.3s;
+}
+
+.movie-poster:hover{
+	-webkit-transform: translateY(-10px);
+	transform: translateY(-10px);
+}
+
 .movie-container {
     display: flex;
     flex-direction: row;
