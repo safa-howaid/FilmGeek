@@ -172,6 +172,27 @@ function recommendMovies() {
     })
 }
 
+// Find similar movies for all movies
+function findSimilarMovies() {
+    return new Promise((resolve, reject) => {
+        Movie.find().exec(function(err, movies) {
+            if(err){
+                reject(err);
+            }
+
+            let count = 0;
+            movies.forEach(movie => {
+                movie.findSimilarMovies()
+                count++;
+            })
+
+            if(count == movies.length){
+                resolve()
+            }
+        })
+    })
+}
+
 createMovieObjects()
 
 mongoose.connect(`mongodb://localhost/${databaseName}`, {useNewUrlParser: true,  useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true});
@@ -250,11 +271,19 @@ database.once('open', function() {
 
         // Message to show that the script is still running
         setInterval(function() {console.log("Database initialization still in progress....")}, 500)
+
         // Run algorithm to find all collaborations
         await findCollaborators()
         .catch((error) => {console.log(error);})
         .then((result) => {
             console.log("All collaborations were found")
+        })
+
+        //Find similar movies for all movies
+        await findSimilarMovies()
+        .catch((error) => {console.log(error);})
+        .then((result) => {
+            console.log("Similar movies were added for each movie.")
         })
 
         // Find frequent collaborators for all people

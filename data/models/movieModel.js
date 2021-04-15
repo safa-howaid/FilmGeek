@@ -144,4 +144,38 @@ function getAllPeopleFromMovie(movie) {
     return allPeople;
 }
 
-module.exports = mongoose.model("Movie", movieSchema);
+// Find the highest-rated movies that contain all the genres as this movie.
+// If there are less than 5, find the highest-rated movies that contain at least one of the genres in this movie.
+movieSchema.methods.findSimilarMovies = async function() {
+    const filter = {_id: {$ne: this._id}, genre: {$all : this.genre}};
+    const fields = null;
+    const options = {
+        limit: 5,
+        sort: {
+            rating: -1
+        }
+    };
+    let similarMovies = await Movie.find(filter, fields, options)
+
+    if(similarMovies.length != 5) {
+        const filter = {_id: {$ne: this._id}, genre: {$in : this.genre}};
+        const fields = null;
+        const options = {
+            limit: 5,
+            sort: {
+                rating: -1
+            }
+        };
+        similarMovies = await Movie.find(filter, fields, options);
+    }
+
+    this.similarMovies = similarMovies;
+    await this.save().catch(err => {
+        if (err) {
+            console.log("Error saving similar movies.");
+        }     
+    })
+}
+
+const Movie = mongoose.model("Movie", movieSchema);
+module.exports = Movie;

@@ -38,6 +38,7 @@ router.param("id", function(request, response, next, id) {
           select: "username"
         }
     })
+    .populate("similarMovies", "poster title")
 	.exec(function(err, result){
 		if(err){
 			console.log(err);

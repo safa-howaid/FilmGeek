@@ -113,6 +113,13 @@ body
                 .add-review-bottom
                     button.submit-button(onClick="sendReview(event)") Submit
 
+        if movie.similarMovies.length > 0
+            h1 Similar Movies
+            .movie-poster-container
+                each film in movie.similarMovies
+                    a(href=`/movies/${film._id}`)
+                        img.movie-poster(src=film.poster alt=`${film.title} poster`)
+
         h1 Reviews
         if movie.reviews.length == 0
             p There are no reviews for this movie yet.
