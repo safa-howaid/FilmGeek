@@ -9,10 +9,13 @@ const Notification = require("./data/models/notificationModel.js")
 const MongoDBStore = require("connect-mongodb-session")(session);
 const favicon = require('serve-favicon');
 const jsStringify = require('js-stringify');
+const morgan  = require('morgan')
 
 
 const app = express();
 const port = 3000;
+
+app.use(morgan('dev'))
 
 const store = new MongoDBStore({
     uri: "mongodb://localhost/FilmGeekDB",

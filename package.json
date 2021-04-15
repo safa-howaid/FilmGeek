@@ -16,8 +16,8 @@
     "js-stringify": "^1.0.2",
     "mongod": "^2.0.0",
     "mongoose": "^5.12.2",
+    "morgan": "^1.10.0",
     "pug": "^3.0.2",
-    "serve-favicon": "^2.5.0",
-    "shortid": "^2.2.16"
+    "serve-favicon": "^2.5.0"
   }
 }
