@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 const Notification = require("./notificationModel");
+const Movie = require("./movieModel");
 
 let userSchema = new Schema({
 	username: {
@@ -150,6 +151,65 @@ userSchema.methods.sendNotifications = function(reviewId) {
         await notification.save()
         await user.save()
     })
+}
+
+// Recommend the 5 highest rated movies to the user
+// NOTE: only for users with no movies in their watchlist
+userSchema.methods.recommendTopRatedMovies = async function() {
+    let movies = await Movie.getTopMovies()
+
+    movies.forEach(movie => {
+        this.recommendedMovies.push(movie._id)
+    })
+
+    this.save(function(err, result) {
+        if (err) {
+            console.log("Error saving movie recommendation.")
+        }
+    })
+}
+
+// Add a movie recommendation for the user based on the most frequent genre in their watchlist
+userSchema.methods.recommendMovies = async function() {
+    let genre = getGenreForRecommendation(this)
+
+    let movies = []
+    await Movie.findByQuery(1, 5, "?", genre, "?").then(result => {
+        result.forEach(movie => {
+            movies.push(movie._id)
+        })
+    })
+    this.recommendedMovies = movies
+
+    this.save(function(err, result) {
+        if (err) {
+            console.log("Error saving movie recommendation.")
+        }
+    })
+}
+
+// Returns the most frequent genre in the given user's watchlist
+// If tied, just returns the first genre after sorting by frequencies
+function getGenreForRecommendation(user) {
+    let genreFrequencies = []
+
+    user.watchlist.forEach(movie => {
+        movie.genre.forEach(genre => {
+            let specificGenre = genreFrequencies.filter(obj => obj['genre'] == genre)[0]
+            if (!specificGenre) {
+                genreFrequencies.push({genre: genre, frequency: 1})    
+            }
+            else {
+                specificGenre.frequency++;
+            }
+        })
+    })
+    genreFrequencies.sort((a, b) => b.frequency - a.frequency)
+
+    if (genreFrequencies[0]) {
+        return genreFrequencies[0].genre
+    }
+    return "?"
 }
 
 const User = mongoose.model("User", userSchema)

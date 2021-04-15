@@ -143,6 +143,7 @@ function createNewUser(request, response, next) {
         request.session.username = username;
         request.session.userId = result._id;
         request.session.isContributer = false;
+        newUser.recommendTopRatedMovies()
         return response.format({
             "text/html": () => response.redirect("/profile"),
             "application/json": () => {response.status(201).json(result)}
@@ -194,6 +195,8 @@ function addToWatchlist(request, response) {
             console.log("Error adding movie to watchlist.")
             return response.status(400).send();
         }
+        // Adjust movie recommendation
+        response.user.recommendMovies()
         return response.status(200).send();
     })
 }
@@ -204,6 +207,8 @@ function removeFromWatchlist(request, response) {
             console.log("Error removing movie to watchlist.")
             return response.status(400).send();
         }
+        // Adjust movie recommendation
+        response.user.recommendMovies()
         return response.status(200).send();
     })
 }

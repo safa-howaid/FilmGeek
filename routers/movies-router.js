@@ -118,12 +118,8 @@ function queryParser(request, response, next){
 
 //Find matching products by querying Movie model
 function loadMovies(request, response, next){
-	Movie.findByQuery(request.query.page, 10, request.query.title, request.query.genre, request.query.actor, function(err, results){
-		if(err){
-			response.status(500).send("Error reading movies.");
-			console.log(err);
-			return;
-		}
+	Movie.findByQuery(request.query.page, 10, request.query.title, request.query.genre, request.query.actor)
+    .then(results => {
 		console.log("Found " + results.length + " matching movies.");
 		response.movies = results;
         results.forEach(result =>{
@@ -136,6 +132,11 @@ function loadMovies(request, response, next){
 		next();
 		return;
 	})
+    .catch(err => {
+        response.status(500).send("Error reading movies.");
+        console.log(err);
+        return;
+    })
 }
 
 async function displayMovieSearchPage(request, response) {
@@ -144,7 +145,6 @@ async function displayMovieSearchPage(request, response) {
         "text/html": () => {response.render("../views/pages/movies", {movies: response.movies, queryString: request.qstring, currentPage: request.query.page, genres: genres, isContributer: request.session.isContributer, loggedIn: request.session.loggedIn})},
         "application/json": () => {response.status(200).json(response.movies)}
     });
-
 }
 
 //Export the router object so we can access it in the base app

@@ -151,6 +151,27 @@ function findCollaborators() {
     })
 }
 
+// Recommend movies for all users
+function recommendMovies() {
+    return new Promise((resolve, reject) => {
+        User.find().populate("watchlist").exec(function(err, users) {
+            if(err){
+                reject(err);
+            }
+
+            let count = 0;
+            users.forEach(user => {
+                user.recommendMovies()
+                count++;
+            })
+
+            if(count == users.length){
+                resolve()
+            }
+        })
+    })
+}
+
 createMovieObjects()
 
 mongoose.connect(`mongodb://localhost/${databaseName}`, {useNewUrlParser: true,  useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true});
@@ -167,55 +188,82 @@ database.once('open', function() {
 		console.log("Dropped database. Starting re-creation.");
 		
         //Add all of the movie documents to the database
-        await Movie.insertMany(allMovies, function(err, result){
+        await Movie.insertMany(allMovies)
+        .catch(err => {
             if(err){
                 console.log(err);
                 return;
             }
+        })
+        .then(result => {
             console.log("All " + result.length + " movies were added.")
-        });
+        })
+            
             
         //Add all of the people documents to the database
-        await Person.insertMany(Object.values(allPeople), function(err, result){
+        await Person.insertMany(Object.values(allPeople))
+        .catch(err => {
             if(err){
                 console.log(err);
                 return;
             }
+        })
+        .then(result => {
             console.log("All " + result.length + " people were added.")
-        });
+        })
 
         //Add all of the user documents to the database
-        await User.insertMany(allUsers, function(err, result){
+        await User.insertMany(allUsers)
+        .catch(err => {
             if(err){
                 console.log(err);
                 return;
             }
+        })
+        .then(result => {
             console.log("All " + result.length + " users were added.")
-        });
+        })
 
         //Add all of the review documents to the database
-        await Review.insertMany(allReviews, async function(err, result){
+        await Review.insertMany(allReviews)
+        .catch(err => {
             if(err){
                 console.log(err);
                 return;
             }
+        })
+        .then(result => {
             console.log("All " + result.length + " reviews were added.")
+        })
 
-            // Message to show that the script is still running
-            setInterval(function() {console.log("Finding collaborators...")}, 300)
-            
-            // Run algorithm to find all collaborations
-            findCollaborators()
-            .catch((error) => {console.log(error);})
-            .then(async (result) => {
-                // Find frequent collaborators for all people
-                Person.findAllFrequentCollaborators()
-                .then((result) => {
-                    console.log('All done.');
-                    mongoose.connection.close()
-                    process.exit()
-                })
-            })
-        });
-	});
+        // Add movie recommendation for generated users
+        await recommendMovies()
+        .catch(err => {
+            if(err){
+                console.log(err);
+                return;
+            }
+        })
+        .then(result => {
+            console.log("Movie recommendations for users were added.")
+        })
+
+        // Message to show that the script is still running
+        setInterval(function() {console.log("Database initialization still in progress....")}, 500)
+        // Run algorithm to find all collaborations
+        await findCollaborators()
+        .catch((error) => {console.log(error);})
+        .then((result) => {
+            console.log("All collaborations were found")
+        })
+
+        // Find frequent collaborators for all people
+        await Person.findAllFrequentCollaborators()
+        .then((result) => {
+            console.log("Frequent collaborators were added for each person.")
+            console.log('All done!');
+            mongoose.connection.close()
+            process.exit()
+        })
+    });
 });

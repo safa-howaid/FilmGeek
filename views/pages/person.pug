@@ -46,10 +46,10 @@ body
                 a(href=`/movies/${movie._id}`)= movie.title 
                 br
         
-        if person.hasOwnProperty("frequentCollaborators")
+        if person.frequentCollaborators
             h2 Frequent Collaborators
-            each person in person.frequentCollaborators
-                a(href=`/people/${person._id}`)= person.name 
+            each p in person.frequentCollaborators
+                a(href=`/people/${p._id}`)= p.name 
                 br
     
     include ../partials/footer

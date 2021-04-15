@@ -64,7 +64,7 @@ app.use("/reviews", reviewsRouter);
 
 // Handlers for other resources
 app.get('/', (request, response) => {
-    Movie.getTopMovies(function(err, result) {
+    Movie.getTopMovies().then(result => {
         response.status(200)
         .type('html')
         .render("../views/pages/homepage", {movies: result, loggedIn: request.session.loggedIn, isContributer: request.session.isContributer});
@@ -187,11 +187,12 @@ app.get('/profile', (request, response) => {
 
 // If logged in, render contribute page
 // If not logged in, redirect to log in page
-app.get('/contribute', (request, response) => {
+app.get('/contribute', async (request, response) => {
     if (request.session.isContributer) {
+        const genres = await Movie.find().distinct("genre");
         response.status(200)
         .type('html')
-        .render("../views/pages/contribute", {isContributer: request.session.isContributer})
+        .render("../views/pages/contribute", {isContributer: request.session.isContributer, genres: genres})
     }
     else if (request.session.loggedIn) {
         request.session.errorMessage = "You must be a contributing user to access the contribute page!"

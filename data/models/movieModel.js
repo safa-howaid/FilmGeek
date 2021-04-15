@@ -51,7 +51,7 @@ let movieSchema = new Schema({
     }]
 });
 
-movieSchema.statics.getTopMovies = function(callback) {
+movieSchema.statics.getTopMovies = function() {
     const filter = {};
     const fields = null;
     const options = {
@@ -60,14 +60,13 @@ movieSchema.statics.getTopMovies = function(callback) {
             rating: -1
         }
     }
-
-    this.find(filter, fields, options, callback)
+    return this.find(filter, fields, options)
 }
 
-movieSchema.statics.findByQuery = function(page, limit, title, genre, actor, callback) {
+movieSchema.statics.findByQuery = function(page, limit, title, genre, actor) {
     let startIndex = ((page - 1) * limit);
     
-    this.aggregate([
+    return this.aggregate([
         {$lookup: { from: "people", localField: "actors", foreignField: "_id", as: "actors"}},
         {$match: {
             "actors.name" : {$regex: new RegExp(".*" + actor + ".*") , $options: "i"},
@@ -77,7 +76,7 @@ movieSchema.statics.findByQuery = function(page, limit, title, genre, actor, cal
         {$sort: {rating: -1}},
         {$skip: startIndex},
         {$limit: limit}
-    ]).exec(callback)
+    ])
 }
 
 movieSchema.statics.addReview = function(movieId, reviewId) {
@@ -111,8 +110,10 @@ movieSchema.methods.findCollaborators = async function() {
                 }
             }
         })
-        await person.save()
-      }));
+        await person.save().catch(err => {
+            
+        })
+    }));
 }
 
 function getAllPeopleFromMovie(movie) {
