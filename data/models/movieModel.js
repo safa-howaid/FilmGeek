@@ -5,10 +5,10 @@ let movieSchema = new Schema({
 	title: {
 		type: String, 
 		required: [true, "Movie title is a required field"],
-        unique: true
 	},
     ageRating: {
-        type: String
+        type: String,
+        default: "Not Rated"
     },
     releaseDate: {
         type: String
