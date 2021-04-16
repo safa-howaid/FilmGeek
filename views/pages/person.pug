@@ -46,7 +46,7 @@ body
                 a(href=`/movies/${movie._id}`)= movie.title 
                 br
         
-        if person.frequentCollaborators
+        if person.frequentCollaborators.length != 0
             h2 Frequent Collaborators
             each p in person.frequentCollaborators
                 a(href=`/people/${p._id}`)= p.name 

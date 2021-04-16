@@ -132,6 +132,7 @@ async function addPerson(request, response) {
 
     // Check if person exists and return error to client
     let exists = await Person.exists({ name: { $regex: new RegExp("^" + name + "$", "i")}});
+
     if (exists) {
         return response.status(409).send("Person already exists");
     }
@@ -142,7 +143,7 @@ async function addPerson(request, response) {
         if (err) {
             return response.status(400).send("Error saving new person!");
         }
-        return response.status(201).send("Person already exists!");
+        return response.status(201).send(String(newPerson._id));
     })
 }
 

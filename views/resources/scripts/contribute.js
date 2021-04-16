@@ -12,8 +12,19 @@ function addPerson(event) {
     xhttp.open("POST", `/people`, true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.onreadystatechange = function() {
-        if (this.readyState == 4) {
+        if (this.readyState == 4 && this.status != 201) {
             alert(this.responseText);
+        }
+        else if (this.readyState == 4 && this.status == 201){
+            let id = this.response
+            let response = confirm("Person added successfully! Would you like to be redirected to the person's page?");
+            if (response) {
+                window.location.href = `/people/${id}`;
+                return
+            }
+            else {
+                document.getElementById("name").value = ""
+            }
         }
     };
     xhttp.send("name=" + name);
@@ -68,13 +79,29 @@ function addMovie(event) {
                 window.location.href = `/movies/${id}`;
                 return
             }
+            else {
+                document.getElementById("title").value = ""
+                document.getElementById("plot").value = ""
+                document.getElementById("runtime").value = ""
+                document.getElementById("actor-search").value = ""
+                document.getElementById("writer-search").value = ""
+                document.getElementById("director-search").value = ""
+                actorList = []
+                directorList = []
+                writerList = []
+                genreList = []
+                document.getElementById("actor-search-results").style.display = "none";
+                document.getElementById("writer-search-results").style.display = "none";
+                document.getElementById("director-search-results").style.display = "none";
+                updateDisplay()
+            }
         }
         else if (this.readyState == 4 && this.status != 201) { 
             alert("Error adding movie, please try again.");
-            event.preventDefault();
         }
     };
     xhttp.send(JSON.stringify(movie));
+    event.preventDefault();
 }
 
 let actorList = [];
