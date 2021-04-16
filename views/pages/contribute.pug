@@ -7,6 +7,7 @@ html(lang="en")
         link(rel="stylesheet" type="text/css" href="/styles/contribute.css")
         link(rel="shortcut icon" href="/favicon.ico?v=2" type="image/x-icon")
         script(type="text/javascript" src="/scripts/contribute.js" defer)
+        script(type="text/javascript" src="/scripts/datePicker.js" defer)
         title Contribute
 body
     if isContributer
@@ -17,34 +18,74 @@ body
     div#main
         h1 Contribute
 
-        form(action="/movies" method="POST")
+        form.form
             h2 Add a New Movie
             
-            label Title:
-            input(type="text" name="Title")
+            label.section(for="title") Title:
+            input.text-input(type="text" id="title" required)
 
-            label Genre:
-            input(type="text" name="Genre")
+            label.section(for="genre") Genre:
+            #genre-list.selected-container
+            div(id="genre")
+                each genre in genres
+                    .search-result-container(onclick=`addToGenreList("${genre}")`)
+                        label= genre 
+    
+            label.section(for="actor-search") Actors:
+            #actor-list.selected-container
+            input.search-input(type="search" id="actor-search" oninput="startActorSearch(this.value)")
+            #actor-search-results.search-results
+
+            label.section(for="writer-search") Writers:  
+            #writer-list.selected-container
+            input.search-input(type="search" id="writer-search" oninput="startWriterSearch(this.value)")
+            #writer-search-results.search-results
             
-            label Actors:
-            input(type="text" name="Actor")
+            label.section(for="director-search") Directors: 
+            #director-list.selected-container
+            input.search-input(type="search" id="director-search" oninput="startDirectorSearch(this.value)")
+            #director-search-results.search-results
 
-            label Writers:  
-            input(type="text" name="Writer")
-            
-            label Directors:   
-            input(type="text" name="Director")
+            label.section(for="releaseDate") Release Date: 
+            .date-picker
+                span
+                    label(for="day") Day:
+                    select(id="day" required)
+                span
+                    label(for="month") Month:
+                    select(id="month" required)
+                        option(selected) January
+                        option February
+                        option March
+                        option April
+                        option May
+                        option June
+                        option July
+                        option August
+                        option September
+                        option October
+                        option November
+                        option December
+                span
+                    label(for="year") Year:
+                    select(id="year" required)
 
-            input.submit-button(type="submit" value="Submit")
+            label.section(for="runtime") Runtime (in minutes):  
+            input.text-input(id="runtime" type="number" required)
+
+            label.section(for="plot" required) Plot:  
+            textarea.text-input(id="plot")
+
+            button.submit-button(type="submit" onclick="addMovie(event)") Submit
 
 
-        form
+        form.form
             h2 Add a New Person
         
-            label(for="name") Name:
-            input(type="text" name="name" id="name")
+            label.section(for="name") Name:
+            input.text-input(type="text" name="name" id="name")
 
-            input.submit-button(type="submit" onClick="addPerson(event)" value="Submit")
+            button.submit-button(onclick="addPerson(event)") Submit
         
     
     include ../partials/footer

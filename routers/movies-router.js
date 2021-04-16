@@ -12,6 +12,7 @@ let router = express.Router();
 
 router.get('/', [queryParser, loadMovies, displayMovieSearchPage])
 router.get('/:id', sendMovie)
+router.post('/', addMovie)
 
 // Load movie from database when given movie id
 router.param("id", function(request, response, next, id) {
@@ -146,6 +147,18 @@ async function displayMovieSearchPage(request, response) {
         "text/html": () => {response.render("../views/pages/movies", {movies: response.movies, queryString: request.qstring, currentPage: request.query.page, genres: genres, isContributer: request.session.isContributer, loggedIn: request.session.loggedIn})},
         "application/json": () => {response.status(200).json(response.movies)}
     });
+}
+
+function addMovie(request, response) {
+    let newMovie = new Movie(request.body)
+    newMovie.save(function (err, result) {
+        if (err) {
+            response.status(500).send("Error saving movie.");
+            console.log(err);
+            return;
+        }
+        response.status(201).send(String(newMovie._id))
+    })
 }
 
 //Export the router object so we can access it in the base app

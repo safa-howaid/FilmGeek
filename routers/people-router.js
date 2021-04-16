@@ -11,7 +11,7 @@ const User = require("../data/models/userModel")
 //Create the router
 let router = express.Router();
 
-router.get('/', (request, response) => {response.send("People Search")})
+router.get('/', getPeople)
 // Retrieve a person page/json
 router.get('/:id', sendPerson)
 // Add follower
@@ -56,6 +56,18 @@ router.param("id", function(request, response, next, id) {
 		next();
 	});
 })
+
+function getPeople(request, response) {
+    const filter = {name: {$regex: new RegExp("^" + request.query.name + ".*") , $options: "i"}};
+    const fields = null;
+    const options = {
+        limit: 5,
+    }
+    Person.find(filter, fields, options).then(people => {
+        let searchResults = people.reduce((object, person) => {object[person.name] = person._id; return object} , {})
+        response.status(200).json(searchResults)
+    })
+}
 
 // Send a single person page/object
 function sendPerson(request, response) {
