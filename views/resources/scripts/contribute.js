@@ -41,7 +41,7 @@ function addMovie(event) {
     let runtime = document.getElementById("runtime").value;
     let actors = actorList.reduce((array, person) => {array.push(person.id); return array}, [])
     let writers = writerList.reduce((array, person) => {array.push(person.id); return array}, [])
-    let directors = writerList.reduce((array, person) => {array.push(person.id); return array}, [])
+    let directors = directorList.reduce((array, person) => {array.push(person.id); return array}, [])
 
     if (!runtime) {
         alert("Runtime must be a number");
