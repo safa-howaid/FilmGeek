@@ -151,12 +151,14 @@ async function displayMovieSearchPage(request, response) {
 
 function addMovie(request, response) {
     let newMovie = new Movie(request.body)
+
     newMovie.save(function (err, result) {
         if (err) {
             response.status(500).send("Error saving movie.");
             console.log(err);
             return;
         }
+        newMovie.findSimilarMovies()
         response.status(201).send(String(newMovie._id))
     })
 }
