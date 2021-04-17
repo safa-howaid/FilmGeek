@@ -82,7 +82,7 @@ function createUserObjects() {
         "isContributer": true,
         "watchlist": watchlist1,
         "recommendation": recommendation1,
-        "personsFollowed": personsFollowed1
+        "peopleFollowed": personsFollowed1
     })
     
     let user2 = new User({
@@ -93,7 +93,7 @@ function createUserObjects() {
         "followers" : [user1._id],
         "watchlist": watchlist2,
         "recommendation": recommendation2,
-        "personsFollowed": personsFollowed2
+        "peopleFollowed": personsFollowed2
     })
 
     user1.usersFollowed.push(user2._id)
