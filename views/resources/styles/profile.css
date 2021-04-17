@@ -248,6 +248,7 @@ input:checked ~ .expand-label{
 .reviews-container {
     margin-top: 10px;
 }
+
 .notification {
     display: flex;
     flex-direction: row;

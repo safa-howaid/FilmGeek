@@ -34,43 +34,63 @@ body
                     button.follow-button(onClick="follow()")  Follow 
 
 
-        h2 Watchlist
-        if user.watchlist.length == 0
-            p This user doesn't have any movies in their watchlist.
-        else
-            each movie in user.watchlist
-                +movie-container(movie)
+        .section-container 
+            h2 Watchlist
+            input.expand(type="checkbox")
+            label.expand-label(for="expand")
+            .section
+                if user.watchlist.length == 0
+                    p This user doesn't have any movies in their watchlist.
+                else
+                    each movie in user.watchlist
+                        +movie-container(movie)
 
-        h2 Users they Follow
-        if user.usersFollowed.length == 0
-            p This user doesn't follow any other users.
-        else
-            each u in user.usersFollowed 
-                a(href=`/users/${u._id}`)= u.username   
+        .section-container 
+            h2 Users they Follow
+            input.expand(type="checkbox")
+            label.expand-label(for="expand")
+            .section
+                if user.usersFollowed.length == 0
+                    p This user doesn't follow any other users.
+                else
+                    each u in user.usersFollowed 
+                        a(href=`/users/${u._id}`)= u.username   
 
-        h2 People they Follow
-        if user.peopleFollowed.length == 0
-            p This user doesn't follow any people.
-        else
-            each person in user.peopleFollowed 
-                a(href=`/people/${person._id}`)= person.name 
+        .section-container 
+            h2 People they Follow
+            input.expand(type="checkbox")
+            label.expand-label(for="expand")
+            .section
+                if user.peopleFollowed.length == 0
+                    p This user doesn't follow any people.
+                else
+                    each person in user.peopleFollowed 
+                        a(href=`/people/${person._id}`)= person.name 
 
-        h2 Followers
-        if user.followers.length == 0
-            p This user has no followers.
-        else
-            each u in user.followers
-                a(href=`/users/${u._id}`)= u.username 
+        .section-container 
+            h2 Followers
+            input.expand(type="checkbox")
+            label.expand-label(for="expand")
+            .section
+                if user.followers.length == 0
+                    p This user has no followers.
+                else
+                    each u in user.followers
+                        a(href=`/users/${u._id}`)= u.username 
 
-        h2 Reviews
-        if user.reviews.length == 0
-            p= user.username + " hasn't written any reviews yet."
-        else
-            .reviews-container
-                each review in user.reviews
-                    if review.summary || review.fullReview
-                        +full-review-user-page(review)
-                    else
-                        +basic-review-user-page(review)           
+        .section-container 
+            h2 Reviews
+            input.expand(type="checkbox")
+            label.expand-label(for="expand")
+            .section
+                if user.reviews.length == 0
+                    p= user.username + " hasn't written any reviews yet."
+                else
+                    .reviews-container
+                        each review in user.reviews
+                            if review.summary || review.fullReview
+                                +full-review-user-page(review)
+                            else
+                                +basic-review-user-page(review)           
 
     include ../partials/footer
