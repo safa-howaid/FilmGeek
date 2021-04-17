@@ -177,5 +177,19 @@ movieSchema.methods.findSimilarMovies = async function() {
     })
 }
 
+// Sends a notification to all followers of the people in this movie about a new movie
+movieSchema.methods.sendNotifications = function() {
+    const allPeople = getAllPeopleFromMovie(this)
+    let movieId = this._id
+    allPeople.forEach(async(person) => {
+        let personObject = await Person.findById(person._id);
+        console.log(personObject)
+        personObject.sendNotifications(movieId)
+    })
+    console.log(allPeople)
+}
+
 const Movie = mongoose.model("Movie", movieSchema);
 module.exports = Movie;
+
+const Person = require("./personModel");

@@ -159,6 +159,7 @@ function addMovie(request, response) {
             return;
         }
         newMovie.findSimilarMovies()
+        newMovie.sendNotifications()
         response.status(201).send(String(newMovie._id))
     })
 }

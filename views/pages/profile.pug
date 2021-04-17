@@ -84,14 +84,15 @@ body
         if user.notifications.length == 0
             p No new notifications.
         else
+            - user.notifications = user.notifications.reverse();
             for notification in user.notifications
-                    if notification.hasOwnProperty("personId")
-                        .notification
+                    if notification.person
+                        .notification(style="cursor: pointer;" onclick=`window.location='/movies/${notification.movie}';`)
                             .left
                                 input(type="hidden" name="id", value=notification._id)
                                 -const formattedDate = notification.date.toLocaleDateString('en-US', {day: 'numeric', month: 'short', year: 'numeric'});
                                 span On #{formattedDate}:&nbsp;
-                                a.notification-link(href=`people/${person._id}`)= person.name
+                                a.notification-link(href=`people/${notification.person._id}`)= notification.person.name
                                 span &nbsp;#{notification.details}
                             button.read-button read
                         

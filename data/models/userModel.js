@@ -1,7 +1,5 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
-const Notification = require("./notificationModel");
-const Movie = require("./movieModel");
 
 let userSchema = new Schema({
 	username: {
@@ -212,5 +210,8 @@ function getGenreForRecommendation(user) {
     return "?"
 }
 
-const User = mongoose.model("User", userSchema)
+const User = mongoose.model("User", userSchema);
 module.exports = User;
+
+const Notification = require("./notificationModel");
+const Movie = require("./movieModel");

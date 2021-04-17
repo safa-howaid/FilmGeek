@@ -165,6 +165,11 @@ app.get('/profile', (request, response) => {
                     path: 'review',
                     model: 'Review',
                     select: 'movie'
+                },
+                {
+                    path: 'person',
+                    model: 'Person',
+                    select: 'name'
                 }
             ]
         })
