@@ -88,7 +88,6 @@ personSchema.statics.findAllFrequentCollaborators = async function() {
 
 // Sends a notification to all followers that this person has worked in a new movie
 personSchema.methods.sendNotifications = function(movieId) {
-    console.log(movieId)
     this.followers.forEach(async(follower) => {
         console.log(follower)
         const user = await User.findById(follower).exec();
@@ -101,6 +100,36 @@ personSchema.methods.sendNotifications = function(movieId) {
         user.notifications.push(notification._id)
         await notification.save()
         await user.save()
+    })
+}
+
+// Find the person with the given id and add the given movie to their actingRoles
+personSchema.statics.addActingRole = async function(personId, movieId) {
+    let person = await Person.findById(personId)
+    person.actingRoles.push(movieId)
+    person.save()
+    .catch(err => {
+        console.log(err);
+    })
+}
+
+// Find the person with the given id and add the given movie to their actingRoles
+personSchema.statics.addWritingRole = async function(personId, movieId) {
+    let person = await Person.findById(personId)
+    person.writingRoles.push(movieId)
+    person.save()
+    .catch(err => {
+        console.log(err);
+    })
+}
+
+// Find the person with the given id and add the given movie to their actingRoles
+personSchema.statics.addDirectingRole = async function(personId, movieId) {
+    let person = await Person.findById(personId)
+    person.directingRoles.push(movieId)
+    person.save()
+    .catch(err => {
+        console.log(err);
     })
 }
 

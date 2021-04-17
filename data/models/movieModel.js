@@ -189,6 +189,19 @@ movieSchema.methods.sendNotifications = function() {
     console.log(allPeople)
 }
 
+movieSchema.methods.sendMovieReference = function() {
+    let movieId = this._id;
+    this.actors.forEach(personId => {
+        Person.addActingRole(personId, movieId)
+    })
+    this.writers.forEach(personId => {
+        Person.addWritingRole(personId, movieId)
+    })
+    this.directors.forEach(personId => {
+        Person.addDirectingRole(personId, movieId)
+    })
+}
+
 const Movie = mongoose.model("Movie", movieSchema);
 module.exports = Movie;
 
