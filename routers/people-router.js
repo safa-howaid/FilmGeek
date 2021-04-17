@@ -35,10 +35,34 @@ router.param("id", function(request, response, next, id) {
 	}
 
     Person.findById(oid)
-    .populate("actingRoles", "title")
-    .populate("writingRoles", "title")
-    .populate("directingRoles", "title")
+    .populate("actingRoles")
+    .populate("writingRoles")
+    .populate("directingRoles")
     .populate("frequentCollaborators", "name")
+    .populate({
+        path: 'actingRoles',
+        populate: {
+          path: 'actors',
+          model: 'Person',
+          select: "name"
+        }
+    })
+    .populate({
+        path: 'writingRoles',
+        populate: {
+          path: 'actors',
+          model: 'Person',
+          select: "name"
+        }
+    })
+    .populate({
+        path: 'directingRoles',
+        populate: {
+          path: 'actors',
+          model: 'Person',
+          select: "name"
+        }
+    })
 	.exec(function(err, result){
 		if(err){
 			console.log(err);

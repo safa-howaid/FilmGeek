@@ -1,4 +1,5 @@
 include ../partials/headerMixins
+include ../partials/movieMixin
 doctype html
 html(lang="en")
     head
@@ -28,29 +29,43 @@ body
                 else
                     button.follow-button(onClick="follow()")  Follow 
 
+        
         if person.actingRoles.length > 0
-            h2 Acting Roles
-            each movie in person.actingRoles
-                a(href=`/movies/${movie._id}`)= movie.title 
-                br
+            .section-container 
+                h2 Acting Roles
+                input.expand(type="checkbox")
+                label.expand-label(for="expand")
+                .section
+                    each movie in person.actingRoles
+                        +movie-container(movie)
         
         if person.writingRoles.length > 0
-            h2 Writing Roles
-            each movie in person.writingRoles
-                a(href=`/movies/${movie._id}`)= movie.title 
-                br
+            .section-container 
+                h2 Writing Roles
+                input.expand(type="checkbox")
+                label.expand-label(for="expand")
+                .section
+                    each movie in person.writingRoles
+                        +movie-container(movie)
 
         if person.directingRoles.length > 0
-            h2 Directing Roles
-            each movie in person.directingRoles
-                a(href=`/movies/${movie._id}`)= movie.title 
-                br
+            .section-container 
+                h2 Directing Roles
+                input.expand(type="checkbox")
+                label.expand-label(for="expand")
+                .section
+                    each movie in person.directingRoles
+                        +movie-container(movie)
         
         if person.frequentCollaborators.length != 0
-            h2 Frequent Collaborators
-            each p in person.frequentCollaborators
-                a(href=`/people/${p._id}`)= p.name 
-                br
+            .section-container 
+                h2 Frequent Collaborators
+                input.expand(type="checkbox")
+                label.expand-label(for="expand")
+                .section
+                    each p in person.frequentCollaborators
+                        a(href=`/people/${p._id}`)= p.name 
+                        br
     
     include ../partials/footer
 
