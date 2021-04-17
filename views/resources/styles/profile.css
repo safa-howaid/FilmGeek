@@ -89,7 +89,11 @@ h1 {
     margin-bottom: 10px;
 }
 
-form {
+h2 {
+    margin-left: 25px;    
+}
+
+.section-container {
     display: flex;
     flex-direction: column;
 }
@@ -119,6 +123,65 @@ form {
   box-shadow: 0 0px;
   transform: translateY(4px);
   -webkit-transform: translateY(4px);
+}
+
+.section {
+    display: flex;
+    flex-direction: column;
+    max-height: 5px;
+    overflow: hidden;
+    transition: max-height .8s;
+    -webkit-transition: max-height .8s;
+    -moz-transition: max-height .8s;
+    -o-transition: max-height .8s;
+    -o-transition: max-height .8s;
+    margin: 10px 0px 10px 25px;
+}
+
+input:checked ~ .section{
+    max-height: 10000px;
+    transition: max-height .8s ease-in-out;
+    -webkit-transition: max-height .8s ease-in-out;
+    -moz-transition: max-height .8s ease-in-out;
+    -o-transition: max-height .8s ease-in-out;
+}
+
+.expand, .expand-label {
+    top: 0;
+    right: 0;
+}
+
+.expand {
+    z-index: 1;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    height: 40px;
+    position: relative;
+    margin-top: -60px;
+}
+
+.expand-label {
+    content: ' ';
+    display: block;
+  
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-left: 15px solid #121629;
+    
+    transform: translateY(-2px);
+    transition: transform .5s ease-out;
+    width: 1px;
+    margin-top: -30px;
+  }
+
+input:checked ~ .expand-label{
+    display: block;
+    content:'';
+    transform: rotate(90deg);
+    transition: transform .8s;
+    -webkit-transform: rotate(90deg);
 }
 
 .choice {
@@ -165,10 +228,10 @@ form {
     font-size: 80%;
     color: #121629;
     transition: 0.3s;
-    margin-top: 10px;
     cursor: pointer;
     box-shadow: 0 5px rgb(119, 32, 32);
     align-self: start;
+    margin: 10px;
 }
 
 .save-button:hover {
@@ -182,6 +245,9 @@ form {
   -webkit-transform: translateY(4px);
 }
 
+.reviews-container {
+    margin-top: 10px;
+}
 .notification {
     display: flex;
     flex-direction: row;
