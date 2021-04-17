@@ -104,7 +104,7 @@ body
 
         .section-container
             h2#notifications Notifications
-            input.expand(type="checkbox")
+            input.expand(type="checkbox" id="notification-expand")
             label.expand-label(for="expand")
 
             .section
@@ -114,24 +114,24 @@ body
                     - user.notifications = user.notifications.reverse();
                     for notification in user.notifications
                             if notification.person
-                                .notification(style="cursor: pointer;" onclick=`window.location='/movies/${notification.movie}';`)
+                                .notification
                                     .left
                                         input(type="hidden" name="id", value=notification._id)
                                         -const formattedDate = notification.date.toLocaleDateString('en-US', {day: 'numeric', month: 'short', year: 'numeric'});
                                         span On #{formattedDate}:&nbsp;
                                         a.notification-link(href=`people/${notification.person._id}`)= notification.person.name
                                         span &nbsp;#{notification.details}
-                                    button.read-button read
+                                    button.read-button(style="cursor: pointer;" onclick=`window.location='/movies/${notification.movie}';`) view
                                 
                             else
-                                .notification(style="cursor: pointer;" onclick=`window.location='/movies/${notification.review.movie}#${notification.review._id}';`)
+                                .notification
                                     .left
                                         input(type="hidden" name="id", value=notification._id)
                                         -const formattedDate = notification.date.toLocaleDateString('en-US', {day: 'numeric', month: 'short', year: 'numeric'});
                                         span On #{formattedDate}:&nbsp;
                                         a.notification-link(href=`users/${notification.user._id}`)= notification.user.username
                                         span &nbsp;#{notification.details}
-                                    button.read-button read
+                                    button.read-button(style="cursor: pointer;" onclick=`window.location='/movies/${notification.review.movie}#${notification.review._id}';`) view
             
         .section-container
             h2 Recommended Movies
@@ -156,6 +156,7 @@ body
                 if user.reviews.length == 0
                     p You haven't written any reviews yet.
                 else
+                    - user.reviews = user.reviews.reverse();
                     .reviews-container
                         each review in user.reviews
                             if review.summary || review.fullReview

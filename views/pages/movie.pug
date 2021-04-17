@@ -124,6 +124,7 @@ body
         if movie.reviews.length == 0
             p.no-reviews There are no reviews for this movie yet.
         else
+            - movie.reviews = movie.reviews.reverse();
             .reviews-container
                 each review in movie.reviews
                     if review.summary || review.fullReview

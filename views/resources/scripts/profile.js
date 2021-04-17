@@ -42,3 +42,15 @@ function removeFromWatchlist(movieId) {
     };
     xhttp.send("movieId=" + movieId)
 }
+
+function notificationLink() {
+    var currentUrl = document.URL,
+    urlParts = currentUrl.split('#');
+    console.log(urlParts)
+    return (urlParts.length > 1);
+}
+
+if (notificationLink()) {
+    console.log("expanded")
+    document.getElementById("notification-expand").checked = true;
+}
