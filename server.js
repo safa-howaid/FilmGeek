@@ -36,7 +36,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
 // Serve static resources
-app.use(express.static('views/resources'))
+app.use(express.static('views/resources', {maxAge: 86400000}))
 
 // Serve favicon
 app.use(favicon(path.join(__dirname,'views','resources','images','favicon.ico')));
