@@ -83,7 +83,9 @@ movieSchema.statics.findByQuery = function(page, limit, title, genre, actor) {
 movieSchema.statics.addReview = function(movieId, reviewId) {
     this.findById(movieId, function(err, result) {
         result.reviews.push(reviewId)
-        result.save()
+        result.save().then(() => {
+            Movie.calculateMovieRating(movieId)
+        })
     })
 }
 

@@ -11,7 +11,6 @@ const favicon = require('serve-favicon');
 const jsStringify = require('js-stringify');
 const morgan  = require('morgan')
 
-
 const app = express();
 const port = 3000;
 const store = new MongoDBStore({
@@ -46,7 +45,7 @@ app.use(express.json());
 app.use(express.urlencoded({
   extended: true
 }));
-   
+
 mongoose.connect('mongodb://localhost/FilmGeekDB', {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true});
 
 //Mount routers for each main resource

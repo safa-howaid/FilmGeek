@@ -1,6 +1,4 @@
-const fs = require('fs');
 const mongoose = require("mongoose");
-
 const movieData = require("./movieData/movie-data-2500.json");
 const Movie = require("./models/movieModel");
 const Person = require("./models/personModel");
@@ -264,7 +262,7 @@ database.once('open', function() {
                 return;
             }
         })
-        .then(result => {
+        .then(() => {
             console.log("Movie recommendations for users were added.")
         })
 
@@ -274,20 +272,20 @@ database.once('open', function() {
         // Run algorithm to find all collaborations
         await findCollaborators()
         .catch((error) => {console.log(error);})
-        .then((result) => {
+        .then(() => {
             console.log("All collaborations were found")
         })
 
         //Find similar movies for all movies
         await findSimilarMovies()
         .catch((error) => {console.log(error);})
-        .then((result) => {
+        .then(() => {
             console.log("Similar movies were added for each movie.")
         })
 
         // Find frequent collaborators for all people
         await Person.findAllFrequentCollaborators()
-        .then((result) => {
+        .then(() => {
             console.log("Frequent collaborators were added for each person.")
             console.log('All done!');
             mongoose.connection.close()

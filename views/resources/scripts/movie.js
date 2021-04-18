@@ -1,11 +1,11 @@
 function sendReview(event) {
+    event.preventDefault();
     let rating = document.querySelector('input[name=rating]:checked');
     let summary = document.getElementById("summary").value;
     let fullReview = document.getElementById("fullReview").value;
     
     if (rating == null) {
         alert("You must add a rating before submitting.");
-        event.preventDefault();
         return;
     }
 
@@ -18,6 +18,7 @@ function sendReview(event) {
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 201) {
             alert("Review added successfully!")
+            window.location.href = window.location.href;
         }
     };
     xhttp.send("reviewer=" + userId + "&movie=" + movieId + "&rating=" + rating + "&summary=" + summary + "&fullReview=" + fullReview)
