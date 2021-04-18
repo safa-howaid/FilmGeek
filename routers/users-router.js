@@ -77,7 +77,7 @@ function changeUserContributionStatus(request, response) {
     response.user.isContributer = isContributer
     response.user.save(function(err, result) {
         if (err) {
-            return response.status(400).send("Error saving new user state.")
+            return response.status(500).send("Error saving new user state.")
         }
         request.session.isContributer = isContributer
         response.status(200).send()
@@ -154,12 +154,12 @@ function unfollowUser(request, response) {
     User.removeFollower(response.user._id, request.body.userId, function(err, result) {
         if (err) {
             console.log("Error removing follower.")
-            return response.status(400).send();
+            return response.status(500).send();
         }
         User.unfollowUser(response.user._id, request.body.userId, function(err, result) {
             if (err) {
                 console.log("Error unfollowing user.")
-                return response.status(400).send();
+                return response.status(500).send();
             }
             return response.status(200).send();
         })
@@ -173,12 +173,12 @@ function followUser(request, response) {
     User.addFollower(response.user._id, request.body.userId, function(err, result) {
         if (err) {
             console.log("Error adding follower.")
-            return response.status(400).send();
+            return response.status(500).send();
         }
         User.followUser(response.user._id, request.body.userId, function(err, result) {
             if (err) {
                 console.log("Error following user.")
-                return response.status(400).send();
+                return response.status(500).send();
             }
             return response.status(200).send();
         })
@@ -189,7 +189,7 @@ function addToWatchlist(request, response) {
     response.user.addToWatchlist(request.body.movieId, function(err, result) {
         if (err) {
             console.log("Error adding movie to watchlist.")
-            return response.status(400).send();
+            return response.status(500).send();
         }
         // Adjust movie recommendation
         response.user.recommendMovies()
@@ -201,7 +201,7 @@ function removeFromWatchlist(request, response) {
     response.user.removeFromWatchlist(request.body.movieId, function(err, result) {
         if (err) {
             console.log("Error removing movie to watchlist.")
-            return response.status(400).send();
+            return response.status(500).send();
         }
         // Adjust movie recommendation
         response.user.recommendMovies()

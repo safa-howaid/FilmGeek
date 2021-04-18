@@ -107,13 +107,13 @@ function addFollower(request, response) {
     Person.addFollower(request.params.id, request.session.userId, function(err, result) {
         if (err) {
             console.log("Error adding follower.")
-            response.status(400).send();
+            response.status(500).send();
         }
 
         User.followPerson(request.session.userId, request.params.id, function(err, result) {
             if (err) {
                 console.log("Error following person.")
-                response.status(400).send();
+                response.status(500).send();
             }
 
             response.status(200).send();
@@ -127,13 +127,13 @@ function removeFollower(request, response) {
     Person.removeFollower(request.params.id, request.session.userId, function(err, result) {
         if (err) {
             console.log("Error removing follower.")
-            response.status(400).send();
+            response.status(500).send();
         }
 
         User.unfollowPerson(request.session.userId, request.params.id, function(err, result) {
             if (err) {
                 console.log("Error unfollowing person.")
-                response.status(400).send();
+                response.status(500).send();
             }
 
             response.status(200).send();
@@ -162,7 +162,7 @@ async function addPerson(request, response) {
     let newPerson = new Person({name: name});
     newPerson.save(function (err, result) {
         if (err) {
-            return response.status(400).send("Error saving new person!");
+            return response.status(500).send("Error saving new person!");
         }
         return response.status(201).send(String(newPerson._id));
     })

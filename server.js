@@ -70,7 +70,7 @@ app.get('/', (request, response) => {
 
 app.get('/login', (request, response) => {
     if(request.session.loggedIn) {
-        response.status(401).redirect("profile");
+        response.status(403).redirect("profile");
     }
     else if(request.session.errorMessage) {
         const errorMessage = request.session.errorMessage
@@ -107,6 +107,10 @@ app.post('/login', (request, response) => {
 });
 
 app.get('/register', (request, response) => {
+    if(request.session.loggedIn) {
+        return response.status(403).redirect("profile");
+    }
+
     if (request.session.errorMessage) {
         const errorMessage = request.session.errorMessage
         request.session.errorMessage = null
@@ -182,7 +186,7 @@ app.get('/profile', (request, response) => {
         });
     } 
     else {
-        return response.status(401).redirect("/login")
+        return response.status(403).redirect("/login")
     }
 });
 

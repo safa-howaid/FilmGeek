@@ -20,7 +20,7 @@ function createReview(request, response) {
 
     newReview.save(function(err, result) {
         if (err) {
-            response.status(400).send("Error adding new review.")
+            response.status(500).send("Error adding new review.")
         }
         response.status(201).send();
     })
