@@ -7,12 +7,12 @@
 
 # Breakdown of Project files:
 - **data folder**
+    - A models folder that holds the files that define 5 different resources (users, people, movies, reviews, and notification) and the methods that can be used with them
     - A movie data folder that holds the 4 supplied movie data files
     - A data initilization script that populates the database with all the movies and people. It also adds 2 sample users and sample reviews for all movies.
-    - A models folder that holds the files that define 5 different resources (users, people, movies, reviews, and notification) and the methods that be used with them
 
 - **routers folder**
-    - 4 resources-specific routers that define the requests/responses for the methods of theses resources
+    - 4 resource-specific routers that define the requests/responses for the methods of theses resources
 
 - **views folder**
     - Contains all files pertaining to the front-end of the site, it includes:
@@ -31,3 +31,8 @@
 - **/movies/:id** (Movie page for movie with supplied id)
 - **/users/:id** (User page for user with supplied id)
 - **/people/:id** (Person page for person with supplied id)
+
+# Additional Information:
+- Logins for the sample users:
+    - username: `user1` , password: `password`
+    - username: `user2` , password: `password`
