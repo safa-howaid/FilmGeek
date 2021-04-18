@@ -24,7 +24,6 @@ router.post('/', addPerson)
 // Load person from database when given person id
 router.param("id", function(request, response, next, id) {
     let oid;
-    console.log("Finding person by ID: " + id);
 
 	try{
 		oid = new ObjectId(id);
@@ -74,8 +73,6 @@ router.param("id", function(request, response, next, id) {
 			response.status(404).send("That person does not exist.");
 			return;
 		}
-		console.log("Result:");
-		console.log(result);
 		response.person = result;
 		next();
 	});

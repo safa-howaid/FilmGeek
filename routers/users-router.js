@@ -27,7 +27,6 @@ router.put('/:id/watchlist', addToWatchlist)
 // Load user from database when given movie id
 router.param("id", function(request, response, next, id) {
     let oid;
-    console.log("Finding user by ID: " + id);
 
 	try{
 		oid = new ObjectId(id);
@@ -68,8 +67,6 @@ router.param("id", function(request, response, next, id) {
 			response.status(404).send("That user does not exist.");
 			return;
 		}
-		console.log("Result:");
-		console.log(result);
 		response.user = result;
 		next();
 	});
@@ -97,7 +94,7 @@ function sendUser(request, response) {
     // Check if user follows current user and send rendered user page or user json data
     User.isFollowingUser(request.session.userId, request.params.id).then(isFollowing => {
         response.format({
-            "text/html": () => {response.render("../views/pages/user", {user: response.user, loggedIn: request.session.loggedIn, isFollowing: isFollowing, currentUser: request.session.userId, jsStringify: jsStringify, isContributer: request.session.isContributer})},
+            "text/html": () => {response.status(200).render("../views/pages/user", {user: response.user, loggedIn: request.session.loggedIn, isFollowing: isFollowing, currentUser: request.session.userId, jsStringify: jsStringify, isContributer: request.session.isContributer})},
             "application/json": () => {response.status(200).json(response.user)}
         });
     })
@@ -134,7 +131,6 @@ function createNewUser(request, response, next) {
         "username": username,
         "password": password,
     })
-    console.log(newUser)
 
     // Saves new user and returns response
     newUser.save(function (err, result) {

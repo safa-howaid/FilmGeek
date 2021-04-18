@@ -14,15 +14,15 @@ const morgan  = require('morgan')
 
 const app = express();
 const port = 3000;
-
-app.use(morgan('dev'))
-
 const store = new MongoDBStore({
     uri: "mongodb://localhost/FilmGeekDB",
     collection: "sessions"
 })
 
-// Create the session
+// Request Logger
+app.use(morgan('dev'))
+
+// Create sessions
 app.use(session({
     secret: "This is a secret",
     resave: true, //save session after every request
@@ -46,12 +46,6 @@ app.use(express.json());
 app.use(express.urlencoded({
   extended: true
 }));
-
-// Log Session
-app.use(function(req, res, next){
-    console.log(req.session);
-    next();
-})
    
 mongoose.connect('mongodb://localhost/FilmGeekDB', {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true});
 
@@ -182,7 +176,6 @@ app.get('/profile', (request, response) => {
             }
         })
         .exec(function(err, result) {
-            console.log(result)
             return response.status(200)
             .type('html')
             .render("../views/pages/profile", {user: result, jsStringify: jsStringify, errorMessage: errorMessage})

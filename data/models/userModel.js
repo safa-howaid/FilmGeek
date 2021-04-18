@@ -79,7 +79,6 @@ userSchema.statics.addFollower = function(userA, userB, callback) {
 userSchema.statics.unfollowUser = function(userA, userB, callback) {
     return this.findById(userA).exec(function(err, result) {
         result.usersFollowed = result.usersFollowed.filter(userId => String(userId) != String(userB))
-        console.log(result.usersFollowed)
         result.save(callback);
     })
 }
@@ -125,14 +124,12 @@ userSchema.statics.watchedMovie = function(user, movie) {
 // Adds movie to user's watchlist
 userSchema.methods.addToWatchlist = function(movie, callback) {
     this.watchlist.push(movie);
-    console.log("ADDED" + this.watchlist)
     this.save(callback);
 }
 
 // Removes movie from user's watchlist
 userSchema.methods.removeFromWatchlist = function(movie, callback) {
     this.watchlist = this.watchlist.filter(id => String(movie) != String(id._id))
-    console.log("REMOVED" + this.watchlist)
     this.save(callback);
 }
 

@@ -6,11 +6,9 @@ const User = require("../data/models/userModel")
 //Create the router
 let router = express.Router();
 
-router.get('/', (request, response) => {response.send("Reviews Search")})
-router.get('/:id', (request, response) => {response.send(`Review ${request.params.id} page`)})
 router.post("/", createReview)
 
-// Creates a review and update other documents as required
+// Creates a review and updates other documents as required
 function createReview(request, response) {
     const newReview = new Review({
         "rating": request.body.rating,

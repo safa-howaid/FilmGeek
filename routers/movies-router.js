@@ -17,7 +17,6 @@ router.post('/', addMovie)
 // Load movie from database when given movie id
 router.param("id", function(request, response, next, id) {
     let oid;
-    console.log("Finding movie by ID: " + id);
 
 	try{
 		oid = new ObjectId(id);
@@ -51,8 +50,6 @@ router.param("id", function(request, response, next, id) {
 			response.status(404).send("That movie does not exist.");
 			return;
 		}
-		console.log("Result:");
-		console.log(result);
 		response.movie = result;
 		next();
 	});
@@ -122,15 +119,7 @@ function queryParser(request, response, next){
 function loadMovies(request, response, next){
 	Movie.findByQuery(request.query.page, 10, request.query.title, request.query.genre, request.query.actor)
     .then(results => {
-		console.log("Found " + results.length + " matching movies.");
 		response.movies = results;
-        results.forEach(result =>{
-            console.log(result)
-            result.actors.forEach(actor => {
-                console.log(actor)
-            })
-            
-        })
 		next();
 		return;
 	})

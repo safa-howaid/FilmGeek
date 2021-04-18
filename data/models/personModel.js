@@ -89,14 +89,12 @@ personSchema.statics.findAllFrequentCollaborators = async function() {
 // Sends a notification to all followers that this person has worked in a new movie
 personSchema.methods.sendNotifications = function(movieId) {
     this.followers.forEach(async(follower) => {
-        console.log(follower)
         const user = await User.findById(follower).exec();
         const notification = new Notification({
             person: this._id,
             details: " has worked on a new movie.",
             movie: movieId
         })
-        console.log(notification)
         user.notifications.push(notification._id)
         await notification.save()
         await user.save()

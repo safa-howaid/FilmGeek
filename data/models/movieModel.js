@@ -183,10 +183,8 @@ movieSchema.methods.sendNotifications = function() {
     let movieId = this._id
     allPeople.forEach(async(person) => {
         let personObject = await Person.findById(person._id);
-        console.log(personObject)
         personObject.sendNotifications(movieId)
     })
-    console.log(allPeople)
 }
 
 movieSchema.methods.sendMovieReference = function() {
