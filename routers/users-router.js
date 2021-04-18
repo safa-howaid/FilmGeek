@@ -36,7 +36,7 @@ router.param("id", function(request, response, next, id) {
 		return;
 	}
 
-    User.findById(oid)
+    User.findById(oid, { "reviews": { $slice: -10 } })
     .populate({ 
         path: 'watchlist',
         populate: {

@@ -90,7 +90,7 @@ app.post('/login', (request, response) => {
     const password = request.body.password;
 
     User.findOne({username: username}, function(err, result) {
-        if (password == result.password) {
+        if (result && password == result.password) {
             request.session.loggedIn = true;
             request.session.username = username;
             request.session.userId = result._id;
@@ -136,8 +136,8 @@ app.get('/profile', (request, response) => {
     if (request.session.loggedIn) {
         const errorMessage = request.session.errorMessage
         request.session.errorMessage = null
-
-        User.findOne({username: request.session.username})
+        
+        User.findOne({username: request.session.username}, { "reviews": { $slice: -10 } })
         .populate({ 
             path: 'watchlist',
             populate: {
