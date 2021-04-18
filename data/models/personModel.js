@@ -56,19 +56,25 @@ personSchema.statics.removeFollower = function(personId, userId, callback) {
 }
 
 // Fins frequent collaborators for a single person
-personSchema.methods.findFrequentCollaborators = function() {
-    this.collaborators.sort(function(a, b) {return b.frequency - a.frequency})
+personSchema.methods.findFrequentCollaborators = async function() {
+    let person = this
+    return new Promise(async function(resolve, reject) {
+        person.collaborators.sort(function(a, b) {return b.frequency - a.frequency})
 
-    this.collaborators.slice(0, 5).forEach(collaborator => {
-        person.frequentCollaborators.push(collaborator.person)
-    })
+        let frequentCollaborators = []
+        person.collaborators.slice(0, 5).forEach(collaborator => {
+            frequentCollaborators.push(collaborator.person)
+        })
+        person.frequentCollaborators = frequentCollaborators
 
-    this.save()
-    .then((result) => {
-        console.log("Frequent collaborators saved.")
-    })
-    .catch((err) => {
-        console.log("Error saving frequent collaborators.")
+        await person.save()
+        .then(() => {
+            resolve()
+        })
+        .catch((err) => {
+            console.log("Error saving frequent collaborators.")
+            reject(err)
+        })
     })
 }
 

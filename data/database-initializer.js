@@ -1,7 +1,7 @@
 const fs = require('fs');
 const mongoose = require("mongoose");
 
-const movieData = require("./movieData/movie-data-10.json");
+const movieData = require("./movieData/movie-data-2500.json");
 const Movie = require("./models/movieModel");
 const Person = require("./models/personModel");
 const User = require("./models/userModel");
@@ -12,7 +12,6 @@ const allMovies = [];
 const allPeople = {};
 const allUsers = [];
 const allReviews = [];
-
 
 // Format the provided movie data into movie objects based on the defined Mongoose Schema
 function createMovieObjects() {
@@ -142,7 +141,7 @@ function findCollaborators() {
                 reject(err)
             } 
     
-            movies.forEach(async (movie) => {
+            movies.forEach(movie => {
                 movie.findCollaborators()
                 .then((result) => {resolve(result)})
                 .catch((error) =>{reject(error)})

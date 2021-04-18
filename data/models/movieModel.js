@@ -51,6 +51,7 @@ let movieSchema = new Schema({
     }]
 });
 
+// Get the 5 highest-rated movies
 movieSchema.statics.getTopMovies = function() {
     const filter = {};
     const fields = null;
@@ -94,32 +95,65 @@ movieSchema.statics.calculateMovieRating = function(movieId) {
     })
 }
 
-movieSchema.methods.findCollaborators = async function() {
+// Update people in a movie when a new movie is addedPeople
+// Recalculates frequent collaborators & adds the movie to the people's roles
+movieSchema.methods.updatePeople = async function() {
     const allPeople = getAllPeopleFromMovie(this)
 
     await Promise.all(allPeople.map(async (person) => {
+        let personObject = await Person.findById(person)
+
         allPeople.forEach(otherPerson => {
             if (String(person._id) != String(otherPerson._id)) {
-                let collaborator = person.collaborators.find(collaborator => String(collaborator["person"]) == String(otherPerson._id));
+                let collaborator = personObject.collaborators.find(collaborator => String(collaborator["person"]) == String(otherPerson._id));
+                if(collaborator) {
+                    collaborator.frequency += 1
+                }
+                else {
+                    personObject.collaborators.push({person: otherPerson._id, frequency: 1})
+                }
+            }
+        })
+
+        await personObject.save().catch(err => {
+            console.log(err)
+        }).then(async() => {
+            await personObject.findFrequentCollaborators()
+        })
+    })).then(() => {
+        this.sendMovieReference()
+    })
+}
+
+movieSchema.methods.findCollaborators = async function() {
+    const allPeople = getAllPeopleFromMovie(this)
+
+    return await Promise.all(allPeople.map(async (person) => {
+        let personObject = await Person.findById(person)
+        allPeople.forEach(otherPerson => {
+            if (String(person._id) != String(otherPerson._id)) {
+                let collaborator = personObject.collaborators.find(collaborator => String(collaborator["person"]) == String(otherPerson._id));
 
                 if(collaborator) {
                     collaborator.frequency += 1
                 }
                 else {
-                    person.collaborators.push({person: otherPerson._id, frequency: 1})
+                    personObject.collaborators.push({person: otherPerson._id, frequency: 1})
                 }
             }
         })
-        await person.save().catch(err => {
-            
+        await personObject.save()
+        .catch(err => {
+            console.log(err)
         })
     }));
 }
-
+    
+// Get unique people who worked on the given movie
 function getAllPeopleFromMovie(movie) {
     let allPeople = []
     let addedPeople = new Set()
-    
+
     movie.actors.forEach(person => {
         let id = String(person._id)
         if (!addedPeople.has(id)) {
@@ -187,6 +221,7 @@ movieSchema.methods.sendNotifications = function() {
     })
 }
 
+// Sends the people in the movie a reference to the movie to add to their respective role arrays
 movieSchema.methods.sendMovieReference = function() {
     let movieId = this._id;
     this.actors.forEach(personId => {

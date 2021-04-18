@@ -140,7 +140,7 @@ async function displayMovieSearchPage(request, response) {
 
 function addMovie(request, response) {
     let newMovie = new Movie(request.body)
-
+    
     newMovie.save(function (err, result) {
         if (err) {
             response.status(500).send("Error saving movie.");
@@ -149,7 +149,7 @@ function addMovie(request, response) {
         }
         newMovie.findSimilarMovies()
         newMovie.sendNotifications()
-        newMovie.sendMovieReference()
+        newMovie.updatePeople()
         response.status(201).send(String(newMovie._id))
     })
 }
