@@ -1,4 +1,5 @@
 function changeContributionState(event) {
+    event.preventDefault();
     let isContributer = document.querySelector('input[name=isContributer]:checked').value
     
     // Convert String to Boolean
@@ -13,19 +14,22 @@ function changeContributionState(event) {
         alert("You are already a " + type + " user!");
         event.preventDefault();
         return;
-    } 
+    }
 
     // Send request and alert user of result.
     const xhttp = new XMLHttpRequest();
     xhttp.open("PUT", `/users/${user._id}`, true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp.onload = function() {
-        if (isContributer) {
-            alert("You are now a Contributing user!")
-        } else {
-            alert("You are now a Regular user!")
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            if (isContributer) {
+                alert("You are now a Contributing user!")
+            } else {
+                alert("You are now a Regular user!")
+            }
+            window.location.replace("/profile")
         }
-    }
+    };
     xhttp.send("isContributer=" + isContributer)
 }
 
@@ -46,11 +50,9 @@ function removeFromWatchlist(movieId) {
 function notificationLink() {
     var currentUrl = document.URL,
     urlParts = currentUrl.split('#');
-    console.log(urlParts)
     return (urlParts.length > 1);
 }
 
 if (notificationLink()) {
-    console.log("expanded")
     document.getElementById("notification-expand").checked = true;
 }
