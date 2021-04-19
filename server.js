@@ -10,11 +10,12 @@ const MongoDBStore = require("connect-mongodb-session")(session);
 const favicon = require('serve-favicon');
 const jsStringify = require('js-stringify');
 const morgan  = require('morgan')
+const ATLAS = `mongodb+srv://admin:bvQvDDeilLvqWaLy@cluster0.eky8b.mongodb.net/FilmGeekDB?retryWrites=true&w=majority`;
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 const store = new MongoDBStore({
-    uri: "mongodb://localhost/FilmGeekDB",
+    uri: ATLAS,
     collection: "sessions"
 })
 
@@ -46,7 +47,7 @@ app.use(express.urlencoded({
   extended: true
 }));
 
-mongoose.connect('mongodb://localhost/FilmGeekDB', {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true});
+mongoose.connect(ATLAS, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true});
 
 //Mount routers for each main resource
 let moviesRouter = require("./routers/movies-router");
@@ -208,6 +209,6 @@ app.get('/contribute', async (request, response) => {
 });
 
 app.listen(port);
-console.log("Server listening at http://localhost:3000");
+console.log(`Server listening at http://localhost:${port}`);
 
 

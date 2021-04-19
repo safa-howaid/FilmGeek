@@ -4,7 +4,7 @@ const Movie = require("./models/movieModel");
 const Person = require("./models/personModel");
 const User = require("./models/userModel");
 const Review = require("./models/reviewModel");
-const databaseName = "FilmGeekDB"
+const ATLAS = `mongodb+srv://admin:bvQvDDeilLvqWaLy@cluster0.eky8b.mongodb.net/FilmGeekDB?retryWrites=true&w=majority`;
 
 const allMovies = [];
 const allPeople = {};
@@ -138,7 +138,7 @@ function findCollaborators() {
             if(err) {
                 reject(err)
             } 
-    
+            
             movies.forEach(movie => {
                 movie.findCollaborators()
                 .then((result) => {resolve(result)})
@@ -177,10 +177,8 @@ function findSimilarMovies() {
                 reject(err);
             }
 
-            let count = 0;
             movies.forEach(movie => {
                 movie.findSimilarMovies()
-                count++;
             })
 
             if(count == movies.length){
@@ -192,7 +190,7 @@ function findSimilarMovies() {
 
 createMovieObjects()
 
-mongoose.connect(`mongodb://localhost/${databaseName}`, {useNewUrlParser: true,  useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true});
+mongoose.connect(ATLAS , {useNewUrlParser: true,  useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true});
 const database = mongoose.connection;
 database.on('error', console.error.bind(console, 'connection error:'));
 
@@ -267,7 +265,7 @@ database.once('open', function() {
         })
 
         // Message to show that the script is still running
-        setInterval(function() {console.log("Database initialization still in progress....")}, 500)
+        // setInterval(function() {console.log("Database initialization still in progress....")}, 500)
 
         // Run algorithm to find all collaborations
         await findCollaborators()
