@@ -130,7 +130,7 @@ function startActorSearch(query) {
 
 function startWriterSearch(query) {
     if (query == "") {
-        let searchResults = document.getElementById("actor-search-results");
+        let searchResults = document.getElementById("writer-search-results");
         searchResults.innerHTML = "";
         searchResults.style.display = "none";
     }
@@ -149,7 +149,7 @@ function startWriterSearch(query) {
 
 function startDirectorSearch(query) {
     if (query == "") {
-        let searchResults = document.getElementById("actor-search-results");
+        let searchResults = document.getElementById("director-search-results");
         searchResults.innerHTML = "";
         searchResults.style.display = "none";
     }
