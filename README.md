@@ -1,3 +1,5 @@
+[Link to project](http://filmgeek.herokuapp.com/)
+
 # Setup Instructions:
 - run `npm install` to install the required dependencies 
 - run `node data/database-initializer.js` to initialize database
