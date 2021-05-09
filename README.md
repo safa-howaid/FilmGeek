@@ -1,12 +1,15 @@
-[Link to project](http://filmgeek.herokuapp.com/)
+# [FilmGeek](http://filmgeek.herokuapp.com/)
+This website is a movie database that allows users to browse, review, and add movies similar to IMDB.
+- Built using Node.js, Express.js, Pug template engine, and MongoDB.
 
-# Setup Instructions:
+
+### Setup Instructions:
 - run `npm install` to install the required dependencies 
 - run `node data/database-initializer.js` to initialize database
 - run `node server.js` to start the server
 - open browser to [localhost:3000](http://localhost:3000/) to start at the homepage
 
-# Breakdown of Project files:
+### Breakdown of Project files:
 - **data folder**
     - A models folder that holds the files that define 5 different resources (users, people, movies, reviews, and notification) and the methods that can be used with them
     - A movie data folder that holds the 4 supplied movie data files
@@ -22,7 +25,7 @@
 
 - **server.js:** The entry point of the application.
 
-# Supported URLs:
+### Supported URLs:
 - **[/](http://localhost:3000/)** (Home page)
 - **[/login](http://localhost:3000/login)** (Login page)
 - **[/register](http://localhost:3000/register)** (Registeration page)
@@ -33,7 +36,7 @@
 - **/users/:id** (User page for user with supplied id)
 - **/people/:id** (Person page for person with supplied id)
 
-# Additional Information:
+### Additional Information:
 - Movie data retreived from [The Open Movie Database](https://www.omdbapi.com/)
 - Logins for the sample users:
     - username: `user1` , password: `password`
