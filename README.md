@@ -1,5 +1,4 @@
 # Setup Instructions:
-- start mongodb instance
 - run `npm install` to install the required dependencies 
 - run `node data/database-initializer.js` to initialize database
 - run `node server.js` to start the server
@@ -33,6 +32,7 @@
 - **/people/:id** (Person page for person with supplied id)
 
 # Additional Information:
+- Movie data retreived from [The Open Movie Database](https://www.omdbapi.com/)
 - Logins for the sample users:
     - username: `user1` , password: `password`
     - username: `user2` , password: `password`
